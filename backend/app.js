@@ -7,6 +7,8 @@ const lavadoRoutes = require('./routes/lavado');
 const fermentacionRoutes = require('./routes/fermentacion');
 const despulpadoRoutes = require('./routes/despulpado');
 const clasificacionRoutes = require('./routes/clasificacion');
+const loginRoutes = require('./routes/login');
+const registroRoutes = require('./routes/registro');
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,6 +20,8 @@ app.use('/api/lavado', lavadoRoutes.router);
 app.use('/api/fermentacion', fermentacionRoutes.router);
 app.use('/api/despulpado', despulpadoRoutes.router);
 app.use('/api/clasificacion', clasificacionRoutes.router);
+app.use('/api/login', loginRoutes);
+app.use('/api/registro', registroRoutes.router);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

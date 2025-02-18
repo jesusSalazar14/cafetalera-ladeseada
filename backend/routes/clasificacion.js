@@ -1,4 +1,3 @@
-// routes/clasificacion.js
 const express = require('express');
 const router = express.Router();
 const Clasificacion = require('../models/clasificacion');

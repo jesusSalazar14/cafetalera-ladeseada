@@ -1,4 +1,3 @@
-// routes/despulpado.js
 const express = require('express');
 const router = express.Router();
 const Despulpado = require('../models/despulpado');

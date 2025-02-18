@@ -1,4 +1,3 @@
-// routes/secado.js
 const express = require('express');
 const router = express.Router();
 const Secado = require('../models/secado');

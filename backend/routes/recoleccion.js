@@ -1,4 +1,3 @@
-// routes/recoleccion.js
 const express = require('express');
 const router = express.Router();
 const Recoleccion = require('../models/recoleccion');

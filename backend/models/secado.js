@@ -1,4 +1,3 @@
-// models/secado.js
 const mysql = require('mysql');
 const db = require('../db');
 
