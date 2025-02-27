@@ -67,13 +67,15 @@ export default {
 
 * {
 
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 
-body { 
+body {
   margin: 0;
+    padding: 0;
+  font-family: 'Maven Pro', sans-serif; 
 }
 
 .titulolog{
@@ -84,11 +86,11 @@ body {
   display: flex;
   height: 100vh;
   width: 100vw;
-  background: url(../assets/fondo_imagen.png);
+  background: url(../assets/fondo_imagen.png) no-repeat center center/cover;
   position: relative;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: hidden; 
 }
 
 .sidebar {
