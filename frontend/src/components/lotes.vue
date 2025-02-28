@@ -10,17 +10,17 @@
 
       </div>
 
-      <h3>Cafetalera La Deseada</h3>
+      <img class="CuentaSimbolo" src="../assets/Simbolos/account_circle.png" alt="">
       <div class="username">USERNAME</div>
       <nav>
         <ul>
+          <li>Lotes</li>
           <li>Recolección</li>
           <li>Clasificación</li>
           <li>Despalpado</li>
           <li>Fermentación</li>
           <li>Lavado</li>
           <li>Secado</li>
-          <li>Selección de lote de recolección</li>
         </ul>
       </nav>
 
@@ -33,7 +33,8 @@
     </div>
     
     <div class="main-content">
-      <h1>LOTE DE RECOLECCIÓN</h1>
+      <h1 class="Titulov2">CAFETELERA<br>LA DESEADA</h1>
+      <h2 >LOTES</h2>
       <div class="button-group">
         <button class="btn vaciar">VACIAR</button>
         <button class="btn anadir">AÑADIR</button>
@@ -107,8 +108,8 @@ body {
 }
 
 .sidebar {
-  background-color: #40311e;
-  width: 300px;
+  background-color: #302814;
+  width: 18.75rem;
   height: 100%;
   overflow: auto;
   display: flex;
@@ -116,22 +117,36 @@ body {
   color: white;
   justify-content: center;
   align-items: center;
-
+  background-blur: 10%;
 }
 
-.sidebar img {
+.CuentaSimbolo {
   max-width: 50%;
+  padding: 2%;
 
 }
-
-
 
 .sidebar h3 {
   margin: 20px 0;
 }
 
+.logo {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+}
+
+.logo img {
+    width: 90%; /* Set the desired width for the logo */
+    height: auto; /* Maintain aspect ratio */
+}
+
 .username {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+
 }
 
 nav{
@@ -172,8 +187,14 @@ nav ul li:hover{
   background: #FFF5E2;
   flex-grow: 1;
   padding: 20px;
+
 }
 
+.Titulov2{
+  font-family: "Caudex", serif;
+  width: 22.688rem;
+  height: 6.125rem;
+}
 .button-group {
 
   margin: 20px 0px;
