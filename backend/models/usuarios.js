@@ -22,11 +22,11 @@ const usuarioModel = {
     });
   },
   create: (data, callback) => {
-    if (!data || !data.nombre || !data.correo || !data.clave) {
+    if (!data || !data.nombre || !data.username || !data.correo || !data.clave) {
       callback({ mensaje: 'Faltan datos para crear el usuario' }, null);
     } else {
-      const query = 'INSERT INTO usuarios (nombre, correo, clave) VALUES (?, ?, ?)';
-      const values = [data.nombre, data.correo, data.clave];
+      const query = 'INSERT INTO usuarios (nombre, username, correo, clave) VALUES (?, ?, ?, ?)';
+      const values = [data.nombre, data.username, data.correo, data.clave];
       db.query(query, values, (err, result) => {
         if (err) {
           callback(err, null);
@@ -63,21 +63,26 @@ const usuarioModel = {
     }
   },
   login: (identificador, clave, callback) => {
-    db.query('SELECT * FROM usuarios WHERE correo = ? OR nombre = ?', [identificador, identificador], (err, row) => {
+    db.query('SELECT * FROM usuarios WHERE correo = ? OR username = ?', [identificador, identificador], (err, row) => {
       if (err) {
         callback(err, null);
       } else if (row.length === 0) {
         callback(null, null);
       } else {
-        if (row[0].clave === clave) {
-          const token = jwt.sign({ id: row[0].id, correo: row[0].correo }, 'secretkey', { expiresIn: '1h' });
-          db.query('UPDATE usuarios SET token = ? WHERE id = ?', [JSON.stringify({ token }), row[0].id], (err, result) => {
-            if (err) {
-              callback(err, null);
-            } else {
-              callback(null, token);
-            }
-          });
+        const usuario = row[0];
+        if (usuario.correo === identificador || usuario.username === identificador) {
+          if (usuario.clave === clave) {
+            const token = jwt.sign({ id: usuario.id, correo: usuario.correo }, 'secretkey', { expiresIn: '1h' });
+            db.query('UPDATE usuarios SET token = ? WHERE id = ?', [JSON.stringify({ token }), usuario.id], (err, result) => {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, token);
+              }
+            });
+          } else {
+            callback(null, null);
+          }
         } else {
           callback(null, null);
         }
