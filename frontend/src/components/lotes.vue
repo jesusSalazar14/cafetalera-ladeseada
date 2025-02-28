@@ -14,13 +14,13 @@
       <div class="username">USERNAME</div>
       <nav>
         <ul>
-          <li>Recolección</li>
-          <li>Clasificación</li>
-          <li>Despalpado</li>
-          <li>Fermentación</li>
-          <li>Lavado</li>
-          <li>Secado</li>
-          <li>Selección de lote de recolección</li>
+          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png">Recolección</li>
+          <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png">Clasificación</li>
+          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png">Despalpado</li>
+          <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png">Fermentación</li>
+          <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png">Lavado</li>
+          <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png">Secado</li>
+          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Selección de lote de recolección</li>
         </ul>
       </nav>
 
@@ -35,8 +35,8 @@
     <div class="main-content">
       <h1>LOTE DE RECOLECCIÓN</h1>
       <div class="button-group">
-        <button class="btn vaciar">VACIAR</button>
-        <button class="btn anadir">AÑADIR</button>
+        <button class="btn vaciar"><img src="../assets/Simbolos/eliminar.png">VACIAR</button>
+        <button class="btn anadir"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
       </div>
 
       <table>
@@ -180,6 +180,10 @@ nav ul li:hover{
 
 }
 
+.button-group img{
+  margin-right: 5px;
+}
+
 .btn {
   border-radius: 18px;
   font-size: 15px;
@@ -190,8 +194,11 @@ nav ul li:hover{
   color:  #FFFFFF;
 }
 
-.btn:hover {
-  
+
+#img1{
+
+  margin-right: 10px;
+
 }
 
 
