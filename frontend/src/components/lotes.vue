@@ -1,9 +1,15 @@
 <template>
+
   <div id="app">
+
     <div class="sidebar">
+
       <div class="logo">
-        <img src="./logo.png" alt="Cafetería Logo" />
+
+        <img src="../assets/logo.png" alt="Cafetería Logo">
+
       </div>
+
       <h3>Cafetalera La Deseada</h3>
       <div class="username">USERNAME</div>
       <nav>
@@ -17,15 +23,22 @@
           <li>Selección de lote de recolección</li>
         </ul>
       </nav>
-      <button class="logout">Cerrar sesión</button>
+
+      <div class="cerrarsesion"> 
+
+        <button class="logout">Cerrar sesión</button>
+
+      </div>
+      
     </div>
     
     <div class="main-content">
       <h1>LOTE DE RECOLECCIÓN</h1>
       <div class="button-group">
-        <button class="btn vaciar">Vaciar</button>
-        <button class="btn anadir">Añadir</button>
+        <button class="btn vaciar">VACIAR</button>
+        <button class="btn anadir">AÑADIR</button>
       </div>
+
       <table>
         <thead>
           <tr>
@@ -35,6 +48,7 @@
           </tr>
         </thead>
         <tbody>
+
           <tr>
             <td>2409</td>
             <td>FECHA DE RECOLECCIÓN</td>
@@ -56,32 +70,61 @@
             <td>3,750 Kg</td>
           </tr>
         </tbody>
+
       </table>
+
     </div>
+
   </div>
 </template>
 
 <script>
+
+
+
 export default {
   name: 'App',
 }
 </script>
 
+
 <style scoped>
+
+* {
+
+  margin: 0px;
+  padding: 0px;
+}
+
+
+body { 
+  margin: 0;
+}
+
 #app {
   display: flex;
+
 }
 
 .sidebar {
-  width: 250px;
   background-color: #40311e;
+  width: 300px;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
   color: white;
-  padding: 20px;
+  justify-content: center;
+  align-items: center;
+
 }
 
-.sidebar .logo img {
-  max-width: 100%;
+.sidebar img {
+  max-width: 50%;
+
 }
+
+
 
 .sidebar h3 {
   margin: 20px 0;
@@ -91,14 +134,30 @@ export default {
   margin-bottom: 20px;
 }
 
+nav{
+  width:100%;
+
+}
+
+
 nav ul {
   list-style: none;
-  padding: 0;
 }
 
 nav ul li {
+  padding: 5px 0px 5px 30px;
+  color: #FFD569;
   margin: 10px 0;
   cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+nav ul li:hover{
+  display: block;
+
+  background: #FFD569;
+  color: #814A13;
 }
 
 .logout {
@@ -110,22 +169,47 @@ nav ul li {
 }
 
 .main-content {
+  background: #FFF5E2;
   flex-grow: 1;
   padding: 20px;
 }
 
 .button-group {
-  margin-bottom: 20px;
+
+  margin: 20px 0px;
+
 }
 
 .btn {
+  border-radius: 18px;
+  font-size: 15px;
+  font-weight: bold;
   margin-right: 10px;
-  padding: 10px 15px;
+  padding: 8px 30px;
+  background-color: #302814;
+  color:  #FFFFFF;
 }
+
+.btn:hover {
+  
+}
+
 
 table {
   width: 100%;
   border-collapse: collapse;
+}
+
+thead{
+  background: #302814;
+  color: #FFF5E2;
+  
+}
+
+tbody{
+  background: #FFFFFA;
+  color: #302814;
+  font-weight: bold;
 }
 
 th, td {
@@ -134,7 +218,5 @@ th, td {
   text-align: left;
 }
 
-th {
-  background-color: #f4e8d6;
-}
+
 </style>
