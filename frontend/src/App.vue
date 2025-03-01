@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Lotes />
     <Login />
     <Registro />
+    <Lotes />
     <Clasificacion />
     <Recoleccion />
     <Despulpado />
@@ -13,7 +13,6 @@
 </template>
 
 <script setup>
-import Lotes from './components/lotes.vue';
 import Login from './components/login.vue';
 import Lotes from './components/lotes.vue'; 
 import Registro from './components/registro.vue';
@@ -25,5 +24,4 @@ import Lavado from './components/lavado.vue';
 </script>
 
 <style scoped>
-/* Estilos para el componente App */
-</style>ambiale el nombre a lotes
+</style>

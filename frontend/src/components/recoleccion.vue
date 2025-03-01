@@ -10,17 +10,17 @@
 
       </div>
 
-      <h3>Cafetalera La Deseada</h3>
+      <img class="CuentaSimbolo" src="../assets/Simbolos/account_circle.png" alt="">
       <div class="username">USERNAME</div>
       <nav>
         <ul>
+          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Lotes</li>
           <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png">Recolección</li>
           <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png">Clasificación</li>
           <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png">Despalpado</li>
           <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png">Fermentación</li>
           <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png">Lavado</li>
           <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png">Secado</li>
-          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Selección de lote de recolección</li>
         </ul>
       </nav>
 
@@ -29,11 +29,18 @@
         <button class="logout">Cerrar sesión</button>
 
       </div>
-    
+      
     </div>
     
     <div class="main-content">
-      <h1>LOTE DE RECOLECCIÓN</h1>
+
+      <div class="title-container">
+  <h1 class="Titulov2">CAFETELERA
+    <br>
+    LA DESEADA
+  </h1>
+  <h2 class="Titulov3">LOTES</h2>
+</div>
       <div class="button-group">
         <button class="btn vaciar"><img src="../assets/Simbolos/eliminar.png">VACIAR</button>
         <button class="btn anadir"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
@@ -107,8 +114,8 @@ body {
 }
 
 .sidebar {
-  background-color: #40311e;
-  width: 300px;
+  background-color: #302814;
+  width: 18.75rem;
   height: 100%;
   overflow: auto;
   display: flex;
@@ -116,22 +123,35 @@ body {
   color: white;
   justify-content: center;
   align-items: center;
-
+  background-blur: 10%;
 }
 
-.sidebar img {
+.CuentaSimbolo {
   max-width: 50%;
+  padding: 2%;
 
 }
-
-
 
 .sidebar h3 {
   margin: 20px 0;
 }
 
+.logo {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+}
+
+.logo img {
+    width: 90%; 
+    height: auto; 
+}
+
 .username {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 nav{
@@ -174,30 +194,55 @@ nav ul li:hover{
   padding: 20px;
 }
 
+.title-container {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between; 
+  margin-bottom: 3.125rem;
+}
+
+.Titulov2 {
+  font-family: "Caudex", serif;
+  color: #814A13; 
+}
+
+.Titulov3 {
+  color: #000000; 
+}
+
 .button-group {
-
-  margin: 20px 0px;
-
+  display: flex;
+  justify-content: flex-end; 
+  margin-bottom: 0.625rem; 
 }
 
 .button-group img{
-  margin-right: 5px;
+  margin-right: 3px;
 }
 
 .btn {
-  border-radius: 18px;
-  font-size: 15px;
+  display: flex; 
+  align-items: center; 
+  border-radius: 1.125rem; 
+  font-size: 0.9375rem; 
   font-weight: bold;
-  margin-right: 10px;
-  padding: 8px 30px;
+  margin-right: 0.625rem; 
+  padding: 0.5rem 1.875rem; 
   background-color: #302814;
-  color:  #FFFFFF;
+  color: #FFFFFF;
 }
 
+.bth img{
+  margin-right: 0.625rem; /* Aumentar el margen a 10px en rem */
+  width: 1.25rem; /* 20px en rem */
+  height: auto; /* Mantener la proporción de la imagen */
+}
 
 #img1{
 
-  margin-right: 10px;
+  margin-right: 10px; /* Aumentar el margen a 10px en rem */
+  width: 1.25rem; /* 20px en rem */
+  height: auto; /* Mantener la proporción de la imagen */
 
 }
 
@@ -224,6 +269,7 @@ th, td {
   padding: 8px;
   text-align: left;
 }
+
 
 
 </style>
