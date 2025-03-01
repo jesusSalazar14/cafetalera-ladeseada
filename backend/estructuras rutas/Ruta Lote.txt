@@ -1,0 +1,26 @@
+Ruta Lote
+
+-GET /api/lote: Obtener todos los lotes
+URL: http://localhost:3000/api/lote
+Método: GET
+Cuerpo: No aplica
+
+-GET /api/lote/:id: Obtener un lote por ID
+URL: http://localhost:3000/api/lote/1
+Método: GET
+Cuerpo: No aplica
+
+-POST /api/lote: Crear un nuevo lote
+URL: http://localhost:3000/api/lote
+Método: POST
+Cuerpo: { "fecha_inicio": "2022-01-01", "fecha_fin": "2022-01-31", "kilogramos_cereza": 1000, "calidad": "A+", "estado": "Recolección", "exportacion": "La cierra" }
+
+-PUT /api/lote/:id: Actualizar un lote
+URL: http://localhost:3000/api/lote/1
+Método: PUT
+Cuerpo: { "fecha_inicio": "2022-01-01", "fecha_fin": "2022-01-31", "kilogramos_cereza": 1000, "calidad": "A+", "estado": "Clasificación", "exportacion": "La cierra" }
+
+-DELETE /api/lote/:id: Eliminar un lote
+URL: http://localhost:3000/api/lote/1
+Método: DELETE
+Cuerpo: No aplica

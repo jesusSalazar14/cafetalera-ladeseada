@@ -23,13 +23,18 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  Lote.create(req.body, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(201).send(result);
-    }
-  });
+  const { fecha_inicio, fecha_fin, kilogramos_cereza, calidad, estado, exportacion } = req.body;
+  if (!fecha_inicio || !fecha_fin || !kilogramos_cereza || !calidad || !estado) {
+    res.status(400).send({ message: 'Faltan campos obligatorios' });
+  } else {
+    Lote.create(req.body, (err, result) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(201).send(result);
+      }
+    });
+  }
 });
 
 router.put('/:id', (req, res) => {

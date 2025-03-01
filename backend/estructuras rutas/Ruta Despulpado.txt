@@ -1,0 +1,28 @@
+Ruta Despulpado
+
+-GET /api/despulpado: Obtener todos los despulpados
+URL: http://localhost:3000/api/despulpado
+Método: GET
+Cuerpo: No aplica
+
+-GET /api/despulpado/:id: Obtener un despulpado por ID
+URL: http://localhost:3000/api/despulpado/1
+Método: GET
+Cuerpo: No aplica
+
+-POST /api/despulpado: Crear un nuevo despulpado
+URL: http://localhost:3000/api/despulpado
+Método: POST
+Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "tiempo": "01:00:00" }
+
+-PUT /api/despulpado/:id: Actualizar un despulpado
+URL: http://localhost:3000/api/despulpado/1
+Método: PUT
+Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "tiempo": "02:00:00" }
+
+-DELETE /api/despulpado/:id: Eliminar un despulpado
+URL: http://localhost:3000/api/despulpado/1
+Método: DELETE
+Cuerpo: No aplica
+
+

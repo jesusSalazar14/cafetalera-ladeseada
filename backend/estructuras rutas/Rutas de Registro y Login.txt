@@ -1,0 +1,30 @@
+-Registro de usuario
+Método: POST
+URL: http://localhost:3000/api/registro
+Cuerpo de la petición:
+nombre: string (requerido)
+username: string (requerido)
+correo: string (requerido)
+clave: string (requerido)
+{
+  "nombre": "Juan Pérez",
+  "username": "juanperez",
+  "correo": "juan.perez@example.com",
+  "clave": "mi_contraseña"
+}
+
+
+-Login de usuario
+Método: POST
+URL: http://localhost:3000/api/login
+Cuerpo de la petición:
+identificador: string (requerido) - puede ser el correo o el nombre de usuario
+clave: string (requerido)
+{
+  "identificador": "Juan Perez",
+  "clave": "mi_contraseña"
+}
+{
+  "identificador": "juan.perez@example.com",
+  "clave": "mi_contraseña"
+}

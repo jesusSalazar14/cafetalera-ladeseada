@@ -1,0 +1,26 @@
+Ruta Fermentación
+
+-GET /api/fermentacion: Obtener todas las fermentaciones
+URL: http://localhost:3000/api/fermentacion
+Método: GET
+Cuerpo: No aplica
+
+-GET /api/fermentacion/:id: Obtener una fermentación por ID
+URL: http://localhost:3000/api/fermentacion/1
+Método: GET
+Cuerpo: No aplica
+
+-POST /api/fermentacion: Crear una nueva fermentación
+URL: http://localhost:3000/api/fermentacion
+Método: POST
+Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "fecha_fin": "2022-01-10", "tipo": "Anaeróbico" }
+
+-PUT /api/fermentacion/:id: Actualizar una fermentación
+URL: http://localhost:3000/api/fermentacion/1
+Método: PUT
+Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "fecha_fin": "2022-01-15", "tipo": "Aeróbico" }
+
+-DELETE /api/fermentacion/:id: Eliminar una fermentación
+URL: http://localhost:3000/api/fermentacion/1
+Método: DELETE
+Cuerpo: No aplica
