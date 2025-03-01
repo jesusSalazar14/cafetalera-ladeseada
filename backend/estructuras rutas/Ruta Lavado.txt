@@ -1,0 +1,26 @@
+Ruta Lavado
+
+-GET /api/lavado: Obtener todos los lavados
+URL: http://localhost:3000/api/lavado
+Método: GET
+Cuerpo: No aplica
+
+-GET /api/lavado/:id: Obtener un lavado por ID
+URL: http://localhost:3000/api/lavado/1
+Método: GET
+Cuerpo: No aplica
+
+-POST /api/lavado: Crear un nuevo lavado
+URL: http://localhost:3000/api/lavado
+Método: POST
+Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "metodo": "Lavado en agua" }
+
+-PUT /api/lavado/:id: Actualizar un lavado
+URL: http://localhost:3000/api/lavado/1
+Método: PUT
+Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "metodo": "Lavado seco" }
+
+-DELETE /api/lavado/:id: Eliminar un lavado
+URL: http://localhost:3000/api/lavado/1
+Método: DELETE
+Cuerpo: No aplica

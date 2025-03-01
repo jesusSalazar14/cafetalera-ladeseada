@@ -1,0 +1,26 @@
+Ruta Clasificación
+
+-GET /api/clasificacion: Obtener todas las clasificaciones
+URL: http://localhost:3000/api/clasificacion
+Método: GET
+Cuerpo: No aplica
+
+-GET /api/clasificacion/:id: Obtener una clasificación por ID
+URL: http://localhost:3000/api/clasificacion/1
+Método: GET
+Cuerpo: No aplica
+
+-POST /api/clasificacion: Crear una nueva clasificación
+URL: http://localhost:3000/api/clasificacion
+Método: POST
+Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "tipo_grano": "Verde" }
+
+-PUT /api/clasificacion/:id: Actualizar una clasificación
+URL: http://localhost:3000/api/clasificacion/1
+Método: PUT
+Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "tipo_grano": "Piton" }
+
+-DELETE /api/clasificacion/:id: Eliminar una clasificación
+URL: http://localhost:3000/api/clasificacion/1
+Método: DELETE
+Cuerpo: No aplica
