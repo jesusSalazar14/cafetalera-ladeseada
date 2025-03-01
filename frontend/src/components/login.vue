@@ -5,7 +5,7 @@
       <div class="logo-container">
         <img src="../assets/logo.png" alt="Logo" class="logo" />
       </div>
-      <p class="footer-text">Cafetalera la Deseada 2025. Todos los derechos reservados.</p>
+      <p class="footer-text">Cafetalera la Deseada 2025.<br>Todos los derechos reservados.</p>
     </div>
     <!-- Contenido principal -->
     <div class="main-content">
@@ -74,8 +74,8 @@ export default {
 
 body {
   margin: 0;
-    padding: 0;
-  font-family: 'Maven Pro', sans-serif; 
+  padding: 0;
+
 }
 
 .titulolog{
@@ -120,12 +120,12 @@ body {
 
 
 .footer-text {
-  
+  font-family: "Caudex", serif;
   font-weight: 400;
   margin-top: 20px;
   color: #FB901D;
   font-size: 16px;
-
+  font-style: italic;
 }
 
 .main-content {
