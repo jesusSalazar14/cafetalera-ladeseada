@@ -17,7 +17,7 @@
         <form @submit.prevent="handleLogin">
           <div class="input-group">
             <label for="email">USUARIO/EMAIL</label>
-            <input type="email" id="email" placeholder="Usuario o Email" v-model="email" required />
+            <input type="email" id="email" placeholder="Usuario o Email" v-model="correo" required />
           </div>
           <div class="input-group">
             <label for="password">CONTRASEÑA</label>
@@ -26,38 +26,45 @@
           <div>
           <button type="submit" class="login-button">INICIAR SESIÓN</button>
           </div>
-          
-
           <!-- Botón de registro -->
           <div class="Registro">
-
           <label class="labelregistro" for="Registrate">No posees una cuenta?</label>
-          <a class="a-registro" href="#">Registrate</a>
-
+          <router-link class="a-registro" to="/registro">Registrate</router-link>
           </div>
-
         </form>
-      </div>
+     </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      email: '',
-      password: '',
+      correo: '',
+      clave: '',
     };
   },
   methods: {
     handleLogin() {
-      // Lógica de autenticación aquí
-      console.log('Iniciando sesión con:', this.email, this.password);
-    },
-    handleRegister() {
-      // Lógica de registro aquí
-      console.log('Registro');
+      axios.post('http://localhost:3000/api/login', {
+        correo: this.correo,
+        clave: this.clave,
+      })
+        .then((response) => {
+          console.log(response);
+          alert('Inicio de sesion exitoso!');
+        })
+        .catch((error) => {
+          console.error(error);
+          if (error.response.status === 500) {
+            alert('Error al iniciar sesion');
+          } else {
+            alert('Error desconocido');
+          }
+        });
     },
   },
 };

@@ -5,7 +5,7 @@
       <div class="logo-container">
         <img src="../assets/logo.png" alt="Logo" class="logo" />
       </div>
-      <p class="footer-text">Cafetalera la Deseada 2025. Todos los derechos reservados.</p>
+      <p class="footer-text">Cafetalera la Deseada 2025.<br>Todos los derechos reservados.</p>
     </div>
     <!-- Contenido principal -->
     <div class="main-content">
@@ -23,7 +23,7 @@
           </div>
           <div class="input-group">
             <label for="email">CORREO</label>
-            <input type="email" id="email" placeholder="Correo Electrónico" v-model="email" required />
+            <input type="email" id="email" placeholder="Correo Electrónico" v-model="correo" required />
           </div>
           <div class="input-group">
             <label for="password">CONTRASEÑA</label>
@@ -32,33 +32,49 @@
           <div>
             <button type="submit" class="login-button">REGISTRARSE</button>
           </div>
-          <!-- Botón de inicio de sesión -->
-          <div class="Registro">
-            <label class="labelregistro" for="IniciarSesion">Ya tienes una cuenta?</label>
-            <a class="a-registro" href="#">Inicia Sesión</a>
-          </div>
         </form>
+        <!-- Botón de inicio de sesión -->
+        <div class="Registro">
+          <label class="labelregistro" for="IniciarSesion">Ya tienes una cuenta?</label>
+          <router-link class="a-registro" to="/">Inicia Sesión</router-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      email: '',
-      password: '',
+      nombre: '',
+      username: '',
+      correo: '',
+      clave: '',
     };
   },
   methods: {
-    handleLogin() {
-      // Lógica de autenticación aquí
-      console.log('Iniciando sesión con:', this.email, this.password);
-    },
-    handleRegister() {
-      // Lógica de registro aquí
-      console.log('Registro');
+    handleRegistro() {
+      axios.post('http://localhost:3000/api/registro', {
+        nombre: this.nombre,
+        username: this.username,
+        correo: this.correo,
+        clave: this.clave,
+      })
+        .then((response) => {
+          console.log(response);
+          alert('Registro exitoso!');
+        })
+        .catch((error) => {
+          console.error(error);
+          if (error.response.status === 500) {
+            alert('Error al registrar usuario');
+          } else {
+            alert('Error desconocido');
+          }
+        });
     },
   },
 };
@@ -75,8 +91,8 @@ export default {
 
 body {
   margin: 0;
-    padding: 0;
-  font-family: 'Maven Pro', sans-serif; 
+  padding: 0;
+
 }
 
 .titulolog{
@@ -121,12 +137,12 @@ body {
 
 
 .footer-text {
-  
+  font-family: "Caudex", serif;
   font-weight: 400;
   margin-top: 20px;
   color: #FB901D;
   font-size: 16px;
-
+  font-style: italic;
 }
 
 .main-content {

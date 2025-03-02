@@ -1,5 +1,10 @@
 const express = require('express');
+const app = express();
+const cors = require('cors');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const mysql = require('mysql');
 const loteRoutes = require('./routes/lote');
 const secadoRoutes = require('./routes/secado');
 const recoleccionRoutes = require('./routes/recoleccion');
@@ -10,10 +15,82 @@ const clasificacionRoutes = require('./routes/clasificacion');
 const loginRoutes = require('./routes/login');
 const registroRoutes = require('./routes/registro');
 
-const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/lote', loteRoutes.router); 
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'cafetalera-ladeseada',
+});
+
+db.connect((err) => {
+  if (err) {
+    console.error('Error conectando a la base de datos:', err);
+    return;
+  }
+  console.log('Conectado a la base de datos MySQL');
+});
+
+app.post('/api/registro', (req, res) => {
+  const { nombre, username, correo, clave } = req.body;
+  const hashedClave = bcrypt.hashSync(clave, 10);
+  const query = 'SELECT * FROM usuarios WHERE username = ?';
+  db.query(query, [nombre, username, correo, hashedClave], (err, result) => {
+    if (err) {
+      console.error('Error obteniendo usuario:', err);
+      res.status(500).send({ message: 'Error obteniendo usuario' });
+    } else {
+      if (result.length > 0) {
+        res.status(400).send({ message: 'Username ya existe' });
+      } else {
+        const query = 'INSERT INTO usuarios (nombre, username, correo, clave) VALUES (?, ?, ?, ?)';
+        db.query(query, [nombre, username, correo, hashedClave], (err, result) => {
+          if (err) {
+            console.error('Error registrando usuario:', err);
+            res.status(500).send({ message: 'Error registrando usuario' });
+          } else {
+            res.status(201).send({ message: 'Registro exitoso' });
+          }
+        });
+      }
+    }
+  });
+});
+
+app.post('/api/login', (req, res) => {
+  const { correo, clave } = req.body;
+  const query = 'SELECT * FROM usuarios WHERE correo = ?';
+  db.query(query, [correo], (err, result) => {
+    if (err) {
+      console.error('Error obteniendo usuario:', err);
+      res.status(500).send({ message: 'Error obteniendo usuario' });
+    } else {
+      if (result.length === 0) {
+        res.status(401).send({ message: 'Usuario no encontrado' });
+      } else {
+        const username = result[0];
+        const isValidClave = bcrypt.compareSync(clave, username.clave);
+        if (!isValidClave) {
+          res.status(401).send({ message: 'Contraseña incorrecta' });
+        } else {
+          const token = jwt.sign({ userId: result[0].id }, 'secretkey', { expiresIn: '1h', algorithm: 'HS256' });
+          db.query('UPDATE usuarios SET token = ? WHERE id = ?', [token, result[0].id], (err, result) => {
+            if (err) {
+              console.error('Error actualizando token:', err);
+              res.status(500).send({ message: 'Error actualizando token' });
+            } else {
+              res.status(200).send({ token });
+            }
+          });
+        }
+      }
+    }
+  });
+});
+
+app.use('/api/lote', loteRoutes.router);
 app.use('/api/secado', secadoRoutes.router);
 app.use('/api/recoleccion', recoleccionRoutes.router);
 app.use('/api/lavado', lavadoRoutes.router);
