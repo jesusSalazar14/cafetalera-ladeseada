@@ -1,48 +1,48 @@
 const express = require('express');
 const router = express.Router();
-const Lote = require('../models/lote');
+const Exportacion = require('../models/exportacion');
 
 router.get('/', (req, res) => {
-  Lote.find((err, lotes) => {
+  Exportacion.find((err, exportaciones) => {
     if (err) {
       res.status(400).send(err);
     } else {
-      res.status(200).send(lotes);
+      res.status(200).send(exportaciones);
     }
   });
 });
 
 router.get('/:id', (req, res) => {
-  Lote.getById(req.params.id, (err, lote) => {
+  Exportacion.getById(req.params.id, (err, exportacion) => {
     if (err) {
       res.status(400).send(err);
     } else {
-      res.status(200).send(lote);
+      res.status(200).send(exportacion);
     }
   });
 });
 
 router.post('/', (req, res) => {
-  const { fecha_inicio, fecha_fin, kilogramos_cereza, estado } = req.body;
-  if (!fecha_inicio || !fecha_fin || !kilogramos_cereza || !estado) {
+  const { lote_id, fecha, cantidad, destinatario, precio } = req.body;
+  if (!lote_id || !fecha || !cantidad || !destinatario || !precio) {
     res.status(400).send({ message: 'Faltan campos obligatorios' });
   } else {
-    Lote.create(req.body, (err, result) => {
+    Exportacion.create(req.body, (err, result) => {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(201).send(result);
+        res.status(201).send({ message: 'Exportación creada con éxito' });
       }
     });
   }
 });
 
 router.put('/:id', (req, res) => {
-  const { fecha_inicio, fecha_fin, kilogramos_cereza, estado } = req.body;
-  if (!fecha_inicio || !fecha_fin || !kilogramos_cereza || !estado) {
+  const { lote_id, fecha, cantidad, destinatario, precio } = req.body;
+  if (!lote_id || !fecha || !cantidad || !destinatario || !precio) {
     res.status(400).send({ message: 'Faltan campos obligatorios' });
   } else {
-    Lote.update(req.params.id, req.body, (err, result) => {
+    Exportacion.update(req.params.id, req.body, (err, result) => {
       if (err) {
         res.status(400).send(err);
       } else {
@@ -53,7 +53,7 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  Lote.delete(req.params.id, (err, result) => {
+  Exportacion.delete(req.params.id, (err, result) => {
     if (err) {
       res.status(400).send(err);
     } else {

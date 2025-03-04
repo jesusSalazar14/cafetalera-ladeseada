@@ -21,22 +21,34 @@ const loteModel = {
     });
   },
   create: (data, callback) => {
-    db.query('INSERT INTO lote SET ?', data, (err, result) => {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, result);
-      }
-    });
+    const requiredFields = ['fecha_inicio', 'fecha_fin', 'kilogramos_cereza', 'estado'];
+    const missingFields = requiredFields.filter(field => !Object.prototype.hasOwnProperty.call(data, field));
+    if (missingFields.length > 0) {
+      callback({ message: 'Faltan campos obligatorios' }, null);
+    } else {
+      db.query('INSERT INTO lote (fecha_inicio, fecha_fin, kilogramos_cereza, estado) VALUES (?, ?, ?, ?)', [data.fecha_inicio, data.fecha_fin, data.kilogramos_cereza, data.estado], (err, result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result);
+        }
+      });
+    }
   },
   update: (id, data, callback) => {
-    db.query('UPDATE lote SET ? WHERE id = ?', [data, id], (err, result) => {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, result);
-      }
-    });
+    const requiredFields = ['fecha_inicio', 'fecha_fin', 'kilogramos_cereza', 'estado'];
+    const missingFields = requiredFields.filter(field => !Object.prototype.hasOwnProperty.call(data, field));
+    if (missingFields.length > 0) {
+      callback({ message: 'Faltan campos obligatorios' }, null);
+    } else {
+      db.query('UPDATE lote SET fecha_inicio = ?, fecha_fin = ?, kilogramos_cereza = ?, estado = ? WHERE id = ?', [data.fecha_inicio, data.fecha_fin, data.kilogramos_cereza, data.estado, id], (err, result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result);
+        }
+      });
+    }
   },
   delete: (id, callback) => {
     db.query('DELETE FROM lote WHERE id = ?', id, (err, result) => {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2025 a las 23:17:28
+-- Tiempo de generación: 04-03-2025 a las 21:50:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `clasificacion` (
   `lote_id` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
-  `tipo_grano` enum('Verde','Piton','Maduro','Sobre Maduro','Seco','Brocado') DEFAULT NULL
+  `calidad` enum('A+','A','B','C') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -43,6 +43,20 @@ CREATE TABLE `despulpado` (
   `lote_id` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `tiempo` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `exportacion`
+--
+
+CREATE TABLE `exportacion` (
+  `lote_id` int(11) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `cantidad` int(11) NOT NULL,
+  `destinatario` varchar(255) NOT NULL,
+  `precio` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -81,7 +95,6 @@ CREATE TABLE `lote` (
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `kilogramos_cereza` int(11) DEFAULT NULL,
-  `calidad` enum('A+','A','B','C') DEFAULT NULL,
   `estado` enum('Recolección','Clasificación','Despulpado','Fermentación','Lavado','Secado') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -89,20 +102,9 @@ CREATE TABLE `lote` (
 -- Volcado de datos para la tabla `lote`
 --
 
-INSERT INTO `lote` (`id`, `fecha_inicio`, `fecha_fin`, `kilogramos_cereza`, `calidad`, `estado`) VALUES
-(1, '2022-02-01', '0000-00-00', 2000, 'A', 'Secado');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `recoleccion`
---
-
-CREATE TABLE `recoleccion` (
-  `lote_id` int(11) DEFAULT NULL,
-  `fecha` date DEFAULT NULL,
-  `tipo_grano` enum('Verde','Piton','Maduro','Sobre Maduro','Seco','Brocado') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+INSERT INTO `lote` (`id`, `fecha_inicio`, `fecha_fin`, `kilogramos_cereza`, `estado`) VALUES
+(6, '2025-06-12', '0000-00-00', 5000, 'Secado'),
+(7, '2022-02-01', '2022-02-28', 1200, 'Clasificación');
 
 -- --------------------------------------------------------
 
@@ -126,17 +128,18 @@ CREATE TABLE `secado` (
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `correo` varchar(255) NOT NULL,
   `clave` varchar(255) NOT NULL,
-  `token` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`token`))
+  `token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `clave`, `token`) VALUES
-(1, 'Jesus Salazar', 'jesus@gmail.com', '123', '{\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY29ycmVvIjoiamVzdXNAZ21haWwuY29tIiwiaWF0IjoxNzM5OTE2OTYwLCJleHAiOjE3Mzk5MjA1NjB9.3dJUHvUiIfhVWBAOwbQPZuWBcWXteEzZbRHrUS4_zZs\"}');
+INSERT INTO `usuarios` (`id`, `nombre`, `username`, `correo`, `clave`, `token`) VALUES
+(7, 'Jesus Salazar', 'jesussalazar', 'jasg_01@hotmail.com', '$2b$10$Maevlg9vb2erfILP.Es5e.k8kRMan/xIUoOnsEPfYb1vOefT02gCG', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTc0MDk2ODg3MCwiZXhwIjoxNzQwOTcyNDcwfQ.Tz0RaixmbKWYd-8OsNJBHxOR4M9lo_NdrTlDItdL2aI');
 
 --
 -- Índices para tablas volcadas
@@ -152,6 +155,12 @@ ALTER TABLE `clasificacion`
 -- Indices de la tabla `despulpado`
 --
 ALTER TABLE `despulpado`
+  ADD KEY `lote_id` (`lote_id`);
+
+--
+-- Indices de la tabla `exportacion`
+--
+ALTER TABLE `exportacion`
   ADD KEY `lote_id` (`lote_id`);
 
 --
@@ -171,12 +180,6 @@ ALTER TABLE `lavado`
 --
 ALTER TABLE `lote`
   ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `recoleccion`
---
-ALTER TABLE `recoleccion`
-  ADD KEY `lote_id` (`lote_id`);
 
 --
 -- Indices de la tabla `secado`
@@ -199,13 +202,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `lote`
 --
 ALTER TABLE `lote`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
@@ -224,6 +227,12 @@ ALTER TABLE `despulpado`
   ADD CONSTRAINT `despulpado_ibfk_1` FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
 --
+-- Filtros para la tabla `exportacion`
+--
+ALTER TABLE `exportacion`
+  ADD CONSTRAINT `exportacion_ibfk_1` FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
+
+--
 -- Filtros para la tabla `fermentacion`
 --
 ALTER TABLE `fermentacion`
@@ -234,12 +243,6 @@ ALTER TABLE `fermentacion`
 --
 ALTER TABLE `lavado`
   ADD CONSTRAINT `lavado_ibfk_1` FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
-
---
--- Filtros para la tabla `recoleccion`
---
-ALTER TABLE `recoleccion`
-  ADD CONSTRAINT `recoleccion_ibfk_1` FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
 --
 -- Filtros para la tabla `secado`

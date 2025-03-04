@@ -1,9 +1,9 @@
 const mysql = require('mysql');
 const db = require('../db');
 
-const recoleccionModel = {
-  getAll: (callback) => {
-    db.query('SELECT * FROM recoleccion', (err, rows) => {
+const exportacionModel = {
+  find: (callback) => {
+    db.query('SELECT * FROM exportacion', (err, rows) => {
       if (err) {
         callback(err, null);
       } else {
@@ -12,7 +12,7 @@ const recoleccionModel = {
     });
   },
   getById: (id, callback) => {
-    db.query('SELECT * FROM recoleccion WHERE id = ?', id, (err, row) => {
+    db.query('SELECT * FROM exportacion WHERE id = ?', id, (err, row) => {
       if (err) {
         callback(err, null);
       } else {
@@ -21,7 +21,8 @@ const recoleccionModel = {
     });
   },
   create: (data, callback) => {
-    db.query('INSERT INTO recoleccion SET ?', data, (err, result) => {
+    const query = 'INSERT INTO exportacion SET ?';
+    db.query(query, data, (err, result) => {
       if (err) {
         callback(err, null);
       } else {
@@ -30,7 +31,8 @@ const recoleccionModel = {
     });
   },
   update: (id, data, callback) => {
-    db.query('UPDATE recoleccion SET ? WHERE id = ?', [data, id], (err, result) => {
+    const query = 'UPDATE exportacion SET ? WHERE id = ?';
+    db.query(query, [data, id], (err, result) => {
       if (err) {
         callback(err, null);
       } else {
@@ -39,14 +41,14 @@ const recoleccionModel = {
     });
   },
   delete: (id, callback) => {
-    db.query('DELETE FROM recoleccion WHERE id = ?', id, (err, result) => {
+    db.query('DELETE FROM exportacion WHERE id = ?', id, (err, result) => {
       if (err) {
         callback(err, null);
       } else {
- callback(null, result);
+        callback(null, result);
       }
     });
   }
 };
 
-module.exports = recoleccionModel;
+module.exports = exportacionModel;
