@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-03-2025 a las 21:50:11
+-- Tiempo de generación: 04-03-2025 a las 22:37:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `clasificacion` (
   `lote_id` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
-  `calidad` enum('A+','A','B','C') DEFAULT NULL
+  `calidad` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -69,7 +69,7 @@ CREATE TABLE `fermentacion` (
   `lote_id` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
-  `tipo` enum('Anaeróbico','Aeróbico') DEFAULT NULL
+  `tipo` varchar(155) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -81,7 +81,7 @@ CREATE TABLE `fermentacion` (
 CREATE TABLE `lavado` (
   `lote_id` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
-  `metodo` enum('Lavado en agua','Lavado seco') DEFAULT NULL
+  `metodo` varchar(155) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -95,7 +95,7 @@ CREATE TABLE `lote` (
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `kilogramos_cereza` int(11) DEFAULT NULL,
-  `estado` enum('Recolección','Clasificación','Despulpado','Fermentación','Lavado','Secado') DEFAULT NULL
+  `estado` varchar(155) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -116,7 +116,7 @@ CREATE TABLE `secado` (
   `lote_id` int(11) DEFAULT NULL,
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
-  `metodo` enum('Secado al sol','Secado mecánico') DEFAULT NULL
+  `metodo` varchar(155) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -139,7 +139,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `username`, `correo`, `clave`, `token`) VALUES
-(7, 'Jesus Salazar', 'jesussalazar', 'jasg_01@hotmail.com', '$2b$10$Maevlg9vb2erfILP.Es5e.k8kRMan/xIUoOnsEPfYb1vOefT02gCG', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTc0MDk2ODg3MCwiZXhwIjoxNzQwOTcyNDcwfQ.Tz0RaixmbKWYd-8OsNJBHxOR4M9lo_NdrTlDItdL2aI');
+(7, 'Jesus Salazar', 'jesussalazar', 'jasg_01@hotmail.com', '$2b$10$Maevlg9vb2erfILP.Es5e.k8kRMan/xIUoOnsEPfYb1vOefT02gCG', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTc0MTEyMTUzNywiZXhwIjoxNzQxMTI1MTM3fQ.B4Jnd-vzi7X0nV1Eq3yChAH-FOEGqAJXOVoeGZoC3G8');
 
 --
 -- Índices para tablas volcadas
