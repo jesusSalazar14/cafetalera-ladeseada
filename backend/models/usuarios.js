@@ -70,21 +70,18 @@ const usuarioModel = {
         callback(null, null);
       } else {
         const usuario = row[0];
-        if (usuario.correo === identificador || usuario.username === identificador) {
-          if (usuario.clave === clave) {
-            const token = jwt.sign({ id: usuario.id, correo: usuario.correo }, 'secretkey', { expiresIn: '1h' });
-            db.query('UPDATE usuarios SET token = ? WHERE id = ?', [JSON.stringify({ token }), usuario.id], (err, result) => {
-              if (err) {
-                callback(err, null);
-              } else {
-                callback(null, token);
-              }
-            });
-          } else {
-            callback(null, null);
-          }
-        } else {
+        const isValidClave = bcrypt.compareSync(clave, usuario.clave);
+        if (!isValidClave) {
           callback(null, null);
+        } else {
+          const token = jwt.sign({ id: usuario.id, correo: usuario.correo }, 'secretkey', { expiresIn: '1h' });
+          db.query('UPDATE usuarios SET token = ? WHERE id = ?', [JSON.stringify({ token }), usuario.id], (err, result) => {
+            if (err) {
+              callback(err, null);
+            } else {
+              callback(null, token);
+            }
+          });
         }
       }
     });

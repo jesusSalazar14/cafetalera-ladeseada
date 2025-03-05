@@ -7,10 +7,10 @@ username: string (requerido)
 correo: string (requerido)
 clave: string (requerido)
 {
-  "nombre": "Juan Pérez",
-  "username": "juanperez",
-  "correo": "juan.perez@example.com",
-  "clave": "mi_contraseña"
+  "nombre": "Admin",
+  "username": "admin",
+  "correo": "admin@gmail.com",
+  "clave": "123"
 }
 
 
@@ -18,13 +18,9 @@ clave: string (requerido)
 Método: POST
 URL: http://localhost:3000/api/login
 Cuerpo de la petición:
-identificador: string (requerido) - puede ser el correo o el nombre de usuario
+correo: string (requerido) - puede ser el correo o el nombre de usuario
 clave: string (requerido)
 {
-  "identificador": "Juan Perez",
-  "clave": "mi_contraseña"
-}
-{
-  "identificador": "juan.perez@example.com",
-  "clave": "mi_contraseña"
+  "correo": "admin@gmail.com",
+  "clave": "123"
 }

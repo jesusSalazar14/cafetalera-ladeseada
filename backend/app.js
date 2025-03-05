@@ -70,13 +70,13 @@ app.post('/api/login', (req, res) => {
       if (result.length === 0) {
         res.status(401).send({ message: 'Usuario no encontrado' });
       } else {
-        const username = result[0];
-        const isValidClave = bcrypt.compareSync(clave, username.clave);
+        const usuario = result[0];
+        const isValidClave = bcrypt.compareSync(clave, usuario.clave);
         if (!isValidClave) {
           res.status(401).send({ message: 'Contraseña incorrecta' });
         } else {
-          const token = jwt.sign({ userId: result[0].id }, 'secretkey', { expiresIn: '1h', algorithm: 'HS256' });
-          db.query('UPDATE usuarios SET token = ? WHERE id = ?', [token, result[0].id], (err, result) => {
+          const token = jwt.sign({ userId: usuario.id }, 'secretkey', { expiresIn: '1h', algorithm: 'HS256' });
+          db.query('UPDATE usuarios SET token = ? WHERE id = ?', [token, usuario.id], (err, result) => {
             if (err) {
               console.error('Error actualizando token:', err);
               res.status(500).send({ message: 'Error actualizando token' });

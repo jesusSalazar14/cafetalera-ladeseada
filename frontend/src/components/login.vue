@@ -9,8 +9,6 @@
     </div>
     <!-- Contenido principal -->
     <div class="main-content">
-      
-      
       <!-- Formulario de login -->
       <div class="login-box">
         <h1 class="titulolog">LOGIN</h1>
@@ -21,19 +19,22 @@
           </div>
           <div class="input-group">
             <label for="password">CONTRASEÑA</label>
-            <input type="password" id="password" placeholder="Contraseña" v-model="password" required />
+            <input type="password" id="password" placeholder="Contraseña" v-model="clave" required />
           </div>
           <div>
-          <button type="submit" class="login-button">INICIAR SESIÓN</button>
+            <button type="submit" class="login-button">INICIAR SESIÓN</button>
           </div>
           <!-- Botón de registro -->
           <div class="Registro">
-          <label class="labelregistro" for="Registrate">No posees una cuenta?</label>
-          <router-link class="a-registro" to="/registro">Registrate</router-link>
+            <label class="labelregistro" for="Registrate">No posees una cuenta?</label>
+            <router-link class="a-registro" to="/registro">Registrate</router-link>
           </div>
         </form>
-     </div>
+      </div>
     </div>
+  </div>
+  <div v-if="logged">
+    <router-view />
   </div>
 </template>
 
@@ -49,21 +50,31 @@ export default {
   },
   methods: {
     handleLogin() {
+      // Verificar los datos de inicio de sesión
+      console.log('Correo:', this.correo);
+      console.log('Clave:', this.clave);
+
+      // Verificar el formato de los datos de inicio de sesión
+      const correoLower = this.correo.toLowerCase();
+
+      // Enviar la petición al backend
       axios.post('http://localhost:3000/api/login', {
-        correo: this.correo,
+        correo: correoLower,
         clave: this.clave,
       })
         .then((response) => {
-          console.log(response);
-          alert('Inicio de sesion exitoso!');
+          // Verificar el resultado de la autenticación
+          console.log('Resultado de la autenticación:', response.data);
+          if (response.data.token) {
+            // Inicio de sesión exitoso
+            this.$router.push({ name: 'lotes' });
+          } else {
+            // Error de autenticación
+            alert('Credenciales incorrectas');
+          }
         })
         .catch((error) => {
-          console.error(error);
-          if (error.response.status === 500) {
-            alert('Error al iniciar sesion');
-          } else {
-            alert('Error desconocido');
-          }
+          console.error('Error de autenticación:', error);
         });
     },
   },
