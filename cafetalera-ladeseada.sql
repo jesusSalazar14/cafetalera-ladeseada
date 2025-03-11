@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-03-2025 a las 22:37:24
+-- Tiempo de generación: 07-03-2025 a las 02:58:38
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -139,7 +139,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `username`, `correo`, `clave`, `token`) VALUES
-(7, 'Jesus Salazar', 'jesussalazar', 'jasg_01@hotmail.com', '$2b$10$Maevlg9vb2erfILP.Es5e.k8kRMan/xIUoOnsEPfYb1vOefT02gCG', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTc0MTEyMTUzNywiZXhwIjoxNzQxMTI1MTM3fQ.B4Jnd-vzi7X0nV1Eq3yChAH-FOEGqAJXOVoeGZoC3G8');
+(8, 'Admin', 'admin', 'admin@gmail.com', '$2b$10$BeMrUV3IWgWww8zxS3jGNukgYjZPZ0YerDIPGFOv4T/MMzYHybDci', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc0MTMxMjQ0OSwiZXhwIjoxNzQxMzE2MDQ5fQ.RPcHqn4r2E-6Q8NzMiGQoReEUiJgVMiuCF-TLLzppjA');
 
 --
 -- Índices para tablas volcadas
@@ -208,7 +208,7 @@ ALTER TABLE `lote`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
