@@ -46,6 +46,7 @@ export default {
     return {
       correo: '',
       clave: '',
+      logged: false,
     };
   },
   methods: {
@@ -66,7 +67,11 @@ export default {
           // Verificar el resultado de la autenticación
           console.log('Resultado de la autenticación:', response.data);
           if (response.data.token) {
-            // Inicio de sesión exitoso
+            // Almacena el token en el local storage
+            localStorage.setItem('token', response.data.token);
+            // Agrega el token a las cabeceras de axios
+            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            this.logged = true;
             this.$router.push({ name: 'lotes' });
           } else {
             // Error de autenticación

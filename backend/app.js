@@ -17,6 +17,8 @@ const registroRoutes = require('./routes/registro');
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
   host: 'localhost',
@@ -37,7 +39,7 @@ app.post('/api/registro', (req, res) => {
   const { nombre, username, correo, clave } = req.body;
   const hashedClave = bcrypt.hashSync(clave, 10);
   const query = 'SELECT * FROM usuarios WHERE username = ?';
-  db.query(query, [nombre, username, correo, hashedClave], (err, result) => {
+  db.query(query, [username], (err, result) => {
     if (err) {
       console.error('Error obteniendo usuario:', err);
       res.status(500).send({ message: 'Error obteniendo usuario' });
@@ -75,18 +77,26 @@ app.post('/api/login', (req, res) => {
         if (!isValidClave) {
           res.status(401).send({ message: 'Contraseña incorrecta' });
         } else {
-          const token = jwt.sign({ userId: usuario.id }, 'secretkey', { expiresIn: '1h', algorithm: 'HS256' });
-          db.query('UPDATE usuarios SET token = ? WHERE id = ?', [token, usuario.id], (err, result) => {
-            if (err) {
-              console.error('Error actualizando token:', err);
-              res.status(500).send({ message: 'Error actualizando token' });
-            } else {
-              res.status(200).send({ token });
-            }
-          });
+          const token = jwt.sign({ userId: usuario.id }, 'secretkey', { expiresIn: '1h' });
+          res.send({ token });
         }
       }
     }
+  });
+});
+
+// Agrega middleware para verificar el token en cada solicitud
+app.use((req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) {
+    return res.status(401).send({ message: 'No autorizado' });
+  }
+  jwt.verify(token, 'secretkey', (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: 'No autorizado' });
+    }
+    req.userId = decoded.userId;
+    next();
   });
 });
 
