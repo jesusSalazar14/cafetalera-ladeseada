@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-03-2025 a las 02:58:38
+-- Tiempo de generación: 18-03-2025 a las 02:30:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `clasificacion` (
   `lote_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
   `fecha` date DEFAULT NULL,
   `calidad` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -41,6 +42,7 @@ CREATE TABLE `clasificacion` (
 
 CREATE TABLE `despulpado` (
   `lote_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
   `fecha` date DEFAULT NULL,
   `tiempo` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -53,6 +55,7 @@ CREATE TABLE `despulpado` (
 
 CREATE TABLE `exportacion` (
   `lote_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
   `fecha` date DEFAULT NULL,
   `cantidad` int(11) NOT NULL,
   `destinatario` varchar(255) NOT NULL,
@@ -67,7 +70,8 @@ CREATE TABLE `exportacion` (
 
 CREATE TABLE `fermentacion` (
   `lote_id` int(11) DEFAULT NULL,
-  `fecha` date DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `tipo` varchar(155) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -80,6 +84,7 @@ CREATE TABLE `fermentacion` (
 
 CREATE TABLE `lavado` (
   `lote_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
   `fecha` date DEFAULT NULL,
   `metodo` varchar(155) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -114,6 +119,7 @@ INSERT INTO `lote` (`id`, `fecha_inicio`, `fecha_fin`, `kilogramos_cereza`, `est
 
 CREATE TABLE `secado` (
   `lote_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `metodo` varchar(155) DEFAULT NULL
@@ -139,7 +145,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `username`, `correo`, `clave`, `token`) VALUES
-(8, 'Admin', 'admin', 'admin@gmail.com', '$2b$10$BeMrUV3IWgWww8zxS3jGNukgYjZPZ0YerDIPGFOv4T/MMzYHybDci', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc0MTMxMjQ0OSwiZXhwIjoxNzQxMzE2MDQ5fQ.RPcHqn4r2E-6Q8NzMiGQoReEUiJgVMiuCF-TLLzppjA');
+(8, 'Admin', 'admin', 'admin@gmail.com', '$2b$10$BeMrUV3IWgWww8zxS3jGNukgYjZPZ0YerDIPGFOv4T/MMzYHybDci', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc0MjA0OTk0NSwiZXhwIjoxNzQyMDUzNTQ1fQ.feS4p5AXmUTnbf86XxGXQRAbKjKRijwm7W2ugsmEGiw');
 
 --
 -- Índices para tablas volcadas
@@ -149,30 +155,35 @@ INSERT INTO `usuarios` (`id`, `nombre`, `username`, `correo`, `clave`, `token`) 
 -- Indices de la tabla `clasificacion`
 --
 ALTER TABLE `clasificacion`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `lote_id` (`lote_id`);
 
 --
 -- Indices de la tabla `despulpado`
 --
 ALTER TABLE `despulpado`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `lote_id` (`lote_id`);
 
 --
 -- Indices de la tabla `exportacion`
 --
 ALTER TABLE `exportacion`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `lote_id` (`lote_id`);
 
 --
 -- Indices de la tabla `fermentacion`
 --
 ALTER TABLE `fermentacion`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `lote_id` (`lote_id`);
 
 --
 -- Indices de la tabla `lavado`
 --
 ALTER TABLE `lavado`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `lote_id` (`lote_id`);
 
 --
@@ -185,6 +196,7 @@ ALTER TABLE `lote`
 -- Indices de la tabla `secado`
 --
 ALTER TABLE `secado`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `lote_id` (`lote_id`);
 
 --
@@ -199,10 +211,46 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `clasificacion`
+--
+ALTER TABLE `clasificacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `despulpado`
+--
+ALTER TABLE `despulpado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `exportacion`
+--
+ALTER TABLE `exportacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `fermentacion`
+--
+ALTER TABLE `fermentacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `lavado`
+--
+ALTER TABLE `lavado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `lote`
 --
 ALTER TABLE `lote`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `secado`
+--
+ALTER TABLE `secado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

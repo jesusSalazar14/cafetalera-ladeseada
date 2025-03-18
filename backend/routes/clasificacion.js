@@ -3,7 +3,7 @@ const router = express.Router();
 const Clasificacion = require('../models/clasificacion');
 
 router.get('/', (req, res) => {
-  Clasificacion.find((err, clasificaciones) => {
+  Clasificacion.getAll((err, clasificaciones) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -23,27 +23,39 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  Clasificacion.create(req.body, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(201).send(result);
-    }
-  });
+  const { lote_id, fecha, calidad } = req.body;
+  if (!lote_id || !fecha || !calidad) {
+    res.status(400).send({ mensaje: 'Faltan campos obligatorios' });
+  } else {
+    Clasificacion.create({ lote_id, fecha, calidad }, (err, result) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(201).send(result);
+      }
+    });
+  }
 });
 
 router.put('/:id', (req, res) => {
-  Clasificacion.update(req.params.id, req.body, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(200).send(result);
-    }
-  });
+  const { id } = req.params;
+  const { lote_id, fecha, calidad } = req.body;
+  if (!lote_id || !fecha || !calidad) {
+    res.status(400).send({ mensaje: 'Faltan campos obligatorios' });
+  } else {
+    Clasificacion.update(id, { lote_id, fecha, calidad }, (err, result) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(result);
+      }
+    });
+  }
 });
 
 router.delete('/:id', (req, res) => {
-  Clasificacion.delete(req.params.id, (err, result) => {
+  const { id } = req.params;
+  Clasificacion.delete(id, (err, result) => {
     if (err) {
       res.status(400).send(err);
     } else {

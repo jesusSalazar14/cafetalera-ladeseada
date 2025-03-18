@@ -2,25 +2,17 @@ Ruta Secado
 
 -GET /api/secado: Obtener todos los secados
 URL: http://localhost:3000/api/secado
-Método: GET
-Cuerpo: No aplica
 
 -GET /api/secado/:id: Obtener un secado por ID
 URL: http://localhost:3000/api/secado/1
-Método: GET
-Cuerpo: No aplica
 
 -POST /api/secado: Crear un nuevo secado
 URL: http://localhost:3000/api/secado
-Método: POST
 Cuerpo: { "lote_id": 1, "fecha_inicio": "2022 -01-01", "fecha_fin": "2022-01-10", "metodo": "Secado al sol" }
 
 -PUT /api/secado/:id: Actualizar un secado
 URL: http://localhost:3000/api/secado/1
-Método: PUT
 Cuerpo: { "lote_id": 1, "fecha_inicio": "2022-01-01", "fecha_fin": "2022-01-15", "metodo": "Secado mecánico" }
 
 -DELETE /api/secado/:id: Eliminar un secado
 URL: http://localhost:3000/api/secado/1
-Método: DELETE
-Cuerpo: No aplica

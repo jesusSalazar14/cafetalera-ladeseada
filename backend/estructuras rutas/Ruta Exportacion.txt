@@ -2,25 +2,17 @@ Ruta Exportacion
 
 -GET /api/exportacion: Obtener todas las exportaciones
 URL: http://localhost:3000/api/exportacion
-Método: GET
-Cuerpo: No aplica
 
 -GET /api/exportacion/:id: Obtener una exportacion por ID
 URL: http://localhost:3000/api/exportacion/1
-Método: GET
-Cuerpo: No aplica
 
 -POST /api/exportacion: Crear una nueva exportacion
 URL: http://localhost:3000/api/exportacion
-Método: POST
 Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "cantidad": 100, "destinatario": "Empresa XYZ", "precio": 500 }
 
 -PUT /api/exportacion/:id: Actualizar una exportacion
 URL: http://localhost:3000/api/exportacion/1
-Método: PUT
 Cuerpo: { "lote_id": 1, "fecha": "2022-01-01", "cantidad": 100, "destinatario": "Empresa XYZ", "precio": 500 }
 
 -DELETE /api/exportacion/:id: Eliminar una exportacion
 URL: http://localhost:3000/api/exportacion/1
-Método: DELETE
-Cuerpo: No aplica

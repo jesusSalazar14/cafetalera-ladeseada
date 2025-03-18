@@ -3,7 +3,7 @@ const router = express.Router();
 const Lavado = require('../models/lavado');
 
 router.get('/', (req, res) => {
-  Lavado.find((err, lavados) => {
+  Lavado.getAll((err, lavados) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -23,27 +23,39 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  Lavado.create(req.body, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(201).send(result);
-    }
-  });
+  const { lote_id, fecha, metodo } = req.body;
+  if (!lote_id || !fecha || !metodo) {
+    res.status(400).send({ mensaje: 'Faltan campos obligatorios' });
+  } else {
+    Lavado.create({ lote_id, fecha, metodo }, (err, result) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(201).send(result);
+      }
+    });
+  }
 });
 
 router.put('/:id', (req, res) => {
-  Lavado.update(req.params.id, req.body, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(200).send(result);
-    }
-  });
+  const { id } = req.params;
+  const { lote_id, fecha, metodo } = req.body;
+  if (!lote_id || !fecha || !metodo) {
+    res.status(400).send({ mensaje: 'Faltan campos obligatorios' });
+  } else {
+    Lavado.update(id, { lote_id, fecha, metodo }, (err, result) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(result);
+      }
+    });
+  }
 });
 
 router.delete('/:id', (req, res) => {
-  Lavado.delete(req.params.id, (err, result) => {
+  const { id } = req.params;
+  Lavado.delete(id, (err, result) => {
     if (err) {
       res.status(400).send(err);
     } else {

@@ -85,13 +85,29 @@ app.post('/api/login', (req, res) => {
   });
 });
 
-// Agrega middleware para verificar el token en cada solicitud
 app.use((req, res, next) => {
+  const rutasExcluidas = [
+    '/api/clasificacion',
+    '/api/lote',
+    '/api/secado',
+    '/api/exportacion',
+    '/api/lavado',
+    '/api/fermentacion',
+    '/api/despulpado',
+  ];
+
+  const rutaActual = req.path.split('/').slice(0, 3).join('/');
+
+  if (rutasExcluidas.includes(rutaActual)) {
+    return next(); 
+  }
+
   const token = req.headers['authorization'];
   if (!token) {
     return res.status(401).send({ message: 'No autorizado' });
   }
-  jwt.verify(token, 'secretkey', (err, decoded) => {
+
+  jwt.verify(token.split(' ')[1], 'secretkey', (err, decoded) => {
     if (err) {
       return res.status(401).send({ message: 'No autorizado' });
     }
@@ -99,7 +115,6 @@ app.use((req, res, next) => {
     next();
   });
 });
-
 app.use('/api/lote', loteRoutes.router);
 app.use('/api/secado', secadoRoutes.router);
 app.use('/api/exportacion', exportacionRoutes.router);
