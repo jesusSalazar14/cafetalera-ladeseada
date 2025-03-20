@@ -13,10 +13,10 @@
       <div class="login-box">
         <h1 class="titulolog">LOGIN</h1>
         <form @submit.prevent="handleLogin">
-          <div class="input-group">
-            <label for="email">USUARIO/EMAIL</label>
-            <input type="email" id="email" placeholder="Usuario o Email" v-model="correo" required />
-          </div>
+        <div class="input-group">
+        <label for="identificador">USUARIO/EMAIL</label>
+        <input type="text" id="identificador" placeholder="Usuario o Email" v-model="identificador" required />
+        </div>
           <div class="input-group">
             <label for="password">CONTRASEÑA</label>
             <input type="password" id="password" placeholder="Contraseña" v-model="clave" required />
@@ -44,37 +44,28 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      correo: '',
+      identificador: '',
       clave: '',
       logged: false,
     };
   },
   methods: {
     handleLogin() {
-      // Verificar los datos de inicio de sesión
       console.log('Correo:', this.correo);
       console.log('Clave:', this.clave);
 
-      // Verificar el formato de los datos de inicio de sesión
-      const correoLower = this.correo.toLowerCase();
-
-      // Enviar la petición al backend
       axios.post('http://localhost:3000/api/login', {
-        correo: correoLower,
+        identificador: this.identificador,
         clave: this.clave,
       })
         .then((response) => {
-          // Verificar el resultado de la autenticación
           console.log('Resultado de la autenticación:', response.data);
           if (response.data.token) {
-            // Almacena el token en el local storage
             localStorage.setItem('token', response.data.token);
-            // Agrega el token a las cabeceras de axios
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
             this.logged = true;
             this.$router.push({ name: 'lotes' });
           } else {
-            // Error de autenticación
             alert('Credenciales incorrectas');
           }
         })

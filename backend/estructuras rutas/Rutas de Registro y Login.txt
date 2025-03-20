@@ -1,11 +1,7 @@
 -Registro de usuario
 Método: POST
 URL: http://localhost:3000/api/registro
-Cuerpo de la petición:
-nombre: string (requerido)
-username: string (requerido)
-correo: string (requerido)
-clave: string (requerido)
+Cuerpo:
 {
   "nombre": "Admin",
   "username": "admin",
@@ -17,10 +13,13 @@ clave: string (requerido)
 -Login de usuario
 Método: POST
 URL: http://localhost:3000/api/login
-Cuerpo de la petición:
-correo: string (requerido) - puede ser el correo o el nombre de usuario
-clave: string (requerido)
+Cuerpos:
 {
-  "correo": "admin@gmail.com",
+  "identificador": "admin@gmail.com",
+  "clave": "123"
+}
+
+{
+  "identificador": "admin",
   "clave": "123"
 }

@@ -59,9 +59,9 @@ app.post('/api/registro', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-  const { correo, clave } = req.body;
-  const query = 'SELECT * FROM usuarios WHERE correo = ?';
-  db.query(query, [correo], (err, result) => {
+  const { identificador, clave } = req.body;
+  const query = 'SELECT * FROM usuarios WHERE correo = ? OR username = ?';
+  db.query(query, [identificador, identificador], (err, result) => {
     if (err) {
       console.error('Error obteniendo usuario:', err);
       res.status(500).send({ message: 'Error obteniendo usuario' });

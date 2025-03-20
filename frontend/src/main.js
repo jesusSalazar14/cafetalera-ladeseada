@@ -7,7 +7,6 @@ import axios from 'axios';
 
 createApp(App).use(router).use(store).mount('#app');
 
-// Agrega el token a las cabeceras de axios si existe en el local storage
 const token = localStorage.getItem('token');
 if (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
