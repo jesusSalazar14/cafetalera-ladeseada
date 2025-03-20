@@ -38,25 +38,22 @@ db.connect((err) => {
 app.post('/api/registro', (req, res) => {
   const { nombre, username, correo, clave } = req.body;
   const hashedClave = bcrypt.hashSync(clave, 10);
-  const query = 'SELECT * FROM usuarios WHERE username = ?';
-  db.query(query, [username], (err, result) => {
+  const query = 'INSERT INTO usuarios (nombre, username, correo, clave) VALUES (?, ?, ?, ?)';
+  db.query(query, [nombre, username, correo, hashedClave], (err, result) => {
     if (err) {
-      console.error('Error obteniendo usuario:', err);
-      res.status(500).send({ message: 'Error obteniendo usuario' });
+      console.error('Error registrando usuario:', err);
+      res.status(500).send({ message: 'Error registrando usuario' });
     } else {
-      if (result.length > 0) {
-        res.status(400).send({ message: 'Username ya existe' });
-      } else {
-        const query = 'INSERT INTO usuarios (nombre, username, correo, clave) VALUES (?, ?, ?, ?)';
-        db.query(query, [nombre, username, correo, hashedClave], (err, result) => {
-          if (err) {
-            console.error('Error registrando usuario:', err);
-            res.status(500).send({ message: 'Error registrando usuario' });
-          } else {
-            res.status(201).send({ message: 'Registro exitoso' });
-          }
-        });
-      }
+      const token = jwt.sign({ userId: result.insertId }, 'secretkey', { expiresIn: '1h' });
+      const query = 'UPDATE usuarios SET token = ? WHERE id = ?';
+      db.query(query, [token, result.insertId], (err, result) => {
+        if (err) {
+          console.error('Error almacenando token:', err);
+          res.status(500).send({ message: 'Error almacenando token' });
+        } else {
+          res.status(201).send({ token });
+        }
+      });
     }
   });
 });

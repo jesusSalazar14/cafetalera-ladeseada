@@ -26,8 +26,8 @@
             <input type="email" id="email" placeholder="Correo Electrónico" v-model="correo" required />
           </div>
           <div class="input-group">
-            <label for="password">CONTRASEÑA</label>
-            <input type="password" id="password" placeholder="Contraseña" v-model="password" required />
+            <label for="clave">CONTRASEÑA</label>
+            <input type="password" id="clave" placeholder="Contraseña" v-model="clave" required />
           </div>
           <div>
             <button type="submit" class="login-button">REGISTRARSE</button>

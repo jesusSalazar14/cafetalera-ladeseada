@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const db = require('../db');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const usuarioModel = {
   getAll: (callback) => {
