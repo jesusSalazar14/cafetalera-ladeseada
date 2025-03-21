@@ -32,7 +32,6 @@ db.connect((err) => {
     console.error('Error conectando a la base de datos:', err);
     return;
   }
-  console.log('Conectado a la base de datos MySQL');
 });
 
 app.post('/api/registro', (req, res) => {
@@ -82,6 +81,97 @@ app.post('/api/login', (req, res) => {
   });
 });
 
+app.post('/api/clasificacion', (req, res) => {
+  const { lote_id, fecha, calidad } = req.body;
+  const query = 'INSERT INTO clasificacion (lote_id, fecha, calidad) VALUES (?, ?, ?)';
+  db.query(query, [lote_id, fecha, calidad], (err, result) => {
+    if (err) {
+      console.error('Error creando clasificación:', err);
+      res.status(500).send({ message: 'Error creando clasificación' });
+    } else {
+      res.status(201).send({ message: 'Clasificación creada con éxito' });
+    }
+  });
+});
+
+app.post('/api/lote', (req, res) => {
+  const { fecha_inicio, fecha_fin, kilogramos_cereza, estado } = req.body;
+  const query = 'INSERT INTO lote (fecha_inicio, fecha_fin, kilogramos_cereza, estado) VALUES (?, ?, ?, ?)';
+  db.query(query, [fecha_inicio, fecha_fin, kilogramos_cereza, estado], (err, result) => {
+    if (err) {
+      console.error('Error creando lote:', err);
+      res.status(500).send({ message: 'Error creando lote' });
+    } else {
+      res.status(201).send({ message: 'Lote creado con éxito' });
+    }
+  });
+});
+
+app.post('/api/secado', (req, res) => {
+  const { lote_id, fecha_inicio, fecha_fin, metodo } = req.body;
+  const query = 'INSERT INTO secado (lote_id, fecha_inicio, fecha_fin, metodo) VALUES (?, ?, ?, ?)';
+  db.query(query, [lote_id, fecha_inicio, fecha_fin, metodo], (err, result) => {
+    if (err) {
+      console.error('Error creando secado:', err);
+      res.status(500).send({ message: 'Error creando secado' });
+    } else {
+      res.status(201).send({ message: 'Secado creado con éxito' });
+    }
+  });
+});
+
+app.post('/api/exportacion', (req, res) => {
+  const { lote_id, fecha, cantidad, destinatario, precio } = req.body;
+  const query = 'INSERT INTO exportacion (lote_id, fecha, cantidad, destinatario, precio) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [lote_id, fecha, cantidad, destinatario, precio], (err, result) => {
+    if (err) {
+      console.error('Error creando exportación:', err);
+      res.status(500).send({ message: 'Error creando exportación' });
+    } else {
+      res.status(201).send({ message: 'Exportación creada con éxito' });
+    }
+  });
+});
+
+app.post('/api/lavado', (req, res) => {
+  const { lote_id, fecha, metodo } = req.body;
+  const query = 'INSERT INTO lavado (lote_id, fecha, metodo) VALUES (?, ?, ?)';
+  db.query(query, [lote_id, fecha, metodo], (err, result) => {
+    if (err) {
+      console.error('Error creando lavado:', err);
+      res.status(500).send({ message: 'Error creando lavado' });
+    } else {
+      res.status(201).send({ message: 'Lavado creado con éxito' });
+    }
+  });
+});
+
+app.post('/api/fermentacion', (req, res) => {
+  const { lote_id, fecha_inicio, fecha_fin, tipo } = req.body;
+  const query = 'INSERT INTO fermentacion (lote_id, fecha_inicio, fecha_fin, tipo) VALUES (?, ?, ?, ?)';
+  db.query(query, [lote_id, fecha_inicio, fecha_fin, tipo], (err, result) => {
+    if (err) {
+      console.error('Error creando fermentación:', err);
+      res.status(500).send({ message: 'Error creando fermentación' });
+    } else {
+      res.status(201).send({ message: 'Fermentación creada con éxito' });
+    }
+  });
+});
+
+app.post('/api/despulpado', (req, res) => {
+  const { lote_id, fecha, tiempo } = req.body;
+  const query = 'INSERT INTO despulpado (lote_id, fecha, tiempo) VALUES (?, ?, ?)';
+  db.query(query, [lote_id, fecha, tiempo], (err, result) => {
+    if (err) {
+      console.error('Error creando despulpado:', err);
+      res.status(500).send({ message: 'Error creando despulpado' });
+    } else {
+      res.status(201).send({ message: 'Despulpado creado con éxito' });
+    }
+  });
+});
+
 app.use((req, res, next) => {
   const rutasExcluidas = [
     '/api/clasificacion',
@@ -112,6 +202,7 @@ app.use((req, res, next) => {
     next();
   });
 });
+
 app.use('/api/lote', loteRoutes.router);
 app.use('/api/secado', secadoRoutes.router);
 app.use('/api/exportacion', exportacionRoutes.router);
