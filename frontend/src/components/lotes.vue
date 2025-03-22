@@ -29,7 +29,8 @@
         </h1>
         <h2 class="Titulov3">LOTES</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar">AÑADIR</button>
+      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <div class="formulario">
       <form v-if="mostrarFormulario" @submit.prevent="agregarLote">
         <div class="form-group">
           <label for="fecha_inicio">Fecha Inicio</label>
@@ -45,10 +46,16 @@
         </div>
         <div class="form-group">
           <label for="estado">Estado</label>
-          <input type="text" id="estado" v-model="estado" required>
+          <select type="text" id="estado" v-model="estado" required>
+            <option value="Despulpado">Despulpado</option> 
+            <option value="Secado">Secado</option> 
+            <option value="Fermentanción">Fermentanción</option>
+            <option value="Lavado">Lavado</option> 
+          </select>
         </div>
-        <button type="submit" class="btn agregar">AÑADIR</button>
+        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
       </form>
+    </div>
       <table>
         <thead>
           <tr>
@@ -270,11 +277,12 @@ nav ul li:hover{
   padding: 0.5rem 1.875rem; 
   background-color: #302814;
   color: #FFFFFF;
+  margin-bottom: 15px;
 }
 
-.bth img{
-  margin-right: 0.625rem; 
-  width: 1.25rem; 
+.btn img{
+  margin-right: 5px; 
+  width: 17px; 
   height: auto; 
 }
 
@@ -287,24 +295,57 @@ nav ul li:hover{
 }
 
 
-table {
+table, .form-group {
   width: 100%;
   border-collapse: collapse;
 }
 
-thead{
-  background: #302814;
-  color: #FFF5E2;
-  
+.formulario{
+  justify-items: center;
+  font-family: 'Maven Pro', sans-serif;
+  font-weight: bold;
+  column-count: 4;
 }
 
-tbody{
+.formulario .form-group label, select, date{
+  justify-content: center;
+}
+
+
+
+.formulario .form-group label{
+  display: flex;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: 'Maven Pro', sans-serif; 
+  font-weight: bold;
+}
+
+.form-group input{
+  margin-left: 5px;
+  font-size: 1.25rem;
+}
+
+.form-group select{
+  background: #FFFFFA;
+  color: #302814;
+  font-size: 1.25rem;
+}
+
+
+thead, .form-group label{
+  background: #302814;
+  color: #FFF5E2;
+
+}
+
+tbody, .form-group {
   background: #FFFFFA;
   color: #302814;
   font-weight: bold;
 }
 
-th, td {
+th, td, .form-group{
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
