@@ -145,11 +145,12 @@ export default {
 
 body { 
   margin: 0;
+  height: 100%;
 }
 
 #app {
   display: flex;
-
+  height: 100vh;
 }
 
 .sidebar {
@@ -272,16 +273,16 @@ nav ul li:hover{
 }
 
 .bth img{
-  margin-right: 0.625rem; /* Aumentar el margen a 10px en rem */
-  width: 1.25rem; /* 20px en rem */
-  height: auto; /* Mantener la proporción de la imagen */
+  margin-right: 0.625rem; 
+  width: 1.25rem; 
+  height: auto; 
 }
 
 #img1{
 
-  margin-right: 10px; /* Aumentar el margen a 10px en rem */
-  width: 1.25rem; /* 20px en rem */
-  height: auto; /* Mantener la proporción de la imagen */
+  margin-right: 10px; 
+  width: 1.25rem; 
+  height: auto; 
 
 }
 
