@@ -33,64 +33,124 @@
     </div>
     
     <div class="main-content">
-
       <div class="title-container">
-  <h1 class="Titulov2">CAFETELERA
-    <br>
-    LA DESEADA
-  </h1>
-  <h2 class="Titulov3">LOTES</h2>
-</div>
-      <div class="button-group">
-        <button class="btn vaciar"><img src="../assets/Simbolos/eliminar.png">VACIAR</button>
-        <button class="btn anadir"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+        <h1 class="Titulov2">CAFETELERA
+          <br>
+          LA DESEADA
+        </h1>
+        <h2 class="Titulov3">CLASIFICACIÓN</h2>
       </div>
-
+      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar">AÑADIR</button>
+      <form v-if="mostrarFormulario" @submit.prevent="agregarClasificacion">
+        <div class="form-group">
+          <label for="lote_id">lote_id</label>
+          <input type="text" id="lote_id" v-model="lote_id" required>
+        </div>
+        <div class="form-group">
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha" v-model="fecha" required>
+        </div>
+        <div class="form-group">
+          <label for="cantidad">Cantidad</label>
+          <input type="number" id="cantidad" v-model="cantidad" required>
+        </div>
+        <div class="form-group">
+          <label for="destinatario">Destinatario</label>
+          <input type="text" id="destinatario" v-model="destinatario" required>
+        </div>
+        <div class="form-group">
+          <label for="precio">Precio</label>
+          <input type="number" id="precio" v-model="precio" required>
+        </div>
+        <button type="submit" class="btn agregar">AÑADIR</button>
+      </form>
       <table>
         <thead>
           <tr>
-            <th>LOTE</th>
-            <th>ENERO</th>
-            <th>PROCESO</th>
+            <th>ID</th>
+            <th>LOTE ID</th>
+            <th>FECHA</th>
+            <th>CANTIDAD</th>
+            <th>DESTINATARIO</th>
+            <th>PRECIO</th>
+
           </tr>
         </thead>
         <tbody>
-
-          <tr>
-            <td>2409</td>
-            <td>FECHA DE RECOLECCIÓN</td>
-            <td>07/01/25</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>LOTE DE RECOLECCIÓN</td>
-            <td>150 Kgs (85)</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>LOTE DE FIN</td>
-            <td>ALTA / MEDIA / BAJA</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>KILOS DE CEREZA</td>
-            <td>3,750 Kg</td>
+          <tr v-for="(item, index) of data" :key="index">
+            <td>{{ item.id }}</td>
+            <td>{{ item.lote_id }}</td>
+            <td>{{ item.fecha }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>{{ item.destinatario }}</td>
+            <td>{{ item.precio }}</td>
           </tr>
         </tbody>
-
       </table>
-
     </div>
-
   </div>
 </template>
 
 <script>
-
-
+import axios from 'axios'
 
 export default {
-  name: 'App',
+  name: 'clasificacion',
+  data() {
+    return {
+      nuevoClasificacion: {
+        lote_id: '',
+        fecha: '',
+        cantidad: '',
+        destinatario: '',
+        precio: ''
+      },
+      data: [],
+      mostrarFormulario: false
+    }
+  },
+  created() {
+    this.getData()
+  },
+  methods: {
+    agregarClasificacion() {
+      const clasificacion = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        cantidad: this.cantidad,
+        destinatario: this.destinatario,
+        precio: this.precio,
+      };
+      axios.post('http://localhost:3000/api/clasificacion', clasificacion)
+        .then(res => {
+          console.log('Clasificación agregada:', res.data)
+          clasificacion.id = res.data.id;
+          this.data.push(clasificacion)
+          this.nuevoClasificacion = {
+            id: '',
+            lote_id: '',
+            fecha: '',
+            cantidad: '',
+            destinatario: '',
+            precio: ''
+          }
+          this.mostrarFormulario = false
+        })
+        .catch(err => {
+          console.error('Error al agregar clasificación:', err)
+        })
+    },
+    getData() {
+      axios.get('http://localhost:3000/api/clasificacion')
+        .then(res => {
+          this.data = res.data
+          console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    }
+  }
 }
 </script>
 
