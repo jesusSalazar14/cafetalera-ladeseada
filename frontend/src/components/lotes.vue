@@ -1,15 +1,9 @@
 <template>
-
   <div id="app">
-
     <div class="sidebar">
-
       <div class="logo">
-
         <img src="../assets/logo.png" alt="Cafetería Logo">
-
       </div>
-
       <img class="CuentaSimbolo" src="../assets/Simbolos/account_circle.png" alt="">
       <div class="username">USERNAME</div>
       <nav>
@@ -23,74 +17,119 @@
           <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png">Secado</li>
         </ul>
       </nav>
-
-      <div class="cerrarsesion"> 
-
+      <div class="cerrarsesion">
         <button class="logout">Cerrar sesión</button>
-
       </div>
-      
     </div>
-    
     <div class="main-content">
-
       <div class="title-container">
-  <h1 class="Titulov2">CAFETELERA
-    <br>
-    LA DESEADA
-  </h1>
-  <h2 class="Titulov3">LOTES</h2>
-</div>
-      <div class="button-group">
-        <button class="btn vaciar"><img src="../assets/Simbolos/eliminar.png">VACIAR</button>
-        <button class="btn anadir"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+        <h1 class="Titulov2">CAFETELERA
+          <br>
+          LA DESEADA
+        </h1>
+        <h2 class="Titulov3">LOTES</h2>
       </div>
-
+      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar">AÑADIR</button>
+      <form v-if="mostrarFormulario" @submit.prevent="agregarLote">
+        <div class="form-group">
+          <label for="fecha_inicio">Fecha Inicio</label>
+          <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+        </div>
+        <div class="form-group">
+          <label for="fecha_fin">Fecha Fin</label>
+          <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+        </div>
+        <div class="form-group">
+          <label for="kilogramos_cereza">Kilos Cereza</label>
+          <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
+        </div>
+        <div class="form-group">
+          <label for="estado">Estado</label>
+          <input type="text" id="estado" v-model="estado" required>
+        </div>
+        <button type="submit" class="btn agregar">AÑADIR</button>
+      </form>
       <table>
         <thead>
           <tr>
-            <th>LOTE</th>
-            <th>ENERO</th>
-            <th>PROCESO</th>
+            <th>ID</th>
+            <th>FECHA INICIO</th>
+            <th>LOTE FIN</th>
+            <th>KILOS</th>
+            <th>ESTADO</th>
           </tr>
         </thead>
         <tbody>
-
-          <tr>
-            <td>2409</td>
-            <td>FECHA DE RECOLECCIÓN</td>
-            <td>07/01/25</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>LOTE DE RECOLECCIÓN</td>
-            <td>150 Kgs (85)</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>LOTE DE FIN</td>
-            <td>ALTA / MEDIA / BAJA</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>KILOS DE CEREZA</td>
-            <td>3,750 Kg</td>
+          <tr v-for="(item, index) of data" :key="index">
+            <td>{{ item.id }}</td>
+            <td>{{ item.fecha_inicio }}</td>
+            <td>{{ item.fecha_fin }}</td>
+            <td>{{ item.kilogramos_cereza }}</td>
+            <td>{{ item.estado }}</td>
           </tr>
         </tbody>
-
       </table>
-
     </div>
-
   </div>
 </template>
 
 <script>
-
-
+import axios from 'axios'
 
 export default {
-  name: 'App',
+  name: 'lote',
+  data() {
+    return {
+      nuevoLote: {
+        fecha_inicio: '',
+        fecha_fin: '',
+        kilogramos_cereza: '',
+        estado: ''
+      },
+      data: [],
+      mostrarFormulario: false
+    }
+  },
+  created() {
+    this.getData()
+  },
+  methods: {
+    agregarLote() {
+  const lote = {
+    fecha_inicio: this.fecha_inicio,
+    fecha_fin: this.fecha_fin,
+    kilogramos_cereza: this.kilogramos_cereza,
+    estado: this.estado
+  };
+  axios.post('http://localhost:3000/api/lote', lote)
+    .then(res => {
+      console.log('Lote agregado:', res.data)
+      lote.id = res.data.id;
+      this.data.push(lote)
+      this.nuevoLote = {
+        id: '',
+        fecha_inicio: '',
+        fecha_fin: '',
+        kilogramos_cereza: '',
+        estado: ''
+      }
+      this.mostrarFormulario = false
+    })
+    .catch(err => {
+      console.error('Error al agregar lote:', err)
+    })
+},
+    getData() {
+      axios.get('http://localhost:3000/api/lote')
+        .then(res => {
+          this.data = res.data
+          console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    }
+  }
 }
 </script>
 

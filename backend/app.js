@@ -102,7 +102,8 @@ app.post('/api/lote', (req, res) => {
       console.error('Error creando lote:', err);
       res.status(500).send({ message: 'Error creando lote' });
     } else {
-      res.status(201).send({ message: 'Lote creado con éxito' });
+      const id = result.insertId; 
+      res.status(201).send({ id, message: 'Lote creado con éxito' });
     }
   });
 });
