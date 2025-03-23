@@ -33,64 +33,114 @@
     </div>
     
     <div class="main-content">
-
       <div class="title-container">
-  <h1 class="Titulov2">CAFETELERA
-    <br>
-    LA DESEADA
-  </h1>
-  <h2 class="Titulov3">LOTES</h2>
-</div>
-      <div class="button-group">
-        <button class="btn vaciar"><img src="../assets/Simbolos/eliminar.png">VACIAR</button>
-        <button class="btn anadir"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+        <h1 class="Titulov2">CAFETELERA
+          <br>
+          LA DESEADA
+        </h1>
+        <h2 class="Titulov3">CLASIFICACIÓN</h2>
       </div>
-
+      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar">AÑADIR</button>
+      <form v-if="mostrarFormulario" @submit.prevent="agregarClasificacion">
+        <div class="form-group">
+          <label for="lote_id">lote_id</label>
+          <input type="text" id="lote_id" v-model="lote_id" required>
+        </div>
+        <div class="form-group">
+          <label for="fecha_inicio">Fecha Inicio</label>
+          <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+        </div>
+        <div class="form-group">
+          <label for="fecha_fin">Fecha Fin</label>
+          <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+        </div>
+        <div class="form-group">
+          <label for="tipo">Tipo</label>
+          <input type="text" id="Tipo" v-model="tipo" required>
+        </div>
+        <button type="submit" class="btn agregar">AÑADIR</button>
+      </form>
       <table>
         <thead>
           <tr>
-            <th>LOTE</th>
-            <th>ENERO</th>
-            <th>PROCESO</th>
+            <th>ID</th>
+            <th>LOTE ID</th>
+            <th>FECHA Inicio</th>
+            <th>FECHA Fin</th>
+            <th>TIPO</th>
           </tr>
         </thead>
         <tbody>
-
-          <tr>
-            <td>2409</td>
-            <td>FECHA DE RECOLECCIÓN</td>
-            <td>07/01/25</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>LOTE DE RECOLECCIÓN</td>
-            <td>150 Kgs (85)</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>LOTE DE FIN</td>
-            <td>ALTA / MEDIA / BAJA</td>
-          </tr>
-          <tr>
-            <td>2409</td>
-            <td>KILOS DE CEREZA</td>
-            <td>3,750 Kg</td>
+          <tr v-for="(item, index) of data" :key="index">
+            <td>{{ item.id }}</td>
+            <td>{{ item.lote_id }}</td>
+            <td>{{ item.fecha_inicio }}</td>
+            <td>{{ item.fecha_fin }}</td>
+            <td>{{ item.tipo }}</td>
           </tr>
         </tbody>
-
       </table>
-
     </div>
-
   </div>
 </template>
 
 <script>
-
-
+import axios from 'axios'
 
 export default {
-  name: 'App',
+  name: 'clasificacion',
+  data() {
+    return {
+      nuevoClasificacion: {
+        lote_id: '',
+        fecha_inicio: '',
+        fecha_fin: '',
+        tipo: ''
+      },
+      data: [],
+      mostrarFormulario: false
+    }
+  },
+  created() {
+    this.getData()
+  },
+  methods: {
+    agregarClasificacion() {
+      const clasificacion = {
+        lote_id: this.lote_id,
+        fecha_inicio: this.fecha_inicio,
+        fecha_fin: this.fecha_fin,
+        tipo: this.tipo
+      };
+      axios.post('http://localhost:3000/api/clasificacion', clasificacion)
+        .then(res => {
+          console.log('Clasificación agregada:', res.data)
+          clasificacion.id = res.data.id;
+          this.data.push(clasificacion)
+          this.nuevoClasificacion = {
+            id: '',
+            lote_id: '',
+            fecha_inicio: '',
+            fecha_fin: '',
+            tipo: ''
+          }
+          this.mostrarFormulario = false
+        })
+        .catch(err => {
+          console.error('Error al agregar clasificación:', err)
+        })
+    },
+    getData() {
+      axios.get('http://localhost:3000/api/clasificacion')
+        .then(res => {
+          this.data = res.data
+          console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    }
+  }
 }
 </script>
 
