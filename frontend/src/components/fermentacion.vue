@@ -1,15 +1,9 @@
 <template>
-
   <div id="app">
-
     <div class="sidebar">
-
       <div class="logo">
-
         <img src="../assets/logo.png" alt="Cafetería Logo">
-
       </div>
-
       <img class="CuentaSimbolo" src="../assets/Simbolos/account_circle.png" alt="">
       <div class="username">USERNAME</div>
       <nav>
@@ -20,32 +14,24 @@
           <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png"><a href="/fermentacion">Fermentación</a></li>
           <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png"><a href="/lavado">Lavado</a></li>
           <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png"><a href="/secado">Secado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png"><a href="/recoleccion">Exportación</a></li>
+          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png"><a href="/exportacion">Exportación</a></li>
         </ul>
       </nav>
-
-      <div class="cerrarsesion"> 
-
+      <div class="cerrarsesion">
         <button class="logout">Cerrar sesión</button>
-
       </div>
-      
     </div>
-    
     <div class="main-content">
       <div class="title-container">
         <h1 class="Titulov2">CAFETELERA
           <br>
           LA DESEADA
         </h1>
-        <h2 class="Titulov3">CLASIFICACIÓN</h2>
+        <h2 class="Titulov3">DESPULPADO</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar">AÑADIR</button>
-      <form v-if="mostrarFormulario" @submit.prevent="agregarClasificacion">
-        <div class="form-group">
-          <label for="lote_id">lote_id</label>
-          <input type="text" id="lote_id" v-model="lote_id" required>
-        </div>
+      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <div class="formulario">
+      <form v-if="mostrarFormulario" @submit.prevent="agregarLote">
         <div class="form-group">
           <label for="fecha_inicio">Fecha Inicio</label>
           <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
@@ -55,28 +41,39 @@
           <input type="date" id="fecha_fin" v-model="fecha_fin" required>
         </div>
         <div class="form-group">
-          <label for="tipo">Tipo</label>
-          <input type="text" id="Tipo" v-model="tipo" required>
+          <label for="kilogramos_cereza">Kilos Cereza</label>
+          <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
         </div>
-        <button type="submit" class="btn agregar">AÑADIR</button>
+        <div class="form-group">
+          <label for="estado">Estado</label>
+          <select type="text" id="estado" v-model="estado" required>
+            <option value="Despulpado">Despulpado</option> 
+            <option value="Secado">Secado</option> 
+            <option value="Fermentanción">Fermentanción</option>
+            <option value="Lavado">Lavado</option> 
+            <option value="Exportado">Exportado</option>
+          </select>
+        </div>
+        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
       </form>
+    </div>
       <table>
         <thead>
           <tr>
             <th>ID</th>
-            <th>LOTE ID</th>
-            <th>FECHA Inicio</th>
-            <th>FECHA Fin</th>
-            <th>TIPO</th>
+            <th>FECHA INICIO</th>
+            <th>FECHA FIN</th>
+            <th>KILOS</th>
+            <th>ESTADO</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) of data" :key="index">
             <td>{{ item.id }}</td>
-            <td>{{ item.lote_id }}</td>
             <td>{{ item.fecha_inicio }}</td>
             <td>{{ item.fecha_fin }}</td>
-            <td>{{ item.tipo }}</td>
+            <td>{{ item.kilogramos_cereza }}</td>
+            <td>{{ item.estado }}</td>
           </tr>
         </tbody>
       </table>
@@ -88,14 +85,14 @@
 import axios from 'axios'
 
 export default {
-  name: 'clasificacion',
+  name: 'lote',
   data() {
     return {
-      nuevoClasificacion: {
-        lote_id: '',
+      nuevoLote: {
         fecha_inicio: '',
         fecha_fin: '',
-        tipo: ''
+        kilogramos_cereza: '',
+        estado: ''
       },
       data: [],
       mostrarFormulario: false
@@ -105,33 +102,33 @@ export default {
     this.getData()
   },
   methods: {
-    agregarClasificacion() {
-      const clasificacion = {
-        lote_id: this.lote_id,
-        fecha_inicio: this.fecha_inicio,
-        fecha_fin: this.fecha_fin,
-        tipo: this.tipo
-      };
-      axios.post('http://localhost:3000/api/clasificacion', clasificacion)
-        .then(res => {
-          console.log('Clasificación agregada:', res.data)
-          clasificacion.id = res.data.id;
-          this.data.push(clasificacion)
-          this.nuevoClasificacion = {
-            id: '',
-            lote_id: '',
-            fecha_inicio: '',
-            fecha_fin: '',
-            tipo: ''
-          }
-          this.mostrarFormulario = false
-        })
-        .catch(err => {
-          console.error('Error al agregar clasificación:', err)
-        })
-    },
+    agregarLote() {
+  const lote = {
+    fecha_inicio: this.fecha_inicio,
+    fecha_fin: this.fecha_fin,
+    kilogramos_cereza: this.kilogramos_cereza,
+    estado: this.estado
+  };
+  axios.post('http://localhost:3000/api/lote', lote)
+    .then(res => {
+      console.log('Lote agregado:', res.data)
+      lote.id = res.data.id;
+      this.data.push(lote)
+      this.nuevoLote = {
+        id: '',
+        fecha_inicio: '',
+        fecha_fin: '',
+        kilogramos_cereza: '',
+        estado: ''
+      }
+      this.mostrarFormulario = false
+    })
+    .catch(err => {
+      console.error('Error al agregar lote:', err)
+    })
+},
     getData() {
-      axios.get('http://localhost:3000/api/clasificacion')
+      axios.get('http://localhost:3000/api/lote')
         .then(res => {
           this.data = res.data
           console.log(this.data)
@@ -156,11 +153,12 @@ export default {
 
 body { 
   margin: 0;
+  height: 100%;
 }
 
 #app {
   display: flex;
-
+  height: 100vh;
 }
 
 .sidebar {
@@ -280,46 +278,79 @@ nav ul li:hover{
   padding: 0.5rem 1.875rem; 
   background-color: #302814;
   color: #FFFFFF;
+  margin-bottom: 15px;
 }
 
-.bth img{
-  margin-right: 0.625rem; /* Aumentar el margen a 10px en rem */
-  width: 1.25rem; /* 20px en rem */
-  height: auto; /* Mantener la proporción de la imagen */
+.btn img{
+  margin-right: 5px; 
+  width: 17px; 
+  height: auto; 
 }
 
 #img1{
 
-  margin-right: 10px; /* Aumentar el margen a 10px en rem */
-  width: 1.25rem; /* 20px en rem */
-  height: auto; /* Mantener la proporción de la imagen */
+  margin-right: 10px; 
+  width: 1.25rem; 
+  height: auto; 
 
 }
 
 
-table {
+table, .form-group {
   width: 100%;
   border-collapse: collapse;
 }
 
-thead{
-  background: #302814;
-  color: #FFF5E2;
-  
+.formulario{
+  justify-items: center;
+  font-family: 'Maven Pro', sans-serif;
+  font-weight: bold;
+  column-count: 4;
 }
 
-tbody{
+.formulario .form-group label, select, date{
+  justify-content: center;
+}
+
+
+
+.formulario .form-group label{
+  display: flex;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: 'Maven Pro', sans-serif; 
+  font-weight: bold;
+}
+
+.form-group input{
+  margin-left: 5px;
+  font-size: 1.25rem;
+}
+
+.form-group select{
+  background: #FFFFFA;
+  color: #302814;
+  font-size: 1.25rem;
+}
+
+
+thead, .form-group label{
+  background: #302814;
+  color: #FFF5E2;
+
+}
+
+tbody, .form-group {
   background: #FFFFFA;
   color: #302814;
   font-weight: bold;
 }
 
-th, td {
+th, td, .form-group{
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
-
 
 
 </style>
