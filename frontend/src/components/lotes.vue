@@ -8,13 +8,13 @@
       <div class="username">USERNAME</div>
       <nav>
         <ul>
-          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Lotes</li>
-          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png">Recolección</li>
+          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Lote de recolección</li>
           <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png">Clasificación</li>
-          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png">Despalpado</li>
+          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png">Despulpado</li>
           <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png">Fermentación</li>
           <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png">Lavado</li>
           <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png">Secado</li>
+          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png">Exportado</li> 
         </ul>
       </nav>
       <div class="cerrarsesion">
@@ -27,7 +27,7 @@
           <br>
           LA DESEADA
         </h1>
-        <h2 class="Titulov3">LOTES</h2>
+        <h2 class="Titulov3">LOTE DE RECOLECCION</h2>
       </div>
       <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
@@ -51,6 +51,7 @@
             <option value="Secado">Secado</option> 
             <option value="Fermentanción">Fermentanción</option>
             <option value="Lavado">Lavado</option> 
+            <option value="Exportado">Exportado</option>
           </select>
         </div>
         <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
@@ -61,7 +62,7 @@
           <tr>
             <th>ID</th>
             <th>FECHA INICIO</th>
-            <th>LOTE FIN</th>
+            <th>FECHA FIN</th>
             <th>KILOS</th>
             <th>ESTADO</th>
           </tr>
