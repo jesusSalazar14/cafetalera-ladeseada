@@ -8,13 +8,13 @@
       <div class="username">USERNAME</div>
       <nav>
         <ul>
-          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Lotes</li>
-          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png">Recolección</li>
-          <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png">Clasificación</li>
-          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png">Despalpado</li>
-          <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png">Fermentación</li>
-          <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png">Lavado</li>
-          <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png">Secado</li>
+          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png"><a href="/lotes">Lotes</a></li>
+          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png"><a href="/recoleccion">Recolección</a></li>
+          <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png"><a href="/clasificacion">Clasificación</a></li>
+          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png"><a href="/despulpado">Despalpado</a></li>
+          <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png"><a href="/fermentacion">Fermentación</a></li>
+          <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png"><a href="/lavado">Lavado</a></li>
+          <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png"><a href="/secado">Secado</a></li>
         </ul>
       </nav>
       <div class="cerrarsesion">
@@ -309,7 +309,6 @@ th, td {
   padding: 8px;
   text-align: left;
 }
-
 
 
 </style>
