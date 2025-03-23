@@ -8,23 +8,13 @@
       <div class="username">USERNAME</div>
       <nav>
         <ul>
-<<<<<<< HEAD
-          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png"><a href="/lotes">Lotes</a></li>
-          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png"><a href="/recoleccion">Recolección</a></li>
+          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png"><a href="/lotes">Lote de recolección</a></li>
           <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png"><a href="/clasificacion">Clasificación</a></li>
           <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png"><a href="/despulpado">Despalpado</a></li>
           <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png"><a href="/fermentacion">Fermentación</a></li>
           <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png"><a href="/lavado">Lavado</a></li>
           <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png"><a href="/secado">Secado</a></li>
-=======
-          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Lote de recolección</li>
-          <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png">Clasificación</li>
-          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png">Despulpado</li>
-          <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png">Fermentación</li>
-          <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png">Lavado</li>
-          <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png">Secado</li>
-          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png">Exportado</li> 
->>>>>>> 7d85a07f4f2b4649919fd9d726ffbf0bbd873e06
+          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png"><a href="/exportacion">Exportación</a></li>
         </ul>
       </nav>
       <div class="cerrarsesion">
