@@ -1,26 +1,6 @@
 <template>
   <div id="app">
-    <div class="sidebar">
-      <div class="logo">
-        <img src="../assets/logo.png" alt="Cafetería Logo">
-      </div>
-      <img class="CuentaSimbolo" src="../assets/Simbolos/account_circle.png" alt="">
-      <div class="username">USERNAME</div>
-      <nav>
-        <ul>
-          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png"><a href="/lotes">Lote de recolección</a></li>
-          <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png"><a href="/clasificacion">Clasificación</a></li>
-          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png"><a href="/despulpado">Despalpado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png"><a href="/fermentacion">Fermentación</a></li>
-          <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png"><a href="/lavado">Lavado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png"><a href="/secado">Secado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png"><a href="/exportacion">Exportación</a></li>
-        </ul>
-      </nav>
-      <div class="cerrarsesion">
-        <button class="logout">Cerrar sesión</button>
-      </div>
-    </div>
+    <Menu />
     <div class="main-content">
       <div class="title-container">
         <h1 class="Titulov2">CAFETELERA
@@ -31,18 +11,18 @@
       </div>
       <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
-      <form v-if="mostrarFormulario" @submit.prevent="agregarLote">
+      <form v-if="mostrarFormulario" @submit.prevent="agregarClasificacion">
         <div class="form-group">
-          <label for="fecha_inicio">Lote ID</label>
-          <input type="number" id="fecha_inicio" v-model="fecha_inicio" required>
+          <label for="lote_id">Lote ID</label>
+          <input type="number" id="lote_id" v-model="lote_id" required>
         </div>
         <div class="form-group">
-          <label for="kilogramos_cereza">FECHA</label>
-          <input type="date" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
+          <label for="fecha">FECHA</label>
+          <input type="date" id="fecha" v-model="fecha" required>
         </div>
         <div class="form-group">
-          <label for="estado">CALIDAD</label>
-          <select type="text" id="estado" v-model="estado" required>
+          <label for="calidad">CALIDAD</label>
+          <select type="text" id="calidad" v-model="calidad" required>
             <option value="C">C</option> 
             <option value="B">B</option> 
             <option value="A">A</option>
@@ -76,12 +56,16 @@
 
 <script>
 import axios from 'axios'
+import Menu from '../components/menu.vue'
 
 export default {
-  name: 'lote',
+  name: 'clasificacion',
+  components: {
+    Menu
+  },
   data() {
     return {
-      nuevoLote: {
+      nuevoClasificacion: {
         lote_id: '',
         fecha: '',
         calidad: ''
@@ -94,18 +78,19 @@ export default {
     this.getData()
   },
   methods: {
-    agregarLote() {
-  const lote = {
+    agregarClasificacion() {
+  const clasificacion = {
     lote_id: this.lote_id,
     fecha: this.fecha,
     calidad: this.calidad,
   };
-  axios.post('http://localhost:3000/api/lote', lote)
+  axios.post('http://localhost:3000/api/clasificacion', clasificacion)
     .then(res => {
-      console.log('Lote agregado:', res.data)
-      lote.id = res.data.id;
-      this.data.push(lote)
-      this.nuevoLote = {
+      console.log('Clasificacion agregada:', res.data)
+      clasificacion.id = res.data.id;
+      this.data.push(clasificacion)
+      this.nuevoClasificacion = {
+        id: '',
         lote_id: '',
         fecha: '',
         calidad: ''
@@ -113,11 +98,11 @@ export default {
       this.mostrarFormulario = false
     })
     .catch(err => {
-      console.error('Error al agregar lote:', err)
+      console.error('Error al agregar clasificacion:', err)
     })
 },
     getData() {
-      axios.get('http://localhost:3000/api/lote')
+      axios.get('http://localhost:3000/api/clasificacion')
         .then(res => {
           this.data = res.data
           console.log(this.data)

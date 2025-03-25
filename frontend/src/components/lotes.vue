@@ -1,26 +1,6 @@
 <template>
   <div id="app">
-    <div class="sidebar">
-      <div class="logo">
-        <img src="../assets/logo.png" alt="Cafetería Logo">
-      </div>
-      <img class="CuentaSimbolo" src="../assets/Simbolos/account_circle.png" alt="">
-      <div class="username">USERNAME</div>
-      <nav>
-        <ul>
-          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png"><a href="/lotes">Lote de recolección</a></li>
-          <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png"><a href="/clasificacion">Clasificación</a></li>
-          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png"><a href="/despulpado">Despalpado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png"><a href="/fermentacion">Fermentación</a></li>
-          <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png"><a href="/lavado">Lavado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png"><a href="/secado">Secado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png"><a href="/exportacion">Exportación</a></li>
-        </ul>
-      </nav>
-      <div class="cerrarsesion">
-        <button class="logout">Cerrar sesión</button>
-      </div>
-    </div>
+    <Menu />
     <div class="main-content">
       <div class="title-container">
         <h1 class="Titulov2">CAFETELERA
@@ -63,7 +43,7 @@
             <th>ID</th>
             <th>FECHA INICIO</th>
             <th>FECHA FIN</th>
-            <th>KILOS</th>
+            <th>KILOS CEREZA</th>
             <th>ESTADO</th>
           </tr>
         </thead>
@@ -83,9 +63,13 @@
 
 <script>
 import axios from 'axios'
+import Menu from '../components/menu.vue'
 
 export default {
   name: 'lote',
+  components: {
+    Menu
+  },
   data() {
     return {
       nuevoLote: {
