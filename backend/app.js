@@ -95,9 +95,9 @@ app.post('/api/clasificacion', (req, res) => {
 });
 
 app.post('/api/lote', (req, res) => {
-  const { fecha_inicio, fecha_fin, kilogramos_cereza, estado } = req.body;
-  const query = 'INSERT INTO lote (fecha_inicio, fecha_fin, kilogramos_cereza, estado) VALUES (?, ?, ?, ?)';
-  db.query(query, [fecha_inicio, fecha_fin, kilogramos_cereza, estado], (err, result) => {
+  const { fecha_inicio, fecha_fin, kilogramos_cereza, metodo } = req.body;
+  const query = 'INSERT INTO lote (fecha_inicio, fecha_fin, kilogramos_cereza, metodo) VALUES (?, ?, ?, ?)';
+  db.query(query, [fecha_inicio, fecha_fin, kilogramos_cereza, metodo], (err, result) => {
     if (err) {
       console.error('Error creando lote:', err);
       res.status(500).send({ message: 'Error creando lote' });

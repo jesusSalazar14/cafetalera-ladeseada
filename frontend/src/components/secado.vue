@@ -9,31 +9,55 @@
         </h1>
         <h2 class="Titulov3">SECADO</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
-      <form v-if="mostrarFormulario" @submit.prevent="agregarSecado">
-        <div class="form-group">
-          <label for="lote_id">Lote ID</label>
-          <input type="number" id="lote_id" v-model="lote_id" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha_inicio">Fecha Inicio</label>
-          <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha_fin">Fecha Fin</label>
-          <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-        </div>
-        <div class="form-group">
-          <label for="metodo">Metodo</label>
-          <select type="text" id="metodo" v-model="metodo" required>
-            <option value="Secado al sol">Secado al sol</option> 
-            <option value="Secado mecánico">Secado mecánico</option>
-          </select>
-        </div>
-        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-      </form>
-    </div>
+        <form v-if="mostrarFormulario" @submit.prevent="agregarSecado">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_inicio">Fecha Inicio</label>
+            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_fin">Fecha Fin</label>
+            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+          </div>
+          <div class="form-group">
+            <label for="metodo">Metodo</label>
+            <select type="text" id="metodo" v-model="metodo" required>
+              <option value="Secado al sol">Secado al sol</option> 
+              <option value="Secado mecánico">Secado mecánico</option>
+            </select>
+          </div>
+          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+        </form>
+        <form v-if="mostrarFormularioEditar" @submit.prevent="guardarSecado">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_inicio">Fecha Inicio</label>
+            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_fin">Fecha Fin</label>
+            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+          </div>
+          <div class="form-group">
+            <label for="metodo">Metodo</label>
+            <select type="text" id="metodo" v-model="metodo" required>
+              <option value="Secado al sol">Secado al sol</option>
+              <option value="Secado mecánico">Secado mecánico</option>
+            </select>
+          </div>
+          <button type="submit">Guardar</button>
+          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -51,6 +75,9 @@
             <td>{{ item.fecha_inicio }}</td>
             <td>{{ item.fecha_fin }}</td>
             <td>{{ item.metodo }}</td>
+            <td>
+              <button @click="editarSecado(item.id)">Editar</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -76,7 +103,12 @@ export default {
         metodo: ''
       },
       data: [],
-      mostrarFormulario: false
+      mostrarFormulario: false,
+      mostrarFormularioEditar: false,
+      lote_id: '',
+      fecha_inicio: '',
+      fecha_fin: '',
+      metodo: ''
     }
   },
   created() {
@@ -84,30 +116,78 @@ export default {
   },
   methods: {
     agregarSecado() {
-  const secado = {
-    lote_id: this.lote_id,
-    fecha_inicio: this.fecha_inicio,
-    fecha_fin: this.fecha_fin,
-    metodo: this.metodo
-  };
-  axios.post('http://localhost:3000/api/secado', secado)
-    .then(res => {
-      console.log('Secado agregado:', res.data)
-      secado.id = res.data.id;
-      this.data.push(secado)
-      this.nuevoSecado = {
-        id: '',
-        lote_id: '', 
-        fecha_inicio: '',
-        fecha_fin: '',
-        metodo: ''
-      }
-      this.mostrarFormulario = false
-    })
-    .catch(err => {
-      console.error('Error al agregar Secado:', err)
-    })
-},
+      const secado = {
+        lote_id: this.lote_id,
+        fecha_inicio: this.fecha_inicio,
+        fecha_fin: this.fecha_fin,
+        metodo: this.metodo
+      };
+      axios.post('http://localhost:3000/api/secado', secado)
+        .then(res => {
+          console.log('Secado agregado:', res.data)
+          secado.id = res.data.id;
+          this.data.push(secado)
+          this.nuevoSecado = {
+            id: '',
+            lote_id: '', 
+            fecha_inicio: '',
+            fecha_fin: '',
+            metodo: ''
+          }
+          this.mostrarFormulario = false
+          this.getData()
+        })
+        .catch(err => {
+          console.error('Error al agregar Secado:', err)
+        })
+    },
+    editarSecado(id) {
+      const secado = this.data.find((item) => item.id === id);
+      this.nuevoSecado = { ...secado };
+      this.lote_id = secado.lote_id;
+      this.fecha_inicio = new Date(secado.fecha_inicio).toISOString().split('T')[0];
+      this.fecha_fin = new Date(secado.fecha_fin).toISOString().split('T')[0];
+      this.metodo = secado.metodo;
+      this.mostrarFormulario = false;
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormularioEditar = true;
+    },
+    guardarSecado() {
+      const id = this.nuevoSecado.id;
+      const data = {
+        lote_id: this.lote_id,
+        fecha_inicio: this.fecha_inicio,
+        fecha_fin: this.fecha_fin,
+        metodo: this.metodo,
+      };
+      axios.put(`http://localhost:3000/api/secado/${id}`, data)
+        .then((response) => {
+          console.log(response);
+          this.getData();
+          this.mostrarFormularioEditar = false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    cerrarFormularioEditar() {
+      this.mostrarFormularioEditar = false;
+    },
+    cerrarFormularioAgregar() {
+      this.mostrarFormulario = false;
+      this.vaciarFormularioAgregar();
+    },
+    vaciarFormularioAgregar() {
+      this.lote_id = '';
+      this.fecha_inicio = '';
+      this.fecha_fin = '';
+      this.metodo = '';
+    },
+    abrirFormularioAgregar() {
+      this.vaciarFormularioAgregar();
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormulario = true;
+    },
     getData() {
       axios.get('http://localhost:3000/api/secado')
         .then(res => {

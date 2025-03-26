@@ -9,34 +9,59 @@
         </h1>
         <h2 class="Titulov3">LOTE DE RECOLECCION</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
-      <form v-if="mostrarFormulario" @submit.prevent="agregarLote">
-        <div class="form-group">
-          <label for="fecha_inicio">Fecha Inicio</label>
-          <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha_fin">Fecha Fin</label>
-          <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-        </div>
-        <div class="form-group">
-          <label for="kilogramos_cereza">Kilos Cereza</label>
-          <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
-        </div>
-        <div class="form-group">
-          <label for="estado">Estado</label>
-          <select type="text" id="estado" v-model="estado" required>
-            <option value="Despulpado">Despulpado</option> 
-            <option value="Secado">Secado</option> 
-            <option value="Fermentanción">Fermentanción</option>
-            <option value="Lavado">Lavado</option> 
-            <option value="Exportado">Exportado</option>
-          </select>
-        </div>
-        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-      </form>
-    </div>
+        <form v-if="mostrarFormulario" @submit.prevent="agregarLote">
+          <div class="form-group">
+            <label for="fecha_inicio">Fecha Inicio</label>
+            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_fin">Fecha Fin</label>
+            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+          </div>
+          <div class="form-group">
+            <label for="kilogramos_cereza">Kilos Cereza</label>
+            <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
+          </div>
+          <div class="form-group">
+            <label for="metodo">metodo</label>
+            <select type="text" id="metodo" v-model="metodo" required>
+              <option value="Manual">Manual</option> 
+              <option value="Mecanico">Mecanico</option> 
+              <option value="Selectivo">Selectivo</option>
+              <option value="Masivo">Masivo</option> 
+            </select>
+          </div>
+          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+        </form>
+        <form v-if="mostrarFormularioEditar" @submit.prevent="guardarLote">
+          <div class="form-group">
+            <label for="fecha_inicio">Fecha Inicio</label>
+            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_fin">Fecha Fin</label>
+            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+          </div>
+          <div class="form-group">
+            <label for="kilogramos_cereza">Kilos Cereza</label>
+            <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
+          </div>
+          <div class="form-group">
+            <label for="metodo">metodo</label>
+            <select type="text" id="metodo" v-model="metodo" required>
+              <option value="Manual">Manual</option> 
+              <option value="Mecanico">Mecanico</option> 
+              <option value="Selectivo">Selectivo</option>
+              <option value="Masivo">Masivo</option> 
+            </select>
+          </div>
+          <button type="submit">Guardar</button>
+          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -44,7 +69,7 @@
             <th>FECHA INICIO</th>
             <th>FECHA FIN</th>
             <th>KILOS CEREZA</th>
-            <th>ESTADO</th>
+            <th>METODO</th>
           </tr>
         </thead>
         <tbody>
@@ -53,7 +78,10 @@
             <td>{{ item.fecha_inicio }}</td>
             <td>{{ item.fecha_fin }}</td>
             <td>{{ item.kilogramos_cereza }}</td>
-            <td>{{ item.estado }}</td>
+            <td>{{ item.metodo }}</td>
+            <td>
+              <button @click="editarLote(item.id)">Editar</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -76,10 +104,15 @@ export default {
         fecha_inicio: '',
         fecha_fin: '',
         kilogramos_cereza: '',
-        estado: ''
+        metodo: ''
       },
       data: [],
-      mostrarFormulario: false
+      mostrarFormulario: false,
+      mostrarFormularioEditar: false,
+      fecha_inicio: '',
+      fecha_fin: '',
+      kilogramos_cereza: '',
+      metodo: ''
     }
   },
   created() {
@@ -87,30 +120,78 @@ export default {
   },
   methods: {
     agregarLote() {
-  const lote = {
-    fecha_inicio: this.fecha_inicio,
-    fecha_fin: this.fecha_fin,
-    kilogramos_cereza: this.kilogramos_cereza,
-    estado: this.estado
-  };
-  axios.post('http://localhost:3000/api/lote', lote)
-    .then(res => {
-      console.log('Lote agregado:', res.data)
-      lote.id = res.data.id;
-      this.data.push(lote)
-      this.nuevoLote = {
-        id: '',
-        fecha_inicio: '',
-        fecha_fin: '',
-        kilogramos_cereza: '',
-        estado: ''
-      }
-      this.mostrarFormulario = false
-    })
-    .catch(err => {
-      console.error('Error al agregar lote:', err)
-    })
-},
+      const lote = {
+        fecha_inicio: this.fecha_inicio,
+        fecha_fin: this.fecha_fin,
+        kilogramos_cereza: this.kilogramos_cereza,
+        metodo: this.metodo
+      };
+      axios.post('http://localhost:3000/api/lote', lote)
+        .then(res => {
+          console.log('Lote agregado:', res.data)
+          lote.id = res.data.id;
+          this.data.push(lote)
+          this.nuevoLote = {
+            id: '',
+            fecha_inicio: '',
+            fecha_fin: '',
+            kilogramos_cereza: '',
+            metodo: ''
+          }
+          this.mostrarFormulario = false
+          this.getData()
+        })
+        .catch(err => {
+          console.error('Error al agregar lote:', err)
+        })
+    },
+    editarLote(id) {
+      const lote = this.data.find((item) => item.id === id);
+      this.nuevoLote = { ...lote };
+      this.fecha_inicio = new Date(lote.fecha_inicio).toISOString().split('T')[0];
+      this.fecha_fin = new Date(lote.fecha_fin).toISOString().split('T')[0];
+      this.kilogramos_cereza = lote.kilogramos_cereza;
+      this.metodo = lote.metodo;
+      this.mostrarFormulario = false;
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormularioEditar = true;
+    },
+    guardarLote() {
+      const id = this.nuevoLote.id;
+      const data = {
+        fecha_inicio: this.fecha_inicio,
+        fecha_fin: this.fecha_fin,
+        kilogramos_cereza: this.kilogramos_cereza,
+        metodo: this.metodo,
+      };
+      axios.put(`http://localhost:3000/api/lote/${id}`, data)
+        .then((response) => {
+          console.log(response);
+          this.getData();
+          this.mostrarFormularioEditar = false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    cerrarFormularioEditar() {
+      this.mostrarFormularioEditar = false;
+    },
+    cerrarFormularioAgregar() {
+      this.mostrarFormulario = false;
+      this.vaciarFormularioAgregar();
+    },
+    vaciarFormularioAgregar() {
+      this.fecha_inicio = '';
+      this.fecha_fin = '';
+      this.kilogramos_cereza = '';
+      this.metodo = '';
+    },
+    abrirFormularioAgregar() {
+      this.vaciarFormularioAgregar();
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormulario = true;
+    },
     getData() {
       axios.get('http://localhost:3000/api/lote')
         .then(res => {
@@ -124,7 +205,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 

@@ -23,8 +23,8 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { fecha_inicio, fecha_fin, kilogramos_cereza, estado } = req.body;
-  if (!fecha_inicio || !fecha_fin || !kilogramos_cereza || !estado) {
+  const { fecha_inicio, fecha_fin, kilogramos_cereza, metodo } = req.body;
+  if (!fecha_inicio || !fecha_fin || !kilogramos_cereza || !metodo) {
     res.status(400).send({ message: 'Faltan campos obligatorios' });
   } else {
     Lote.create(req.body, (err, result) => {
@@ -38,8 +38,8 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  const { fecha_inicio, fecha_fin, kilogramos_cereza, estado } = req.body;
-  if (!fecha_inicio || !fecha_fin || !kilogramos_cereza || !estado) {
+  const { fecha_inicio, fecha_fin, kilogramos_cereza, metodo } = req.body;
+  if (!fecha_inicio || !fecha_fin || !kilogramos_cereza || !metodo) {
     res.status(400).send({ message: 'Faltan campos obligatorios' });
   } else {
     Lote.update(req.params.id, req.body, (err, result) => {

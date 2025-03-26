@@ -7,34 +7,59 @@
           <br>
           LA DESEADA
         </h1>
-        <h2 class="Titulov3">EXPORTACION</h2>
+        <h2 class="Titulov3">EXPORTACIÓN</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
-      <form v-if="mostrarFormulario" @submit.prevent="agregarExportacion">
-        <div class="form-group">
-          <label for="lote_id">Lote ID</label>
-          <input type="number" id="lote_id" v-model="lote_id" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha">FECHA</label>
-          <input type="date" id="fecha" v-model="fecha" required>
-        </div>
-        <div class="form-group">
-          <label for="cantidad">Cantidad</label>
-          <input type="number" id="cantidad" v-model="cantidad" required>
-        </div>
-        <div class="form-group">
-          <label for="destinatario">Destinatario</label>
-          <input type="text" id="destinatario" v-model="destinatario" required>
-        </div>
-        <div class="form-group">
-          <label for="precio">Precio</label>
-          <input type="number" id="precio" v-model="precio" required>
-        </div>
-        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-      </form>
-    </div>
+        <form v-if="mostrarFormulario" @submit.prevent="agregarExportacion">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" v-model="fecha" required>
+          </div>
+          <div class="form-group">
+            <label for="cantidad">CANTIDAD</label>
+            <input type="number" id="cantidad" v-model="cantidad" required>
+          </div>
+          <div class="form-group">
+            <label for="destinatario">DESTINATARIO</label>
+            <input type="text" id="destinatario" v-model="destinatario" required>
+          </div>
+          <div class="form-group">
+            <label for="precio">PRECIO</label>
+            <input type="number" id="precio" v-model="precio" required>
+          </div>
+          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+        </form>
+        <form v-if="mostrarFormularioEditar" @submit.prevent="guardarExportacion">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" v-model="fecha" required>
+          </div>
+          <div class="form-group">
+            <label for="cantidad">CANTIDAD</label>
+            <input type="number" id="cantidad" v-model="cantidad" required>
+          </div>
+          <div class="form-group">
+            <label for="destinatario">DESTINATARIO</label>
+            <input type="text" id="destinatario" v-model="destinatario" required>
+          </div>
+          <div class="form-group">
+            <label for="precio">PRECIO</label>
+            <input type="number" id="precio" v-model="precio" required>
+          </div>
+          <button type="submit">Guardar</button>
+          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -51,8 +76,12 @@
             <td>{{ item.id }}</td>
             <td>{{ item.lote_id }}</td>
             <td>{{ item.fecha }}</td>
+            <td>{{ item.cantidad }}</td>
             <td>{{ item.destinatario }}</td>
             <td>{{ item.precio }}</td>
+            <td>
+              <button @click="editarExportacion(item.id)">Editar</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -71,7 +100,7 @@ export default {
   },
   data() {
     return {
-      nuevoExportacion: {
+      nuevaExportacion: {
         lote_id: '',
         fecha: '',
         cantidad: '',
@@ -79,7 +108,13 @@ export default {
         precio: ''
       },
       data: [],
-      mostrarFormulario: false
+      mostrarFormulario: false,
+      mostrarFormularioEditar: false,
+      lote_id: '',
+      fecha: '',
+      cantidad: '',
+      destinatario: '',
+      precio: ''
     }
   },
   created() {
@@ -87,32 +122,83 @@ export default {
   },
   methods: {
     agregarExportacion() {
-  const exportacion = {
-    lote_id: this.lote_id,
-    fecha: this.fecha,
-    cantidad: this.cantidad,
-    destinatario: this.destinatario,
-    precio: this.precio
-  };
-  axios.post('http://localhost:3000/api/exportacion', exportacion)
-    .then(res => {
-      console.log('Exportacion agregada:', res.data)
-      exportacion.id = res.data.id;
-      this.data.push(exportacion)
-      this.nuevoExportacion = {
-        id: '',
-        lote_id: '',
-        fecha: '',
-        cantidad: '',
-        destinatario: '',
-        precio: ''
-      }
-      this.mostrarFormulario = false
-    })
-    .catch(err => {
-      console.error('Error al agregar exportacion:', err)
-    })
-},
+      const exportacion = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        cantidad: this.cantidad,
+        destinatario: this.destinatario,
+        precio: this.precio
+      };
+      axios.post('http://localhost:3000/api/exportacion', exportacion)
+        .then(res => {
+          console.log('Exportacion agregada:', res.data)
+          exportacion.id = res.data.id;
+          this.data.push(exportacion)
+          this.nuevaExportacion = {
+            id: '',
+            lote_id: '',
+            fecha: '',
+            cantidad: '',
+            destinatario: '',
+            precio: ''
+          }
+          this.mostrarFormulario = false
+          this.getData()
+        })
+        .catch(err => {
+          console.error('Error al agregar exportacion:', err)
+        })
+    },
+    editarExportacion(id) {
+      const exportacion = this.data.find((item) => item.id === id);
+      this.nuevaExportacion = { ...exportacion };
+      this.lote_id = exportacion.lote_id;
+      this.fecha = new Date(exportacion.fecha).toISOString().split('T')[0];
+      this.cantidad = exportacion.cantidad;
+      this.destinatario = exportacion.destinatario;
+      this.precio = exportacion.precio;
+      this.mostrarFormulario = false;
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormularioEditar = true;
+    },
+    guardarExportacion() {
+      const id = this.nuevaExportacion.id;
+      const data = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        cantidad: this.cantidad,
+        destinatario: this.destinatario,
+        precio: this.precio
+      };
+      axios.put(`http://localhost:3000/api/exportacion/${id}`, data)
+        .then((response) => {
+          console.log(response);
+          this.getData();
+          this.mostrarFormularioEditar = false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    cerrarFormularioEditar() {
+      this.mostrarFormularioEditar = false;
+    },
+    cerrarFormularioAgregar() {
+      this.mostrarFormulario = false;
+      this.vaciarFormularioAgregar();
+    },
+    vaciarFormularioAgregar() {
+      this.lote_id = '';
+      this.fecha = '';
+      this.cantidad = '';
+      this.destinatario = '';
+      this.precio = '';
+    },
+    abrirFormularioAgregar() {
+      this.vaciarFormularioAgregar();
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormulario = true;
+    },
     getData() {
       axios.get('http://localhost:3000/api/exportacion')
         .then(res => {
@@ -126,7 +212,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 

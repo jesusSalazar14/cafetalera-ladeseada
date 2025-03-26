@@ -9,29 +9,51 @@
         </h1>
         <h2 class="Titulov3">CLASIFICACIÓN</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
-      <form v-if="mostrarFormulario" @submit.prevent="agregarClasificacion">
-        <div class="form-group">
-          <label for="lote_id">Lote ID</label>
-          <input type="number" id="lote_id" v-model="lote_id" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha">FECHA</label>
-          <input type="date" id="fecha" v-model="fecha" required>
-        </div>
-        <div class="form-group">
-          <label for="calidad">CALIDAD</label>
-          <select type="text" id="calidad" v-model="calidad" required>
-            <option value="C">C</option> 
-            <option value="B">B</option> 
-            <option value="A">A</option>
-            <option value="A+">A+</option> 
-          </select>
-        </div>
-        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-      </form>
-    </div>
+        <form v-if="mostrarFormulario" @submit.prevent="agregarClasificacion">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" v-model="fecha" required>
+          </div>
+          <div class="form-group">
+            <label for="calidad">CALIDAD</label>
+            <select type="text" id="calidad" v-model="calidad" required>
+              <option value="C">C</option> 
+              <option value="B">B</option> 
+              <option value="A">A</option>
+              <option value="A+">A+</option> 
+            </select>
+          </div>
+          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+        </form>
+        <form v-if="mostrarFormularioEditar" @submit.prevent="guardarClasificacion">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" v-model="fecha" required>
+          </div>
+          <div class="form-group">
+            <label for="calidad">CALIDAD</label>
+            <select type="text" id="calidad" v-model="calidad" required>
+              <option value="C">C</option> 
+              <option value="B">B</option> 
+              <option value="A">A</option>
+              <option value="A+">A+</option> 
+            </select>
+          </div>
+          <button type="submit">Guardar</button>
+          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -47,6 +69,9 @@
             <td>{{ item.lote_id }}</td>
             <td>{{ item.fecha }}</td>
             <td>{{ item.calidad }}</td>
+            <td>
+              <button @click="editarClasificacion(item.id)">Editar</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -65,13 +90,17 @@ export default {
   },
   data() {
     return {
-      nuevoClasificacion: {
+      nuevaClasificacion: {
         lote_id: '',
         fecha: '',
         calidad: ''
       },
       data: [],
-      mostrarFormulario: false
+      mostrarFormulario: false,
+      mostrarFormularioEditar: false,
+      lote_id: '',
+      fecha: '',
+      calidad: ''
     }
   },
   created() {
@@ -79,28 +108,73 @@ export default {
   },
   methods: {
     agregarClasificacion() {
-  const clasificacion = {
-    lote_id: this.lote_id,
-    fecha: this.fecha,
-    calidad: this.calidad,
-  };
-  axios.post('http://localhost:3000/api/clasificacion', clasificacion)
-    .then(res => {
-      console.log('Clasificacion agregada:', res.data)
-      clasificacion.id = res.data.id;
-      this.data.push(clasificacion)
-      this.nuevoClasificacion = {
-        id: '',
-        lote_id: '',
-        fecha: '',
-        calidad: ''
-      }
-      this.mostrarFormulario = false
-    })
-    .catch(err => {
-      console.error('Error al agregar clasificacion:', err)
-    })
-},
+      const clasificacion = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        calidad: this.calidad,
+      };
+      axios.post('http://localhost:3000/api/clasificacion', clasificacion)
+        .then(res => {
+          console.log('Clasificacion agregada:', res.data)
+          clasificacion.id = res.data.id;
+          this.data.push(clasificacion)
+          this.nuevaClasificacion = {
+            id: '',
+            lote_id: '',
+            fecha: '',
+            calidad: ''
+          }
+          this.mostrarFormulario = false
+          this.getData()
+        })
+        .catch(err => {
+          console.error('Error al agregar clasificacion:', err)
+        })
+    },
+    editarClasificacion(id) {
+      const clasificacion = this.data.find((item) => item.id === id);
+      this.nuevaClasificacion = { ...clasificacion };
+      this.lote_id = clasificacion.lote_id;
+      this.fecha = new Date(clasificacion.fecha).toISOString().split('T')[0];
+      this.calidad = clasificacion.calidad;
+      this.mostrarFormulario = false;
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormularioEditar = true;
+    },
+    guardarClasificacion() {
+      const id = this.nuevaClasificacion.id;
+      const data = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        calidad: this.calidad,
+      };
+      axios.put(`http://localhost:3000/api/clasificacion/${id}`, data)
+        .then((response) => {
+          console.log(response);
+          this.getData();
+          this.mostrarFormularioEditar = false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    cerrarFormularioEditar() {
+      this.mostrarFormularioEditar = false;
+    },
+    cerrarFormularioAgregar() {
+      this.mostrarFormulario = false;
+      this.vaciarFormularioAgregar();
+    },
+    vaciarFormularioAgregar() {
+      this.lote_id = '';
+      this.fecha = '';
+      this.calidad = '';
+    },
+    abrirFormularioAgregar() {
+      this.vaciarFormularioAgregar();
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormulario = true;
+    },
     getData() {
       axios.get('http://localhost:3000/api/clasificacion')
         .then(res => {
@@ -114,7 +188,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 

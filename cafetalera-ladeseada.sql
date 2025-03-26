@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-03-2025 a las 02:30:29
+-- Tiempo de generación: 25-03-2025 a las 22:25:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -100,16 +100,15 @@ CREATE TABLE `lote` (
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `kilogramos_cereza` int(11) DEFAULT NULL,
-  `estado` varchar(155) DEFAULT NULL
+  `metodo` varchar(155) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `lote`
 --
 
-INSERT INTO `lote` (`id`, `fecha_inicio`, `fecha_fin`, `kilogramos_cereza`, `estado`) VALUES
-(6, '2025-06-12', '0000-00-00', 5000, 'Secado'),
-(7, '2022-02-01', '2022-02-28', 1200, 'Clasificación');
+INSERT INTO `lote` (`id`, `fecha_inicio`, `fecha_fin`, `kilogramos_cereza`, `metodo`) VALUES
+(9, '2025-03-25', '2025-03-25', 20, 'Mecanico');
 
 -- --------------------------------------------------------
 
@@ -145,7 +144,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `username`, `correo`, `clave`, `token`) VALUES
-(8, 'Admin', 'admin', 'admin@gmail.com', '$2b$10$BeMrUV3IWgWww8zxS3jGNukgYjZPZ0YerDIPGFOv4T/MMzYHybDci', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc0MjA0OTk0NSwiZXhwIjoxNzQyMDUzNTQ1fQ.feS4p5AXmUTnbf86XxGXQRAbKjKRijwm7W2ugsmEGiw');
+(8, 'Admin', 'admin', 'admin@gmail.com', '$2b$10$BeMrUV3IWgWww8zxS3jGNukgYjZPZ0YerDIPGFOv4T/MMzYHybDci', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTc0MjA0OTk0NSwiZXhwIjoxNzQyMDUzNTQ1fQ.feS4p5AXmUTnbf86XxGXQRAbKjKRijwm7W2ugsmEGiw'),
+(9, 'Jesus Salazar', 'jesussalazar', 'salzargodoyjesus@gmail.com', '$2b$10$vDP560JYNsx9fNuTUQye.OY7a6ZWnn82gxJ9fSZa4nP/jNC3TNQnu', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc0MjkyODYwNCwiZXhwIjoxNzQyOTMyMjA0fQ.eRYiOeZUcE02zlH344LrrhiW1jPV4xCXUZ_f_1BTo2s'),
+(10, 'Carla Pedriel', 'carlapedriel', 'carlapedriel@gmail.com', '$2b$10$ndZACRptuHLnKkTgYv03SOzDMoKXCYDut4lD3Hd/AL4OPE7H63HjW', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE3NDI5MzY0MjAsImV4cCI6MTc0Mjk0MDAyMH0.2IPz2nt_gkvcS_GmEG37ZrZSNdjq8KfNO5GZTpj1WRU');
 
 --
 -- Índices para tablas volcadas
@@ -214,7 +215,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `clasificacion`
 --
 ALTER TABLE `clasificacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `despulpado`
@@ -226,7 +227,7 @@ ALTER TABLE `despulpado`
 -- AUTO_INCREMENT de la tabla `exportacion`
 --
 ALTER TABLE `exportacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `fermentacion`
@@ -244,7 +245,7 @@ ALTER TABLE `lavado`
 -- AUTO_INCREMENT de la tabla `lote`
 --
 ALTER TABLE `lote`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `secado`
@@ -256,7 +257,7 @@ ALTER TABLE `secado`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas

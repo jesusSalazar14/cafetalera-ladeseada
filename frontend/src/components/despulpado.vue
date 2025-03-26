@@ -9,24 +9,41 @@
         </h1>
         <h2 class="Titulov3">DESPULPADO</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
-      <form v-if="mostrarFormulario" @submit.prevent="agregarDespulpado">
-        <div class="form-group">
-          <label for="lote_id">Lote ID</label>
-          <input type="number" id="lote_id" v-model="lote_id" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha">FECHA</label>
-          <input type="date" id="fecha" v-model="fecha" required>
-        </div>
-        <div class="form-group">
-          <label for="tiempo">Tiempo</label>
-          <input type="time" id="tiempo" v-model="tiempo" required step="1">
-        </div>
-        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-      </form>
-    </div>
+        <form v-if="mostrarFormulario" @submit.prevent="agregarDespulpado">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" v-model="fecha" required>
+          </div>
+          <div class="form-group">
+            <label for="tiempo">TIEMPO</label>
+            <input type="time" id="tiempo" v-model="tiempo" required step="1">
+          </div>
+          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+        </form>
+        <form v-if="mostrarFormularioEditar" @submit.prevent="guardarDespulpado">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" v-model="fecha" required>
+          </div>
+          <div class="form-group">
+            <label for="tiempo">TIEMPO</label>
+            <input type="time" id="tiempo" v-model="tiempo" required step="1">
+          </div>
+          <button type="submit">Guardar</button>
+          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -42,6 +59,9 @@
             <td>{{ item.lote_id }}</td>
             <td>{{ item.fecha }}</td>
             <td>{{ item.tiempo }}</td>
+            <td>
+              <button @click="editarDespulpado(item.id)">Editar</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -66,7 +86,11 @@ export default {
         tiempo: ''
       },
       data: [],
-      mostrarFormulario: false
+      mostrarFormulario: false,
+      mostrarFormularioEditar: false,
+      lote_id: '',
+      fecha: '',
+      tiempo: ''
     }
   },
   created() {
@@ -74,28 +98,73 @@ export default {
   },
   methods: {
     agregarDespulpado() {
-  const despulpado = {
-    lote_id: this.lote_id,
-    fecha: this.fecha,
-    tiempo: this.tiempo
-  };
-  axios.post('http://localhost:3000/api/despulpado', despulpado)
-    .then(res => {
-      console.log('Despulpado agregado:', res.data)
-      despulpado.id = res.data.id;
-      this.data.push(despulpado)
-      this.nuevoDespulpado = {
-        id: '',
-        lote_id: '',
-        fecha: '',
-        tiempo: ''
-      }
-      this.mostrarFormulario = false
-    })
-    .catch(err => {
-      console.error('Error al agregar despulpado:', err)
-    })
-},
+      const despulpado = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        tiempo: this.tiempo
+      };
+      axios.post('http://localhost:3000/api/despulpado', despulpado)
+        .then(res => {
+          console.log('Despulpado agregado:', res.data)
+          despulpado.id = res.data.id;
+          this.data.push(despulpado)
+          this.nuevoDespulpado = {
+            id: '',
+            lote_id: '',
+            fecha: '',
+            tiempo: ''
+          }
+          this.mostrarFormulario = false
+          this.getData()
+        })
+        .catch(err => {
+          console.error('Error al agregar despulpado:', err)
+        })
+    },
+    editarDespulpado(id) {
+      const despulpado = this.data.find((item) => item.id === id);
+      this.nuevoDespulpado = { ...despulpado };
+      this.lote_id = despulpado.lote_id;
+      this.fecha = new Date(despulpado.fecha).toISOString().split('T')[0];
+      this.tiempo = despulpado.tiempo;
+      this.mostrarFormulario = false;
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormularioEditar = true;
+    },
+    guardarDespulpado() {
+      const id = this.nuevoDespulpado.id;
+      const data = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        tiempo: this.tiempo
+      };
+      axios.put(`http://localhost:3000/api/despulpado/${id}`, data)
+        .then((response) => {
+          console.log(response);
+          this.getData();
+          this.mostrarFormularioEditar = false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    cerrarFormularioEditar() {
+      this.mostrarFormularioEditar = false;
+    },
+    cerrarFormularioAgregar() {
+      this.mostrarFormulario = false;
+      this.vaciarFormularioAgregar();
+    },
+    vaciarFormularioAgregar() {
+      this.lote_id = '';
+      this.fecha = '';
+      this.tiempo = '';
+    },
+    abrirFormularioAgregar() {
+      this.vaciarFormularioAgregar();
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormulario = true;
+    },
     getData() {
       axios.get('http://localhost:3000/api/despulpado')
         .then(res => {
@@ -109,7 +178,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 

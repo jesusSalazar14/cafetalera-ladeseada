@@ -9,27 +9,47 @@
         </h1>
         <h2 class="Titulov3">LAVADO</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
-      <form v-if="mostrarFormulario" @submit.prevent="agregarLavado">
-        <div class="form-group">
-          <label for="lote_id">Lote ID</label>
-          <input type="number" id="lote_id" v-model="lote_id" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha">FECHA</label>
-          <input type="date" id="fecha" v-model="fecha" required>
-        </div>
-        <div class="form-group">
-          <label for="metodo">Metodo</label>
-          <select type="text" id="metodo" v-model="metodo" required>
-            <option value="Lavado en agua">Lavado en agua</option> 
-            <option value="Lavado seco">Lavado seco</option>
-          </select>
-        </div>
-        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-      </form>
-    </div>
+        <form v-if="mostrarFormulario" @submit.prevent="agregarLavado">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" v-model="fecha" required>
+          </div>
+          <div class="form-group">
+            <label for="metodo">METODO</label>
+            <select type="text" id="metodo" v-model="metodo" required>
+              <option value="Lavado en agua">Lavado en agua</option> 
+              <option value="Lavado seco">Lavado seco</option>
+            </select>
+          </div>
+          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+        </form>
+        <form v-if="mostrarFormularioEditar" @submit.prevent="guardarLavado">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" v-model="fecha" required>
+          </div>
+          <div class="form-group">
+            <label for="metodo">METODO</label>
+            <select type="text" id="metodo" v-model="metodo" required>
+              <option value="Lavado en agua">Lavado en agua</option> 
+              <option value="Lavado seco">Lavado seco</option>
+            </select>
+          </div>
+          <button type="submit">Guardar</button>
+          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -45,6 +65,9 @@
             <td>{{ item.lote_id }}</td>
             <td>{{ item.fecha }}</td>
             <td>{{ item.metodo }}</td>
+            <td>
+              <button @click="editarLavado(item.id)">Editar</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -69,7 +92,11 @@ export default {
         metodo: ''
       },
       data: [],
-      mostrarFormulario: false
+      mostrarFormulario: false,
+      mostrarFormularioEditar: false,
+      lote_id: '',
+      fecha: '',
+      metodo: ''
     }
   },
   created() {
@@ -77,28 +104,73 @@ export default {
   },
   methods: {
     agregarLavado() {
-  const lavado = {
-    lote_id: this.lote_id,
-    fecha: this.fecha,
-    metodo: this.metodo,
-  };
-  axios.post('http://localhost:3000/api/lavado', lavado)
-    .then(res => {
-      console.log('Lavado agregado:', res.data)
-      lavado.id = res.data.id;
-      this.data.push(lavado)
-      this.nuevoLavado = {
-        id: '',
-        lote_id: '',
-        fecha: '',
-        metodo: ''
-      }
-      this.mostrarFormulario = false
-    })
-    .catch(err => {
-      console.error('Error al agregar lavado:', err)
-    })
-},
+      const lavado = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        metodo: this.metodo
+      };
+      axios.post('http://localhost:3000/api/lavado', lavado)
+        .then(res => {
+          console.log('Lavado agregado:', res.data)
+          lavado.id = res.data.id;
+          this.data.push(lavado)
+          this.nuevoLavado = {
+            id: '',
+            lote_id: '',
+            fecha: '',
+            metodo: ''
+          }
+          this.mostrarFormulario = false
+          this.getData()
+        })
+        .catch(err => {
+          console.error('Error al agregar lavado:', err)
+        })
+    },
+    editarLavado(id) {
+      const lavado = this.data.find((item) => item.id === id);
+      this.nuevoLavado = { ...lavado };
+      this.lote_id = lavado.lote_id;
+      this.fecha = new Date(lavado.fecha).toISOString().split('T')[0];
+      this.metodo = lavado.metodo;
+      this.mostrarFormulario = false;
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormularioEditar = true;
+    },
+    guardarLavado() {
+      const id = this.nuevoLavado.id;
+      const data = {
+        lote_id: this.lote_id,
+        fecha: this.fecha,
+        metodo: this.metodo
+      };
+      axios.put(`http://localhost:3000/api/lavado/${id}`, data)
+        .then((response) => {
+          console.log(response);
+          this.getData();
+          this.mostrarFormularioEditar = false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    cerrarFormularioEditar() {
+      this.mostrarFormularioEditar = false;
+    },
+    cerrarFormularioAgregar() {
+      this.mostrarFormulario = false;
+      this.vaciarFormularioAgregar();
+    },
+    vaciarFormularioAgregar() {
+      this.lote_id = '';
+      this.fecha = '';
+      this.metodo = '';
+    },
+    abrirFormularioAgregar() {
+      this.vaciarFormularioAgregar();
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormulario = true;
+    },
     getData() {
       axios.get('http://localhost:3000/api/lavado')
         .then(res => {
@@ -112,7 +184,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 

@@ -7,33 +7,57 @@
           <br>
           LA DESEADA
         </h1>
-        <h2 class="Titulov3">FERMENTACION</h2>
+        <h2 class="Titulov3">FERMENTACIÓN</h2>
       </div>
-      <button @click="mostrarFormulario = !mostrarFormulario" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
-      <form v-if="mostrarFormulario" @submit.prevent="agregarFermentacion">
-        <div class="form-group">
-          <label for="lote_id">Lote ID</label>
-          <input type="number" id="lote_id" v-model="lote_id" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha_inicio">Fecha Inicio</label>
-          <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
-        </div>
-        <div class="form-group">
-          <label for="fecha_fin">Fecha Fin</label>
-          <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-        </div>
-        <div class="form-group">
-          <label for="tipo">Tipo</label>
-          <select type="text" id="tipo" v-model="tipo" required>
-            <option value="anaeróbico">Anaeróbico</option> 
-            <option value="aeróbico">Aeróbico</option> 
-          </select>
-        </div>
-        <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-      </form>
-    </div>
+        <form v-if="mostrarFormulario" @submit.prevent="agregarFermentacion">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_inicio">FECHA INICIO</label>
+            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_fin">FECHA FIN</label>
+            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+          </div>
+          <div class="form-group">
+            <label for="tipo">TIPO</label>
+            <select type="text" id="tipo" v-model="tipo" required>
+              <option value="anaeróbico">Anaeróbico</option> 
+              <option value="aeróbico">Aeróbico</option> 
+            </select>
+          </div>
+          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+        </form>
+        <form v-if="mostrarFormularioEditar" @submit.prevent="guardarFermentacion">
+          <div class="form-group">
+            <label for="lote_id">Lote ID</label>
+            <input type="number" id="lote_id" v-model="lote_id" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_inicio">FECHA INICIO</label>
+            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+          </div>
+          <div class="form-group">
+            <label for="fecha_fin">FECHA FIN</label>
+            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+          </div>
+          <div class="form-group">
+            <label for="tipo">TIPO</label>
+            <select type="text" id="tipo" v-model="tipo" required>
+              <option value="anaeróbico">Anaeróbico</option> 
+              <option value="aeróbico">Aeróbico</option> 
+            </select>
+          </div>
+          <button type="submit">Guardar</button>
+          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -51,6 +75,9 @@
             <td>{{ item.fecha_inicio }}</td>
             <td>{{ item.fecha_fin }}</td>
             <td>{{ item.tipo }}</td>
+            <td>
+              <button @click="editarFermentacion(item.id)">Editar</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -69,14 +96,19 @@ export default {
   },
   data() {
     return {
-      nuevoFermentacion: {
+      nuevaFermentacion: {
         lote_id: '',
         fecha_inicio: '',
         fecha_fin: '',
         tipo: ''
       },
       data: [],
-      mostrarFormulario: false
+      mostrarFormulario: false,
+      mostrarFormularioEditar: false,
+      lote_id: '',
+      fecha_inicio: '',
+      fecha_fin: '',
+      tipo: ''
     }
   },
   created() {
@@ -84,30 +116,78 @@ export default {
   },
   methods: {
     agregarFermentacion() {
-  const fermentacion = {
-    lote_id: this.lote_id,
-    fecha_inicio: this.fecha_inicio,
-    fecha_fin: this.fecha_fin,
-    tipo: this.tipo
-  };
-  axios.post('http://localhost:3000/api/fermentacion', fermentacion)
-    .then(res => {
-      console.log('Fermentacion agregada:', res.data)
-      fermentacion.id = res.data.id;
-      this.data.push(fermentacion)
-      this.nuevoFermentacion = {
-        id: '',
-        lote_id: '',
-        fecha_inicio: '',
-        fecha_fin: '',
-        tipo: ''
-      }
-      this.mostrarFormulario = false
-    })
-    .catch(err => {
-      console.error('Error al agregar fermentacion:', err)
-    })
-},
+      const fermentacion = {
+        lote_id: this.lote_id,
+        fecha_inicio: this.fecha_inicio,
+        fecha_fin: this.fecha_fin,
+        tipo: this.tipo
+      };
+      axios.post('http://localhost:3000/api/fermentacion', fermentacion)
+        .then(res => {
+          console.log('Fermentacion agregada:', res.data)
+          fermentacion.id = res.data.id;
+          this.data.push(fermentacion)
+          this.nuevaFermentacion = {
+            id: '',
+            lote_id: '',
+            fecha_inicio: '',
+            fecha_fin: '',
+            tipo: ''
+          }
+          this.mostrarFormulario = false
+          this.getData()
+        })
+        .catch(err => {
+          console.error('Error al agregar fermentacion:', err)
+        })
+    },
+    editarFermentacion(id) {
+      const fermentacion = this.data.find((item) => item.id === id);
+      this.nuevaFermentacion = { ...fermentacion };
+      this.lote_id = fermentacion.lote_id;
+      this.fecha_inicio = new Date(fermentacion.fecha_inicio).toISOString().split('T')[0];
+      this.fecha_fin = new Date(fermentacion.fecha_fin).toISOString().split('T')[0];
+      this.tipo = fermentacion.tipo;
+      this.mostrarFormulario = false;
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormularioEditar = true;
+    },
+    guardarFermentacion() {
+      const id = this.nuevaFermentacion.id;
+      const data = {
+        lote_id: this.lote_id,
+        fecha_inicio: this.fecha_inicio,
+        fecha_fin: this.fecha_fin,
+        tipo: this.tipo
+      };
+      axios.put(`http://localhost:3000/api/fermentacion/${id}`, data)
+        .then((response) => {
+          console.log(response);
+          this.getData();
+          this.mostrarFormularioEditar = false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    cerrarFormularioEditar() {
+      this.mostrarFormularioEditar = false;
+    },
+    cerrarFormularioAgregar() {
+      this.mostrarFormulario = false;
+      this.vaciarFormularioAgregar();
+    },
+    vaciarFormularioAgregar() {
+      this.lote_id = '';
+      this.fecha_inicio = '';
+      this.fecha_fin = '';
+      this.tipo = '';
+    },
+    abrirFormularioAgregar() {
+      this.vaciarFormularioAgregar();
+      this.mostrarFormularioEditar = false;
+      this.mostrarFormulario = true;
+    },
     getData() {
       axios.get('http://localhost:3000/api/fermentacion')
         .then(res => {
@@ -121,7 +201,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 

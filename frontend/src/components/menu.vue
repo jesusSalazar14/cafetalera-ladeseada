@@ -17,14 +17,22 @@
         </ul>
       </nav>
       <div class="cerrarsesion">
-        <button class="logout">Cerrar sesión</button>
+        <button class="logout" @click="cerrarSesion">Cerrar sesión</button>
       </div>
     </div>
   </template>
   
   <script>
+  import router from '../router';
+  
   export default {
-    name: 'Menu'
+    name: 'Menu',
+    methods: {
+      cerrarSesion() {
+        localStorage.removeItem('token');
+        router.push({ name: 'login' });
+      }
+    }
   }
   </script>
   
