@@ -221,81 +221,6 @@ body {
   height: 100vh;
 }
 
-.sidebar {
-  background-color: #302814;
-  width: 18.75rem;
-  height: 100%;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  color: white;
-  justify-content: center;
-  align-items: center;
-  background-blur: 10%;
-}
-
-.CuentaSimbolo {
-  max-width: 50%;
-  padding: 2%;
-
-}
-
-.sidebar h3 {
-  margin: 20px 0;
-}
-
-.logo {
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    width: 100%; 
-}
-
-.logo img {
-    width: 90%; 
-    height: auto; 
-}
-
-.username {
-  margin-bottom: 1.25rem;
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
-nav{
-  width:100%;
-
-}
-
-
-nav ul {
-  list-style: none;
-}
-
-nav ul li {
-  padding: 5px 0px 5px 30px;
-  color: #FFD569;
-  margin: 10px 0;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-nav ul li:hover{
-  display: block;
-
-  background: #FFD569;
-  color: #814A13;
-}
-
-.logout {
-  background-color: #e76e2e;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
 .main-content {
   background: #FFF5E2;
   flex-grow: 1;
@@ -355,6 +280,9 @@ nav ul li:hover{
 
 }
 
+table{
+  margin-top: 1rem;
+}
 
 table, .form-group {
   width: 100%;
@@ -368,10 +296,15 @@ table, .form-group {
   column-count: 4;
 }
 
-.formulario .form-group label, select, date{
-  justify-content: center;
+.formulario .form-group input, select{
+  display: flex;
+  width: 100%;
 }
 
+.formulario .form-group label, input, select{
+  justify-content: center;
+  text-align: center;
+}
 
 
 .formulario .form-group label{
@@ -383,7 +316,6 @@ table, .form-group {
 }
 
 .form-group input{
-  margin-left: 5px;
   font-size: 1.25rem;
 }
 
@@ -412,5 +344,8 @@ th, td, .form-group{
   text-align: left;
 }
 
+.formulario .btn{ 
+  margin-top: 1rem;
+}
 
 </style>

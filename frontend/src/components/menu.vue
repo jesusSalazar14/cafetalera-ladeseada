@@ -7,13 +7,13 @@
       <div class="username">USERNAME</div>
       <nav>
         <ul>
-          <li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png"><a href="/lotes">Lote de recolección</a></li>
-          <li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png"><a href="/clasificacion">Clasificación</a></li>
-          <li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png"><a href="/despulpado">Despulpado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png"><a href="/fermentacion">Fermentación</a></li>
-          <li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png"><a href="/lavado">Lavado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/secado-amarillo.png"><a href="/secado">Secado</a></li>
-          <li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png"><a href="/exportacion">Exportación</a></li>
+          <a href="/lotes"><li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Lote de recolección</li></a>
+          <a href="/clasificacion"><li><img id="img1" src="../assets/Simbolos/clasificacion-amarillo.png">Clasificación</li></a>
+          <a href="/despulpado"><li><img id="img1" src="../assets/Simbolos/despulpado-amarillo.png">Despulpado</li></a>
+          <a href="/fermentacion"><li><img id="img1" src="../assets/Simbolos/fermentacion-amarillo.png">Fermentación</li></a>
+          <a href="/lavado"><li><img id="img1" src="../assets/Simbolos/lavado-amarillo.png">Lavado</li></a>
+          <a href="/secado"><li><img id="img1" src="../assets/Simbolos/secado-amarillo.png">Secado</li></a>
+          <a href="/exportacion"><li><img id="img1" src="../assets/Simbolos/recoleccion-amarillo.png">Exportación</li></a>
         </ul>
       </nav>
       <div class="cerrarsesion">
@@ -81,12 +81,18 @@
     nav{
       width:100%;
     }
-  
+
     nav ul {
       list-style: none;
     }
   
-    nav ul li {
+    nav ul a{
+      text-decoration: none;
+    }
+
+
+
+    nav ul li{
       padding: 5px 0px 5px 30px;
       color: #FFD569;
       margin: 10px 0;
@@ -94,13 +100,19 @@
       font-size: 15px;
       font-weight: bold;
     }
-  
-    nav ul li:hover{
+
+    nav ul a li img{
+      padding-right: 20px;
+    }
+   
+    nav ul a li:hover{
       display: block;
-  
       background: #FFD569;
       color: #814A13;
+      
     }
+
+
   
     .logout {
       background-color: #e76e2e;
