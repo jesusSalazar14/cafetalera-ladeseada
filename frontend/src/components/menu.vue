@@ -39,17 +39,21 @@
   <style scoped>
     /* Estilos para el menú */
     .sidebar {
-      background-color: #302814;
-      width: 18.75rem;
-      height: 100%;
-      overflow: auto;
-      display: flex;
-      flex-direction: column;
-      color: white;
-      justify-content: center;
-      align-items: center;
-      background-blur: 10%;
-    }
+  background-color: #302814;
+  width: 18.75rem;
+  height: 100vh; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  background-blur: 10%;
+}
+
   
     .CuentaSimbolo {
       max-width: 50%;
