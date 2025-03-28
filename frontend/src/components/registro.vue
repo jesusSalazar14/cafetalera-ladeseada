@@ -63,18 +63,21 @@ export default {
         correo: this.correo,
         clave: this.clave,
       })
-        .then((response) => {
-          console.log(response);
-          alert('Registro exitoso!');
-        })
-        .catch((error) => {
-          console.error(error);
-          if (error.response.status === 500) {
-            alert('Error al registrar usuario');
-          } else {
-            alert('Error desconocido');
-          }
-        });
+      .then((response) => {
+      console.log(response);
+      this.$toast.success('Registro exitoso!');
+      setTimeout(() => {
+        this.$router.push({ name: 'login' });
+      }, 2000); 
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.code === 'ECONNREFUSED') {
+        this.$toast.error('Error de conexión. Por favor, inténtelo de nuevo más tarde.');
+      } else {
+        this.$toast.error('Credenciales ya existentes.');
+      }
+    });
     },
   },
 };

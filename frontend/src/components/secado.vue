@@ -134,12 +134,14 @@ export default {
             fecha_fin: '',
             metodo: ''
           }
+          this.$toast.success('Secado agregado con éxito!');
           this.mostrarFormulario = false
           this.getData()
         })
-        .catch(err => {
-          console.error('Error al agregar Secado:', err)
-        })
+      .catch(err => {
+      console.error('Error al agregar secado:', err)
+      this.$toast.error('Error al agregar secado. Por favor, inténtelo de nuevo más tarde.');
+    })
     },
     editarSecado(id) {
       const secado = this.data.find((item) => item.id === id);
@@ -163,12 +165,14 @@ export default {
       axios.put(`http://localhost:3000/api/secado/${id}`, data)
         .then((response) => {
           console.log(response);
+          this.$toast.success('Secado editado con éxito!');
           this.getData();
           this.mostrarFormularioEditar = false;
         })
-        .catch((error) => {
-          console.error(error);
-        });
+      .catch((error) => {
+      console.error(error);
+      this.$toast.error('Error al editar secado. Por favor, inténtelo de nuevo más tarde.');
+    });
     },
     cerrarFormularioEditar() {
       this.mostrarFormularioEditar = false;

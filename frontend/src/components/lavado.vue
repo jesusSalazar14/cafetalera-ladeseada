@@ -120,11 +120,13 @@ export default {
             fecha: '',
             metodo: ''
           }
+          this.$toast.success('Lavado agregado con éxito!');
           this.mostrarFormulario = false
           this.getData()
         })
         .catch(err => {
           console.error('Error al agregar lavado:', err)
+          this.$toast.error('Error al agregar lavado. Por favor, inténtelo de nuevo más tarde.');
         })
     },
     editarLavado(id) {
@@ -147,12 +149,14 @@ export default {
       axios.put(`http://localhost:3000/api/lavado/${id}`, data)
         .then((response) => {
           console.log(response);
+          this.$toast.success('Lavado editado con éxito!');
           this.getData();
           this.mostrarFormularioEditar = false;
         })
         .catch((error) => {
-          console.error(error);
-        });
+      console.error(error);
+      this.$toast.error('Error al editar lavado. Por favor, inténtelo de nuevo más tarde.');
+    });
     },
     cerrarFormularioEditar() {
       this.mostrarFormularioEditar = false;

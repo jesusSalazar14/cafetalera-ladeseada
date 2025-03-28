@@ -21,8 +21,8 @@
             <input type="date" id="fecha" v-model="fecha" required>
           </div>
           <div class="form-group">
-            <label for="tiempo">TIEMPO</label>
-            <input type="time" id="tiempo" v-model="tiempo" required step="1">
+            <label for="tiempo">TIEMPO (hh:mm:ss)</label>
+            <input type="text" id="tiempo" v-model="tiempo" required step="1">
           </div>
           <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
           <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
@@ -37,8 +37,8 @@
             <input type="date" id="fecha" v-model="fecha" required>
           </div>
           <div class="form-group">
-            <label for="tiempo">TIEMPO</label>
-            <input type="time" id="tiempo" v-model="tiempo" required step="1">
+            <label for="tiempo">TIEMPO (hh:mm:ss)</label>
+            <input type="text" id="tiempo" v-model="tiempo" required step="1">
           </div>
           <button type="submit">Guardar</button>
           <button @click="cerrarFormularioEditar">Cerrar</button>
@@ -114,11 +114,13 @@ export default {
             fecha: '',
             tiempo: ''
           }
+          this.$toast.success('Despulpado agregado con éxito!');
           this.mostrarFormulario = false
           this.getData()
         })
         .catch(err => {
           console.error('Error al agregar despulpado:', err)
+          this.$toast.error('Error al agregar despulpado. Por favor, inténtelo de nuevo más tarde.');
         })
     },
     editarDespulpado(id) {
@@ -141,11 +143,13 @@ export default {
       axios.put(`http://localhost:3000/api/despulpado/${id}`, data)
         .then((response) => {
           console.log(response);
+          this.$toast.success('Despulpado editado con éxito!');
           this.getData();
           this.mostrarFormularioEditar = false;
         })
         .catch((error) => {
           console.error(error);
+          this.$toast.error('Error al editar despulpado. Por favor, inténtelo de nuevo más tarde.');
         });
     },
     cerrarFormularioEditar() {

@@ -134,11 +134,13 @@ export default {
             fecha_fin: '',
             tipo: ''
           }
+          this.$toast.success('Fermentación agregada con éxito!');
           this.mostrarFormulario = false
           this.getData()
         })
         .catch(err => {
           console.error('Error al agregar fermentacion:', err)
+          this.$toast.error('Error al agregar fermentación. Por favor, inténtelo de nuevo más tarde.');
         })
     },
     editarFermentacion(id) {
@@ -163,11 +165,13 @@ export default {
       axios.put(`http://localhost:3000/api/fermentacion/${id}`, data)
         .then((response) => {
           console.log(response);
+          this.$toast.success('Fermentación editada con éxito!');
           this.getData();
           this.mostrarFormularioEditar = false;
         })
         .catch((error) => {
           console.error(error);
+          this.$toast.error('Error al editar fermentación. Por favor, inténtelo de nuevo más tarde.');
         });
     },
     cerrarFormularioEditar() {

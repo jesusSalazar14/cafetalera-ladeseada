@@ -4,8 +4,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store';
 import axios from 'axios';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-default.css';
 
-createApp(App).use(router).use(store).mount('#app');
+createApp(App).use(router).use(store).use(VueToast).mount('#app');
 
 const token = localStorage.getItem('token');
 if (token) {
