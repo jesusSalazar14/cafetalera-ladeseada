@@ -12,6 +12,7 @@
       <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
         <form v-if="mostrarFormulario" @submit.prevent="agregarDespulpado">
+          <div class="inputs">
           <div class="form-group">
             <label for="lote_id">Lote ID</label>
             <input type="number" id="lote_id" v-model="lote_id" required>
@@ -24,10 +25,18 @@
             <label for="tiempo">TIEMPO (hh:mm:ss)</label>
             <input type="text" id="tiempo" v-model="tiempo" required step="1">
           </div>
+        </div>
+          <div class="botones-formulario">
+          <div>
           <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
           <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+          </div>
+        </div>
+        
         </form>
+        
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarDespulpado">
+          <div class="inputs">
           <div class="form-group">
             <label for="lote_id">Lote ID</label>
             <input type="number" id="lote_id" v-model="lote_id" required>
@@ -40,8 +49,13 @@
             <label for="tiempo">TIEMPO (hh:mm:ss)</label>
             <input type="text" id="tiempo" v-model="tiempo" required step="1">
           </div>
-          <button type="submit">Guardar</button>
-          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </div>
+          <div class="botones-formulario">
+          <div>
+          <button type="submit" class="btn guardar">Guardar</button>
+          <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+        </div>
+        </div>
         </form>
       </div>
       <table>
@@ -270,25 +284,25 @@ table, .form-group {
   border-collapse: collapse;
 }
 
-.formulario{
+.inputs{
   justify-items: center;
   font-family: 'Maven Pro', sans-serif;
   font-weight: bold;
   column-count: 3;
 }
 
-.formulario .form-group input, time{
+.inputs .form-group input, time{
   display: flex;
   width: 100%;
 }
 
-.formulario .form-group label, input, time{
+.inputs .form-group label, input, time{
   justify-content: center;
   text-align: center;
 }
 
 
-.formulario .form-group label{
+.inputs .form-group label{
   display: flex;
   padding: 1rem;
   font-size: 1rem;
@@ -325,8 +339,13 @@ th, td, .form-group{
   text-align: left;
 }
 
-.formulario .btn{ 
-  margin-top: 1rem;
+form div .btn{ 
+  margin-top: 2rem;
+  display: inline-flex;
+}
+
+form .botones-formulario{
+  justify-items: center;
 }
 
 </style>

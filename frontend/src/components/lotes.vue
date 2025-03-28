@@ -10,8 +10,11 @@
         <h2 class="Titulov3">LOTE DE RECOLECCION</h2>
       </div>
       <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
+      
       <div class="formulario">
         <form v-if="mostrarFormulario" @submit.prevent="agregarLote">
+          <div class="inputs">
+
           <div class="form-group">
             <label for="fecha_inicio">Fecha Inicio</label>
             <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
@@ -33,10 +36,18 @@
               <option value="Masivo">Masivo</option> 
             </select>
           </div>
-          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+        </div>
+
+        <div class="botones-formulario">
+          <div>
+            <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+            <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+          </div>
+        </div>
         </form>
+
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarLote">
+          <div class="inputs">
           <div class="form-group">
             <label for="fecha_inicio">Fecha Inicio</label>
             <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
@@ -50,17 +61,24 @@
             <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
           </div>
           <div class="form-group">
-            <label for="metodo">metodo</label>
-            <select type="text" id="metodo" v-model="metodo" required>
+            <label for="Metodo">Metodo</label>
+            <select type="text" id="Metodo" v-model="metodo" required>
               <option value="Manual">Manual</option> 
               <option value="Mecanico">Mecanico</option> 
               <option value="Selectivo">Selectivo</option>
               <option value="Masivo">Masivo</option> 
             </select>
           </div>
-          <button type="submit">Guardar</button>
-          <button @click="cerrarFormularioEditar">Cerrar</button>
+        </div>
+
+          <div class="botones-formulario">
+            <div>
+              <button type="submit" class="btn guardar">Guardar</button>
+              <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+            </div>
+          </div>
         </form>
+
       </div>
       <table>
         <thead>
@@ -213,11 +231,9 @@ export default {
 <style scoped>
 
 * {
-
   margin: 0px;
   padding: 0px;
 }
-
 
 body { 
   margin: 0;
@@ -228,7 +244,6 @@ body {
   display: flex;
   height: 100vh;
 }
-
 
 .main-content {
   background: #FFF5E2;
@@ -252,16 +267,6 @@ body {
   color: #000000; 
 }
 
-.button-group {
-  display: flex;
-  justify-content: flex-end; 
-  margin-bottom: 0.625rem; 
-}
-
-.button-group img{
-  margin-right: 3px;
-}
-
 .btn {
   display: flex; 
   align-items: center; 
@@ -282,11 +287,9 @@ body {
 }
 
 #img1{
-
   margin-right: 10px; 
   width: 1.25rem; 
   height: auto; 
-
 }
 
 table{
@@ -298,14 +301,21 @@ table, .form-group {
   border-collapse: collapse;
 }
 
-.formulario{
+form {
+  display: grid;
+  column-count: 2;
+
+}
+
+
+.inputs{
   justify-items: center;
   font-family: 'Maven Pro', sans-serif;
   font-weight: bold;
   column-count: 4;
 }
 
-.formulario .form-group label{
+.inputs .form-group label{
   display: flex;
   padding: 1rem;
   font-size: 1rem;
@@ -313,12 +323,12 @@ table, .form-group {
   font-weight: bold;
 }
 
-.formulario .form-group input, select{
+.inputs .form-group input, select{
   display: flex;
   width: 100%;
 }
 
-.formulario .form-group label, input, select{
+.inputs .form-group label, input, select{
   justify-content: center;
   text-align: center;
 }
@@ -333,11 +343,9 @@ table, .form-group {
   font-size: 1.25rem;
 }
 
-
 thead, .form-group label{
   background: #302814;
   color: #FFF5E2;
-
 }
 
 tbody, .form-group {
@@ -352,8 +360,13 @@ th, td, .form-group{
   text-align: left;
 }
 
-.formulario .btn{ 
-  margin-top: 1rem;
+form div .btn{ 
+  margin-top: 2rem;
+  display: inline-flex;
+}
+
+form .botones-formulario{
+  justify-items: center;
 }
 
 </style>
