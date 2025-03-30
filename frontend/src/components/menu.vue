@@ -3,8 +3,7 @@
       <div class="logo">
         <img src="../assets/logo.png" alt="Cafetería Logo">
       </div>
-      <img class="CuentaSimbolo" src="../assets/Simbolos/account_circle.png" alt="">
-      <div class="username">USERNAME</div>
+      
       <nav>
         <ul>
           <a href="/lotes"><li><img id="img1" src="../assets/Simbolos/seleccion-amarillo.png">Lote de recolección</li></a>
@@ -17,7 +16,7 @@
         </ul>
       </nav>
       <div class="cerrarsesion">
-        <button class="logout" @click="cerrarSesion">Cerrar sesión</button>
+        <button class="logout" @click="cerrarSesion"> <img src="../assets/Simbolos/logout.png">Cerrar sesión</button>
       </div>
     </div>
   </template>
@@ -37,92 +36,87 @@
   </script>
   
   <style scoped>
-    /* Estilos para el menú */
-    .sidebar {
+.sidebar {
   background-color: #302814;
-  width: 18.75rem;
-  height: 100vh; 
-  position: fixed; 
+  width: 18.75rem; 
+  max-width: 100%; 
+  height: 100%; 
+  z-index: 1;
+  position: fixed;
   top: 0; 
-  left: 0; 
   overflow: hidden; 
   display: flex;
   flex-direction: column;
   color: white;
   justify-content: center;
   align-items: center;
-  background-blur: 10%;
+  backdrop-filter: blur(10px);
 }
 
-  
-    .CuentaSimbolo {
-      max-width: 50%;
-      padding: 2%;
-    }
-  
-    .sidebar h3 {
-      margin: 20px 0;
-    }
-  
-    .logo {
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      width: 100%; 
-    }
-  
-    .logo img {
-      width: 90%; 
-      height: auto; 
-    }
-  
-    .username {
-      margin-bottom: 1.25rem;
-      font-size: 1.3rem;
-      font-weight: bold;
-    }
-  
-    nav{
-      width:100%;
-    }
 
-    nav ul {
-      list-style: none;
-    }
-  
-    nav ul a{
-      text-decoration: none;
-    }
+.sidebar h3 {
+  margin: 20px 0;
+}
 
+.logo {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; 
+}
 
+.logo img {
+  width: 90%; 
+  height: auto; 
+}
 
-    nav ul li{
-      padding: 5px 0px 5px 30px;
-      color: #FFD569;
-      margin: 10px 0;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: bold;
-    }
+nav {
+  width: 100%;
+}
 
-    nav ul a li img{
-      padding-right: 20px;
-    }
-   
-    nav ul a li:hover{
-      display: block;
-      background: #FFD569;
-      color: #814A13;
-      
-    }
+nav ul {
+  list-style: none;
+}
 
+nav ul a {
+  text-decoration: none;
+}
 
-  
-    .logout {
-      background-color: #e76e2e;
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-    }
-  </style>
+nav ul li {
+  padding: 5px 0px 5px 30px;
+  color: #FFD569;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+nav ul a li img {
+  margin-right: 20px;
+}
+
+nav ul a li:hover {
+  display: block;
+  background: #FFD569;
+  color: #814A13;
+}
+
+.logout {
+  color: #FFD569;
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-right: 135px;
+  padding-top: 12px;
+  display: flex; 
+  align-items: center;
+}
+
+.logout img {
+  margin-right: 5px; 
+  width: auto; 
+}
+
+</style>

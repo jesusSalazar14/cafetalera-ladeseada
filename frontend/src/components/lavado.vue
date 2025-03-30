@@ -81,7 +81,7 @@
             <td>{{ item.fecha }}</td>
             <td>{{ item.metodo }}</td>
             <td>
-              <button @click="editarLavado(item.id)">Editar</button>
+              <button @click="editarLavado(item.id)"><img src="../assets/Simbolos/editar.png"></button>
             </td>
           </tr>
         </tbody>
@@ -223,6 +223,7 @@ body {
   background: #FFF5E2;
   flex-grow: 1;
   padding: 20px;
+  margin-left: 300px;
 }
 
 .title-container {
@@ -343,4 +344,8 @@ form .botones-formulario{
   justify-items: center;
 }
 
+.Editar{
+  background: inherit;
+  border: inherit
+}
 </style>

@@ -35,7 +35,7 @@
           <div class="botones-formulario">
             <div>
               <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-              <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
             </div>
           </div>
         </form>
@@ -84,7 +84,7 @@
             <td>{{ item.fecha }}</td>
             <td>{{ item.calidad }}</td>
             <td>
-              <button @click="editarClasificacion(item.id)">Editar</button>
+              <button @click="editarClasificacion(item.id)"><img src="../assets/Simbolos/editar.png"></button>
             </td>
           </tr>
         </tbody>
@@ -226,6 +226,7 @@ body {
   background: #FFF5E2;
   flex-grow: 1;
   padding: 20px;
+  margin-left: 300px;
 }
 
 .title-container {
@@ -355,4 +356,8 @@ form .botones-formulario{
   justify-items: center;
 }
 
+.Editar{
+  background: inherit;
+  border: inherit
+}
 </style>
