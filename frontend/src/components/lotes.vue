@@ -156,11 +156,13 @@ export default {
             kilogramos_cereza: '',
             metodo: ''
           }
+          this.$toast.success('Lote agregado con éxito!');
           this.mostrarFormulario = false
           this.getData()
         })
         .catch(err => {
           console.error('Error al agregar lote:', err)
+          this.$toast.error('Error al agregar lote. Por favor, inténtelo de nuevo más tarde.');
         })
     },
     editarLote(id) {
@@ -185,11 +187,13 @@ export default {
       axios.put(`http://localhost:3000/api/lote/${id}`, data)
         .then((response) => {
           console.log(response);
+          this.$toast.success('Lote editado con éxito!');
           this.getData();
           this.mostrarFormularioEditar = false;
         })
         .catch((error) => {
           console.error(error);
+          this.$toast.error('Error al editar lote. Por favor, inténtelo de nuevo más tarde.');
         });
     },
     cerrarFormularioEditar() {

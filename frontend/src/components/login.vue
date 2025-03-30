@@ -51,9 +51,6 @@ export default {
   },
   methods: {
     handleLogin() {
-      console.log('Correo:', this.correo);
-      console.log('Clave:', this.clave);
-
       axios.post('http://localhost:3000/api/login', {
         identificador: this.identificador,
         clave: this.clave,
@@ -64,15 +61,41 @@ export default {
             localStorage.setItem('token', response.data.token);
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
             this.logged = true;
-            this.$router.push({ name: 'lotes' });
-          } else {
-            alert('Credenciales incorrectas');
-          }
+          axios.get('http://localhost:3000/api/usuarios', {
+          headers: {
+            Authorization: `Bearer ${response.data.token}`,
+          },
         })
-        .catch((error) => {
-          console.error('Error de autenticación:', error);
-        });
-    },
+          .then((response) => {
+            const usuario = response.data.find((user) => user.correo === this.identificador || user.username === this.identificador);
+            if (usuario) {
+              this.$toast.success(`Bienvenido, ${usuario.nombre}!`);
+              this.$router.push({ name: 'lotes' });
+            } else {
+              this.$toast.error('Error al obtener el nombre del usuario');
+            }
+          })
+          .catch((error) => {
+            console.error('Error al obtener el nombre del usuario:', error);
+            this.$toast.error('Error al obtener el nombre del usuario');
+          });
+      } else {
+        this.$toast.error('Correo o username incorrectos');
+      }
+    })
+    .catch((error) => {
+      console.error('Error de autenticación:', error);
+      if (error.response.status === 401) {
+        this.$toast.error('Contraseña incorrecta');
+      } else if (error.response.status === 404) {
+        this.$toast.error('Usuario no registrado');
+      } else if (error.code === 'ECONNREFUSED') {
+        this.$toast.error('Error de conexión. Por favor, inténtelo de nuevo más tarde.');
+      } else {
+        this.$toast.error('Error desconocido. Por favor, inténtelo de nuevo más tarde.');
+      }
+    });
+   },
   },
 };
 </script>

@@ -155,11 +155,13 @@ export default {
             destinatario: '',
             precio: ''
           }
+          this.$toast.success('Exportación agregada con éxito!');
           this.mostrarFormulario = false
           this.getData()
         })
         .catch(err => {
-          console.error('Error al agregar exportacion:', err)
+         console.error('Error al agregar exportación:', err)
+         this.$toast.error('Error al agregar exportación. Por favor, inténtelo de nuevo más tarde.');
         })
     },
     editarExportacion(id) {
@@ -186,11 +188,13 @@ export default {
       axios.put(`http://localhost:3000/api/exportacion/${id}`, data)
         .then((response) => {
           console.log(response);
+          this.$toast.success('Exportación editada con éxito!');
           this.getData();
           this.mostrarFormularioEditar = false;
         })
         .catch((error) => {
-          console.error(error);
+         console.error(error);
+         this.$toast.error('Error al editar exportación. Por favor, inténtelo de nuevo más tarde.');
         });
     },
     cerrarFormularioEditar() {

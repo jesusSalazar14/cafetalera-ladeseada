@@ -81,6 +81,17 @@ app.post('/api/login', (req, res) => {
   });
 });
 
+app.get('/api/usuarios', (req, res) => {
+  db.query('SELECT * FROM usuarios', (err, result) => {
+    if (err) {
+      console.error('Error al obtener la lista de usuarios:', err);
+      res.status(500).send({ message: 'Error al obtener la lista de usuarios' });
+    } else {
+      res.status(200).send(result);
+    }
+  });
+});
+
 app.post('/api/clasificacion', (req, res) => {
   const { lote_id, fecha, calidad } = req.body;
   const query = 'INSERT INTO clasificacion (lote_id, fecha, calidad) VALUES (?, ?, ?)';
@@ -182,6 +193,7 @@ app.use((req, res, next) => {
     '/api/lavado',
     '/api/fermentacion',
     '/api/despulpado',
+    '/api/usuarios',
   ];
 
   const rutaActual = req.path.split('/').slice(0, 3).join('/');

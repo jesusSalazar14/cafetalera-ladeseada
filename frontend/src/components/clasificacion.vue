@@ -138,11 +138,13 @@ export default {
             fecha: '',
             calidad: ''
           }
+          this.$toast.success('Clasificación agregada con éxito!');
           this.mostrarFormulario = false
           this.getData()
         })
         .catch(err => {
           console.error('Error al agregar clasificacion:', err)
+          this.$toast.error('Error al agregar clasificación. Por favor, inténtelo de nuevo más tarde.');
         })
     },
     editarClasificacion(id) {
@@ -165,11 +167,13 @@ export default {
       axios.put(`http://localhost:3000/api/clasificacion/${id}`, data)
         .then((response) => {
           console.log(response);
+          this.$toast.success('Clasificación editada con éxito!');
           this.getData();
           this.mostrarFormularioEditar = false;
         })
         .catch((error) => {
           console.error(error);
+          this.$toast.error('Error al editar clasificación. Por favor, inténtelo de nuevo más tarde.');
         });
     },
     cerrarFormularioEditar() {
