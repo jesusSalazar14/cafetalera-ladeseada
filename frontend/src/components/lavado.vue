@@ -12,57 +12,61 @@
       <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
         <form v-if="mostrarFormulario" @submit.prevent="agregarLavado">
-          
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">FECHA</label>
+              <input type="date" id="fecha" v-model="fecha" required>
+            </div>
+            <div class="form-group">
+              <label for="metodo">METODO</label>
+              <select type="text" id="metodo" v-model="metodo" required>
+                <option value="Lavado en agua">Lavado en agua</option> 
+                <option value="Lavado seco">Lavado seco</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha">FECHA</label>
-            <input type="date" id="fecha" v-model="fecha" required>
+
+          <div class="botones-formulario">
+            <div>
+              <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="metodo">METODO</label>
-            <select type="text" id="metodo" v-model="metodo" required>
-              <option value="Lavado en agua">Lavado en agua</option> 
-              <option value="Lavado seco">Lavado seco</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
-          </div>
-        </div>
         </form>
-        
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarLavado">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">FECHA</label>
+              <input type="date" id="fecha" v-model="fecha" required>
+            </div>
+            <div class="form-group">
+              <label for="metodo">METODO</label>
+              <select type="text" id="metodo" v-model="metodo" required>
+                <option value="Lavado en agua">Lavado en agua</option> 
+                <option value="Lavado seco">Lavado seco</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha">FECHA</label>
-            <input type="date" id="fecha" v-model="fecha" required>
+          <div class="botones-formulario">
+            <div>
+              <button type="submit" class="btn guardar">Guardar</button>
+              <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="metodo">METODO</label>
-            <select type="text" id="metodo" v-model="metodo" required>
-              <option value="Lavado en agua">Lavado en agua</option> 
-              <option value="Lavado seco">Lavado seco</option>
-            </select>
-          </div>
-        </div>
-        <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn guardar">Guardar</button>
-          <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
-        </div>
-        </div>
         </form>
       </div>
       <table>
@@ -111,11 +115,13 @@ export default {
       mostrarFormularioEditar: false,
       lote_id: '',
       fecha: '',
-      metodo: ''
+      metodo: '',
+      lotes: []
     }
   },
   created() {
     this.getData()
+    this.getLotes()
   },
   methods: {
     agregarLavado() {
@@ -169,9 +175,9 @@ export default {
           this.mostrarFormularioEditar = false;
         })
         .catch((error) => {
-      console.error(error);
-      this.$toast.error('Error al editar lavado. Por favor, inténtelo de nuevo más tarde.');
-    });
+          console.error(error);
+          this.$toast.error('Error al editar lavado. Por favor, inténtelo de nuevo más tarde.');
+        });
     },
     cerrarFormularioEditar() {
       this.mostrarFormularioEditar = false;
@@ -195,6 +201,16 @@ export default {
         .then(res => {
           this.data = res.data
           console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    },
+    getLotes() {
+      axios.get('http://localhost:3000/api/lote')
+        .then(res => {
+          this.lotes = res.data
+          console.log(this.lotes)
         })
         .catch(err => {
           console.error('Error:', err)

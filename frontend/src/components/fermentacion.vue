@@ -13,61 +13,68 @@
       <div class="formulario">
         <form v-if="mostrarFormulario" @submit.prevent="agregarFermentacion">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha_inicio">Fecha Inicio</label>
+              <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+            </div>
+            <div class="form-group">
+              <label for="fecha_fin">Fecha Fin</label>
+              <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+            </div>
+            <div class="form-group">
+              <label for="tipo">TIPO</label>
+              <select type="text" id="tipo" v-model="tipo" required>
+                <option value="anaeróbico">Anaeróbico</option> 
+                <option value="aeróbico">Aeróbico</option> 
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha_inicio">FECHA INICIO</label>
-            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
-          </div>
-          <div class="form-group">
-            <label for="fecha_fin">FECHA FIN</label>
-            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-          </div>
-          <div class="form-group">
-            <label for="tipo">TIPO</label>
-            <select type="text" id="tipo" v-model="tipo" required>
-              <option value="anaeróbico">Anaeróbico</option> 
-              <option value="aeróbico">Aeróbico</option> 
-            </select>
-          </div>
-        </div>
+
           <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+            <div>
+              <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+            </div>
           </div>
-        </div>
         </form>
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarFermentacion">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha_inicio">Fecha Inicio</label>
+              <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+            </div>
+            <div class="form-group">
+              <label for="fecha_fin">Fecha Fin</label>
+              <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+            </div>
+            <div class="form-group">
+              <label for="tipo">TIPO</label>
+              <select type="text" id="tipo" v-model="tipo" required>
+                <option value="anaeróbico">Anaeróbico</option> 
+                <option value="aeróbico">Aeróbico</option> 
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha_inicio">FECHA INICIO</label>
-            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
-          </div>
-          <div class="form-group">
-            <label for="fecha_fin">FECHA FIN</label>
-            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-          </div>
-          <div class="form-group">
-            <label for="tipo">TIPO</label>
-            <select type="text" id="tipo" v-model="tipo" required>
-              <option value="anaeróbico">Anaeróbico</option> 
-              <option value="aeróbico">Aeróbico</option> 
-            </select>
-          </div>
-        </div>
           <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn guardar">Guardar</button>
-          <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
-        </div>
-        </div>
+            <div>
+              <button type="submit" class="btn guardar">Guardar</button>
+              <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+            </div>
+          </div>
         </form>
       </div>
       <table>
@@ -120,11 +127,13 @@ export default {
       lote_id: '',
       fecha_inicio: '',
       fecha_fin: '',
-      tipo: ''
+      tipo: '',
+      lotes: []
     }
   },
   created() {
     this.getData()
+    this.getLotes()
   },
   methods: {
     agregarFermentacion() {
@@ -209,6 +218,16 @@ export default {
         .then(res => {
           this.data = res.data
           console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    },
+    getLotes() {
+      axios.get('http://localhost:3000/api/lote')
+        .then(res => {
+          this.lotes = res.data
+          console.log(this.lotes)
         })
         .catch(err => {
           console.error('Error:', err)

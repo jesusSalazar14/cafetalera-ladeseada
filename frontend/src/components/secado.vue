@@ -12,68 +12,71 @@
       <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
       <div class="formulario">
         <form v-if="mostrarFormulario" @submit.prevent="agregarSecado">
-
           <div class="inputs">
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha_inicio">Fecha Inicio</label>
+              <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+            </div>
+            <div class="form-group">
+              <label for="fecha_fin">Fecha Fin</label>
+              <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+            </div>
+            <div class="form-group">
+              <label for="metodo">Metodo</label>
+              <select type="text" id="metodo" v-model="metodo" required>
+                <option value="Secado al sol">Secado al sol</option> 
+                <option value="Secado mecánico">Secado mecánico</option>
+              </select>
+            </div>
+          </div>
 
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+          <div class="botones-formulario">
+            <div>
+              <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha_inicio">Fecha Inicio</label>
-            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
-          </div>
-          <div class="form-group">
-            <label for="fecha_fin">Fecha Fin</label>
-            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-          </div>
-          <div class="form-group">
-            <label for="metodo">Metodo</label>
-            <select type="text" id="metodo" v-model="metodo" required>
-              <option value="Secado al sol">Secado al sol</option> 
-              <option value="Secado mecánico">Secado mecánico</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-          <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
-          </div>
-        </div>
         </form>
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarSecado">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha_inicio">Fecha Inicio</label>
+              <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+            </div>
+            <div class="form-group">
+              <label for="fecha_fin">Fecha Fin</label>
+              <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+            </div>
+            <div class="form-group">
+              <label for="metodo">Metodo</label>
+              <select type="text" id="metodo" v-model="metodo" required>
+                <option value="Secado al sol">Secado al sol</option>
+                <option value="Secado mecánico">Secado mecánico</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha_inicio">Fecha Inicio</label>
-            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
-          </div>
-          <div class="form-group">
-            <label for="fecha_fin">Fecha Fin</label>
-            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-          </div>
-          <div class="form-group">
-            <label for="metodo">Metodo</label>
-            <select type="text" id="metodo" v-model="metodo" required>
-              <option value="Secado al sol">Secado al sol</option>
-              <option value="Secado mecánico">Secado mecánico</option>
-            </select>
-          </div>
-        </div>
 
-        <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn guardar">Guardar</button>
-          <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
-        </div>
-        </div>
+          <div class="botones-formulario">
+            <div>
+              <button type="submit" class="btn guardar">Guardar</button>
+              <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+            </div>
+          </div>
         </form>
-        
       </div>
       <table>
         <thead>
@@ -114,7 +117,7 @@ export default {
   data() {
     return {
       nuevoSecado: {
-        lote_id: '', 
+        lote_id: '',
         fecha_inicio: '',
         fecha_fin: '',
         metodo: ''
@@ -125,11 +128,13 @@ export default {
       lote_id: '',
       fecha_inicio: '',
       fecha_fin: '',
-      metodo: ''
+      metodo: '',
+      lotes: []
     }
   },
   created() {
     this.getData()
+    this.getLotes()
   },
   methods: {
     agregarSecado() {
@@ -146,7 +151,7 @@ export default {
           this.data.push(secado)
           this.nuevoSecado = {
             id: '',
-            lote_id: '', 
+            lote_id: '',
             fecha_inicio: '',
             fecha_fin: '',
             metodo: ''
@@ -155,10 +160,10 @@ export default {
           this.mostrarFormulario = false
           this.getData()
         })
-      .catch(err => {
-      console.error('Error al agregar secado:', err)
-      this.$toast.error('Error al agregar secado. Por favor, inténtelo de nuevo más tarde.');
-    })
+        .catch(err => {
+          console.error('Error al agregar secado:', err)
+          this.$toast.error('Error al agregar secado. Por favor, inténtelo de nuevo más tarde.');
+        })
     },
     editarSecado(id) {
       const secado = this.data.find((item) => item.id === id);
@@ -186,10 +191,10 @@ export default {
           this.getData();
           this.mostrarFormularioEditar = false;
         })
-      .catch((error) => {
-      console.error(error);
-      this.$toast.error('Error al editar secado. Por favor, inténtelo de nuevo más tarde.');
-    });
+        .catch((error) => {
+          console.error(error);
+          this.$toast.error('Error al editar secado. Por favor, inténtelo de nuevo más tarde.');
+        });
     },
     cerrarFormularioEditar() {
       this.mostrarFormularioEditar = false;
@@ -214,6 +219,16 @@ export default {
         .then(res => {
           this.data = res.data
           console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    },
+    getLotes() {
+      axios.get('http://localhost:3000/api/lote')
+        .then(res => {
+          this.lotes = res.data
+          console.log(this.lotes)
         })
         .catch(err => {
           console.error('Error:', err)

@@ -13,49 +13,55 @@
       <div class="formulario">
         <form v-if="mostrarFormulario" @submit.prevent="agregarDespulpado">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">FECHA</label>
+              <input type="date" id="fecha" v-model="fecha" required>
+            </div>
+            <div class="form-group">
+              <label for="tiempo">TIEMPO (hh:mm:ss)</label>
+              <input type="text" id="tiempo" v-model="tiempo" required step="1">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha">FECHA</label>
-            <input type="date" id="fecha" v-model="fecha" required>
-          </div>
-          <div class="form-group">
-            <label for="tiempo">TIEMPO (hh:mm:ss)</label>
-            <input type="text" id="tiempo" v-model="tiempo" required step="1">
-          </div>
-        </div>
+
           <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-          <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
+            <div>
+              <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
+            </div>
           </div>
-        </div>
-        
         </form>
-        
+
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarDespulpado">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">FECHA</label>
+              <input type="date" id="fecha" v-model="fecha" required>
+            </div>
+            <div class="form-group">
+              <label for="tiempo">TIEMPO (hh:mm:ss)</label>
+              <input type="text" id="tiempo" v-model="tiempo" required step="1">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha">FECHA</label>
-            <input type="date" id="fecha" v-model="fecha" required>
-          </div>
-          <div class="form-group">
-            <label for="tiempo">TIEMPO (hh:mm:ss)</label>
-            <input type="text" id="tiempo" v-model="tiempo" required step="1">
-          </div>
-        </div>
           <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn guardar">Guardar</button>
-          <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
-        </div>
-        </div>
+            <div>
+              <button type="submit" class="btn guardar">Guardar</button>
+              <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+            </div>
+          </div>
         </form>
       </div>
       <table>
@@ -104,11 +110,13 @@ export default {
       mostrarFormularioEditar: false,
       lote_id: '',
       fecha: '',
-      tiempo: ''
+      tiempo: '',
+      lotes: []
     }
   },
   created() {
     this.getData()
+    this.getLotes()
   },
   methods: {
     agregarDespulpado() {
@@ -188,6 +196,16 @@ export default {
         .then(res => {
           this.data = res.data
           console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    },
+    getLotes() {
+      axios.get('http://localhost:3000/api/lote')
+        .then(res => {
+          this.lotes = res.data
+          console.log(this.lotes)
         })
         .catch(err => {
           console.error('Error:', err)
@@ -292,15 +310,16 @@ table, .form-group {
   column-count: 3;
 }
 
-.inputs .form-group input, time{
+.inputs .form-group input, select{
   display: flex;
   width: 100%;
 }
 
-.inputs .form-group label, input, time{
+.inputs .form-group label, input, select{
   justify-content: center;
   text-align: center;
 }
+
 
 
 .inputs .form-group label{
@@ -315,7 +334,7 @@ table, .form-group {
   font-size: 1.25rem;
 }
 
-.form-group select, time{
+.form-group select{
   background: #FFFFFA;
   color: #302814;
   font-size: 1.25rem;

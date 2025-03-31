@@ -13,64 +13,71 @@
       <div class="formulario">
         <form v-if="mostrarFormulario" @submit.prevent="agregarExportacion">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">FECHA</label>
+              <input type="date" id="fecha" v-model="fecha" required>
+            </div>
+            <div class="form-group">
+              <label for="cantidad">CANTIDAD</label>
+              <input type="number" id="cantidad" v-model="cantidad" required>
+            </div>
+            <div class="form-group">
+              <label for="destinatario">DESTINATARIO</label>
+              <input type="text" id="destinatario" v-model="destinatario" required>
+            </div>
+            <div class="form-group">
+              <label for="precio">PRECIO</label>
+              <input type="number" id="precio" v-model="precio" required>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha">FECHA</label>
-            <input type="date" id="fecha" v-model="fecha" required>
-          </div>
-          <div class="form-group">
-            <label for="cantidad">CANTIDAD</label>
-            <input type="number" id="cantidad" v-model="cantidad" required>
-          </div>
-          <div class="form-group">
-            <label for="destinatario">DESTINATARIO</label>
-            <input type="text" id="destinatario" v-model="destinatario" required>
-          </div>
-          <div class="form-group">
-            <label for="precio">PRECIO</label>
-            <input type="number" id="precio" v-model="precio" required>
-          </div>
-        </div>
+
           <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-          <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
+            <div>
+              <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
+            </div>
           </div>
-        </div>
         </form>
 
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarExportacion">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">FECHA</label>
+              <input type="date" id="fecha" v-model="fecha" required>
+            </div>
+            <div class="form-group">
+              <label for="cantidad">CANTIDAD</label>
+              <input type="number" id="cantidad" v-model="cantidad" required>
+            </div>
+            <div class="form-group">
+              <label for="destinatario">DESTINATARIO</label>
+              <input type="text" id="destinatario" v-model="destinatario" required>
+            </div>
+            <div class="form-group">
+              <label for="precio">PRECIO</label>
+              <input type="number" id="precio" v-model="precio" required>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha">FECHA</label>
-            <input type="date" id="fecha" v-model="fecha" required>
-          </div>
-          <div class="form-group">
-            <label for="cantidad">CANTIDAD</label>
-            <input type="number" id="cantidad" v-model="cantidad" required>
-          </div>
-          <div class="form-group">
-            <label for="destinatario">DESTINATARIO</label>
-            <input type="text" id="destinatario" v-model="destinatario" required>
-          </div>
-          <div class="form-group">
-            <label for="precio">PRECIO</label>
-            <input type="number" id="precio" v-model="precio" required>
-          </div>
-        </div>
           <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn guardar">Guardar</button>
-          <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
-        </div>
-        </div>
+            <div>
+              <button type="submit" class="btn guardar">Guardar</button>
+              <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+            </div>
+          </div>
         </form>
       </div>
       <table>
@@ -127,11 +134,13 @@ export default {
       fecha: '',
       cantidad: '',
       destinatario: '',
-      precio: ''
+      precio: '',
+      lotes: []
     }
   },
   created() {
     this.getData()
+    this.getLotes()
   },
   methods: {
     agregarExportacion() {
@@ -160,8 +169,8 @@ export default {
           this.getData()
         })
         .catch(err => {
-         console.error('Error al agregar exportación:', err)
-         this.$toast.error('Error al agregar exportación. Por favor, inténtelo de nuevo más tarde.');
+          console.error('Error al agregar exportación:', err)
+          this.$toast.error('Error al agregar exportación. Por favor, inténtelo de nuevo más tarde.');
         })
     },
     editarExportacion(id) {
@@ -193,8 +202,8 @@ export default {
           this.mostrarFormularioEditar = false;
         })
         .catch((error) => {
-         console.error(error);
-         this.$toast.error('Error al editar exportación. Por favor, inténtelo de nuevo más tarde.');
+          console.error(error);
+          this.$toast.error('Error al editar exportación. Por favor, inténtelo de nuevo más tarde.');
         });
     },
     cerrarFormularioEditar() {
@@ -221,6 +230,16 @@ export default {
         .then(res => {
           this.data = res.data
           console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    },
+    getLotes() {
+      axios.get('http://localhost:3000/api/lote')
+        .then(res => {
+          this.lotes = res.data
+          console.log(this.lotes)
         })
         .catch(err => {
           console.error('Error:', err)

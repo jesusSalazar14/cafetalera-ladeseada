@@ -15,7 +15,10 @@
           <div class="inputs">
             <div class="form-group">
               <label for="lote_id">Lote ID</label>
-              <input type="number" id="lote_id" v-model="lote_id" required>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="fecha">FECHA</label>
@@ -42,30 +45,33 @@
 
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarClasificacion">
           <div class="inputs">
-          <div class="form-group">
-            <label for="lote_id">Lote ID</label>
-            <input type="number" id="lote_id" v-model="lote_id" required>
+            <div class="form-group">
+              <label for="lote_id">Lote ID</label>
+              <select type="text" id="lote_id" v-model="lote_id" required>
+                <option value="">Seleccione un lote</option>
+                <option v-for="(lote, index) in lotes" :key="index" :value="lote.id">{{ lote.id }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">FECHA</label>
+              <input type="date" id="fecha" v-model="fecha" required>
+            </div>
+            <div class="form-group">
+              <label for="calidad">CALIDAD</label>
+              <select type="text" id="calidad" v-model="calidad" required>
+                <option value="C">C</option> 
+                <option value="B">B</option> 
+                <option value="A">A</option>
+                <option value="A+">A+</option> 
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha">FECHA</label>
-            <input type="date" id="fecha" v-model="fecha" required>
+            <div class="botones-formulario">
+            <div>
+              <button type="submit" class="btn guardar">Guardar</button>
+              <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="calidad">CALIDAD</label>
-            <select type="text" id="calidad" v-model="calidad" required>
-              <option value="C">C</option> 
-              <option value="B">B</option> 
-              <option value="A">A</option>
-              <option value="A+">A+</option> 
-            </select>
-          </div>
-        </div>
-          <div class="botones-formulario">
-          <div>
-          <button type="submit" class="btn guardar">Guardar</button>
-          <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
-        </div>
-        </div>
         </form>
       </div>
       <table>
@@ -114,11 +120,13 @@ export default {
       mostrarFormularioEditar: false,
       lote_id: '',
       fecha: '',
-      calidad: ''
+      calidad: '',
+      lotes: []
     }
   },
   created() {
     this.getData()
+    this.getLotes()
   },
   methods: {
     agregarClasificacion() {
@@ -198,6 +206,16 @@ export default {
         .then(res => {
           this.data = res.data
           console.log(this.data)
+        })
+        .catch(err => {
+          console.error('Error:', err)
+        })
+    },
+    getLotes() {
+      axios.get('http://localhost:3000/api/lote')
+        .then(res => {
+          this.lotes = res.data
+          console.log(this.lotes)
         })
         .catch(err => {
           console.error('Error:', err)
