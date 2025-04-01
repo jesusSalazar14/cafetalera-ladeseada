@@ -81,10 +81,18 @@
             <td>{{ item.tiempo }}</td>
             <td>
               <button @click="editarDespulpado(item.id)"><img src="../assets/Simbolos/editar.png"></button>
+              <button @click="confirmarEliminacion(item.id)"><img src="../assets/Simbolos/eliminar.png"></button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div v-if="mostrarConfirmacion" class="confirmacion">
+      <div class="confirmacion-contenido">
+        <p>¿Estás seguro de querer eliminar este despulpado?</p>
+        <button @click="eliminarDespulpado(id)">Aceptar</button>
+        <button @click="cerrarConfirmacion">Cancelar</button>
+      </div>
     </div>
   </div>
 </template>
@@ -111,7 +119,9 @@ export default {
       lote_id: '',
       fecha: '',
       tiempo: '',
-      lotes: []
+      lotes: [],
+      mostrarConfirmacion: false,
+      id: null
     }
   },
   created() {
@@ -210,6 +220,26 @@ export default {
         .catch(err => {
           console.error('Error:', err)
         })
+    },
+    confirmarEliminacion(id) {
+      this.mostrarConfirmacion = true;
+      this.id = id;
+    },
+    eliminarDespulpado(id) {
+      axios.delete(`http://localhost:3000/api/despulpado/${id}`)
+        .then((response) => {
+          console.log(response);
+          this.$toast.success('Despulpado eliminado con éxito!');
+          this.getData();
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$toast.error('Error al eliminar despulpado. Por favor, inténtelo de nuevo más tarde.');
+        });
+      this.cerrarConfirmacion();
+    },
+    cerrarConfirmacion() {
+      this.mostrarConfirmacion = false;
     }
   }
 }
@@ -321,7 +351,6 @@ table, .form-group {
 }
 
 
-
 .inputs .form-group label{
   display: flex;
   padding: 1rem;
@@ -371,5 +400,32 @@ form .botones-formulario{
 .Editar{
   background: inherit;
   border: inherit
+}
+
+.confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmacion-contenido {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.confirmacion-contenido p {
+  margin-bottom: 20px;
+}
+
+.confirmacion-contenido button {
+  margin-right: 10px;
 }
 </style>

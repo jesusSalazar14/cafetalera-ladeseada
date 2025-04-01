@@ -21,15 +21,15 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="fecha_inicio">Fecha Inicio</label>
+              <label for="fecha_inicio">FECHA INICIO</label>
               <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
             </div>
             <div class="form-group">
-              <label for="fecha_fin">Fecha Fin</label>
+              <label for="fecha_fin">FECHA FIN</label>
               <input type="date" id="fecha_fin" v-model="fecha_fin" required>
             </div>
             <div class="form-group">
-              <label for="metodo">Metodo</label>
+              <label for="metodo">METODO</label>
               <select type="text" id="metodo" v-model="metodo" required>
                 <option value="Secado al sol">Secado al sol</option> 
                 <option value="Secado mecánico">Secado mecánico</option>
@@ -40,10 +40,11 @@
           <div class="botones-formulario">
             <div>
               <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-              <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
             </div>
           </div>
         </form>
+
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarSecado">
           <div class="inputs">
             <div class="form-group">
@@ -54,22 +55,21 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="fecha_inicio">Fecha Inicio</label>
+              <label for="fecha_inicio">FECHA INICIO</label>
               <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
             </div>
             <div class="form-group">
-              <label for="fecha_fin">Fecha Fin</label>
+              <label for="fecha_fin">FECHA FIN</label>
               <input type="date" id="fecha_fin" v-model="fecha_fin" required>
             </div>
             <div class="form-group">
-              <label for="metodo">Metodo</label>
+              <label for="metodo">METODO</label>
               <select type="text" id="metodo" v-model="metodo" required>
-                <option value="Secado al sol">Secado al sol</option>
+                <option value="Secado al sol">Secado al sol</option> 
                 <option value="Secado mecánico">Secado mecánico</option>
               </select>
             </div>
           </div>
-
           <div class="botones-formulario">
             <div>
               <button type="submit" class="btn guardar">Guardar</button>
@@ -97,10 +97,18 @@
             <td>{{ item.metodo }}</td>
             <td>
               <button @click="editarSecado(item.id)"><img src="../assets/Simbolos/editar.png"></button>
+              <button @click="confirmarEliminacion(item.id)"><img src="../assets/Simbolos/eliminar.png"></button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div v-if="mostrarConfirmacion" class="confirmacion">
+      <div class="confirmacion-contenido">
+        <p>¿Estás seguro de querer eliminar este secado?</p>
+        <button @click="eliminarSecado(id)">Aceptar</button>
+        <button @click="cerrarConfirmacion">Cancelar</button>
+      </div>
     </div>
   </div>
 </template>
@@ -129,7 +137,9 @@ export default {
       fecha_inicio: '',
       fecha_fin: '',
       metodo: '',
-      lotes: []
+      lotes: [],
+      mostrarConfirmacion: false,
+      id: null
     }
   },
   created() {
@@ -182,7 +192,7 @@ export default {
         lote_id: this.lote_id,
         fecha_inicio: this.fecha_inicio,
         fecha_fin: this.fecha_fin,
-        metodo: this.metodo,
+        metodo: this.metodo
       };
       axios.put(`http://localhost:3000/api/secado/${id}`, data)
         .then((response) => {
@@ -233,11 +243,30 @@ export default {
         .catch(err => {
           console.error('Error:', err)
         })
+    },
+    confirmarEliminacion(id) {
+      this.mostrarConfirmacion = true;
+      this.id = id;
+    },
+    eliminarSecado(id) {
+      axios.delete(`http://localhost:3000/api/secado/${id}`)
+        .then((response) => {
+          console.log(response);
+          this.$toast.success('Secado eliminado con éxito!');
+          this.getData();
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$toast.error('Error al eliminar secado. Por favor, inténtelo de nuevo más tarde.');
+        });
+      this.cerrarConfirmacion();
+    },
+    cerrarConfirmacion() {
+      this.mostrarConfirmacion = false;
     }
   }
 }
 </script>
-
 
 <style scoped>
 
@@ -257,7 +286,6 @@ body {
   display: flex;
   height: 100vh;
 }
-
 
 .main-content {
   background: #FFF5E2;
@@ -395,5 +423,32 @@ form .botones-formulario{
 .Editar{
   background: inherit;
   border: inherit
+}
+
+.confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmacion-contenido {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.confirmacion-contenido p {
+  margin-bottom: 20px;
+}
+
+.confirmacion-contenido button {
+  margin-right: 10px;
 }
 </style>

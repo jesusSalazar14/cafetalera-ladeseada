@@ -7,70 +7,67 @@
           <br>
           LA DESEADA
         </h1>
-        <h2 class="Titulov3">LOTE DE RECOLECCION</h2>
+        <h2 class="Titulov3">LOTES</h2>
       </div>
       <button @click="abrirFormularioAgregar" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AGREGAR</button>
-      
       <div class="formulario">
         <form v-if="mostrarFormulario" @submit.prevent="agregarLote">
           <div class="inputs">
+            <div class="form-group">
+              <label for="fecha_inicio">FECHA INICIO</label>
+              <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+            </div>
+            <div class="form-group">
+              <label for="fecha_fin">FECHA FIN</label>
+              <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+            </div>
+            <div class="form-group">
+              <label for="kilogramos_cereza">KILOS CEREZA</label>
+              <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
+            </div>
+            <div class="form-group">
+              <label for="metodo">METODO</label>
+              <select type="text" id="metodo" v-model="metodo" required>
+                <option value="Manual">Manual</option> 
+                <option value="Mecanico">Mecanico</option> 
+                <option value="Selectivo">Selectivo</option>
+                <option value="Masivo">Masivo</option> 
+              </select>
+            </div>
+          </div>
 
-          <div class="form-group">
-            <label for="fecha_inicio">Fecha Inicio</label>
-            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+          <div class="botones-formulario">
+            <div>
+              <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha_fin">Fecha Fin</label>
-            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-          </div>
-          <div class="form-group">
-            <label for="kilogramos_cereza">Kilos Cereza</label>
-            <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
-          </div>
-          <div class="form-group">
-            <label for="metodo">metodo</label>
-            <select type="text" id="metodo" v-model="metodo" required>
-              <option value="Manual">Manual</option> 
-              <option value="Mecanico">Mecanico</option> 
-              <option value="Selectivo">Selectivo</option>
-              <option value="Masivo">Masivo</option> 
-            </select>
-          </div>
-        </div>
-
-        <div class="botones-formulario">
-          <div>
-            <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-            <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
-          </div>
-        </div>
         </form>
 
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarLote">
           <div class="inputs">
-          <div class="form-group">
-            <label for="fecha_inicio">Fecha Inicio</label>
-            <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+            <div class="form-group">
+              <label for="fecha_inicio">FECHA INICIO</label>
+              <input type="date" id="fecha_inicio" v-model="fecha_inicio" required>
+            </div>
+            <div class="form-group">
+              <label for="fecha_fin">FECHA FIN</label>
+              <input type="date" id="fecha_fin" v-model="fecha_fin" required>
+            </div>
+            <div class="form-group">
+              <label for="kilogramos_cereza">KILOS CEREZA</label>
+              <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
+            </div>
+            <div class="form-group">
+              <label for="metodo">METODO</label>
+              <select type="text" id="metodo" v-model="metodo" required>
+                <option value="Manual">Manual</option> 
+                <option value="Mecanico">Mecanico</option> 
+                <option value="Selectivo">Selectivo</option>
+                <option value="Masivo">Masivo</option> 
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="fecha_fin">Fecha Fin</label>
-            <input type="date" id="fecha_fin" v-model="fecha_fin" required>
-          </div>
-          <div class="form-group">
-            <label for="kilogramos_cereza">Kilos Cereza</label>
-            <input type="number" id="kilogramos_cereza" v-model="kilogramos_cereza" required>
-          </div>
-          <div class="form-group">
-            <label for="Metodo">Metodo</label>
-            <select type="text" id="Metodo" v-model="metodo" required>
-              <option value="Manual">Manual</option> 
-              <option value="Mecanico">Mecanico</option> 
-              <option value="Selectivo">Selectivo</option>
-              <option value="Masivo">Masivo</option> 
-            </select>
-          </div>
-        </div>
-
           <div class="botones-formulario">
             <div>
               <button type="submit" class="btn guardar">Guardar</button>
@@ -78,7 +75,6 @@
             </div>
           </div>
         </form>
-
       </div>
       <table>
         <thead>
@@ -98,11 +94,19 @@
             <td>{{ item.kilogramos_cereza }}</td>
             <td>{{ item.metodo }}</td>
             <td>
-              <button @click="editarLote(item.id)" class="Editar"><img src="../assets/Simbolos/editar.png"></button>
+              <button @click="editarLote(item.id)"><img src="../assets/Simbolos/editar.png"></button>
+              <button @click="confirmarEliminacion(item.id)"><img src="../assets/Simbolos/eliminar.png"></button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div v-if="mostrarConfirmacion" class="confirmacion">
+      <div class="confirmacion-contenido">
+        <p>¿Estás seguro de querer eliminar este lote?</p>
+        <button @click="eliminarLote(id)">Aceptar</button>
+        <button @click="cerrarConfirmacion">Cancelar</button>
+      </div>
     </div>
   </div>
 </template>
@@ -112,7 +116,7 @@ import axios from 'axios'
 import Menu from '../components/menu.vue'
 
 export default {
-  name: 'lote',
+  name: 'lotes',
   components: {
     Menu
   },
@@ -130,7 +134,9 @@ export default {
       fecha_inicio: '',
       fecha_fin: '',
       kilogramos_cereza: '',
-      metodo: ''
+      metodo: '',
+      mostrarConfirmacion: false,
+      id: null
     }
   },
   created() {
@@ -182,7 +188,7 @@ export default {
         fecha_inicio: this.fecha_inicio,
         fecha_fin: this.fecha_fin,
         kilogramos_cereza: this.kilogramos_cereza,
-        metodo: this.metodo,
+        metodo: this.metodo
       };
       axios.put(`http://localhost:3000/api/lote/${id}`, data)
         .then((response) => {
@@ -223,6 +229,26 @@ export default {
         .catch(err => {
           console.error('Error:', err)
         })
+    },
+    confirmarEliminacion(id) {
+      this.mostrarConfirmacion = true;
+      this.id = id;
+    },
+    eliminarLote(id) {
+      axios.delete(`http://localhost:3000/api/lote/${id}`)
+        .then((response) => {
+          console.log(response);
+          this.$toast.success('Lote eliminado con éxito!');
+          this.getData();
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$toast.error('Este lote ya se encuentra procesado, no es posible eliminarlo.');
+        });
+      this.cerrarConfirmacion();
+    },
+    cerrarConfirmacion() {
+      this.mostrarConfirmacion = false;
     }
   }
 }
@@ -231,9 +257,11 @@ export default {
 <style scoped>
 
 * {
+
   margin: 0px;
   padding: 0px;
 }
+
 
 body { 
   margin: 0;
@@ -268,6 +296,16 @@ body {
   color: #000000; 
 }
 
+.button-group {
+  display: flex;
+  justify-content: flex-end; 
+  margin-bottom: 0.625rem; 
+}
+
+.button-group img{
+  margin-right: 3px;
+}
+
 .btn {
   display: flex; 
   align-items: center; 
@@ -288,9 +326,11 @@ body {
 }
 
 #img1{
+
   margin-right: 10px; 
   width: 1.25rem; 
   height: auto; 
+
 }
 
 table{
@@ -302,26 +342,11 @@ table, .form-group {
   border-collapse: collapse;
 }
 
-form {
-  display: grid;
-  column-count: 2;
-
-}
-
-
 .inputs{
   justify-items: center;
   font-family: 'Maven Pro', sans-serif;
   font-weight: bold;
   column-count: 4;
-}
-
-.inputs .form-group label{
-  display: flex;
-  padding: 1rem;
-  font-size: 1rem;
-  font-family: 'Maven Pro', sans-serif; 
-  font-weight: bold;
 }
 
 .inputs .form-group input, select{
@@ -334,6 +359,15 @@ form {
   text-align: center;
 }
 
+
+.inputs .form-group label{
+  display: flex;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: 'Maven Pro', sans-serif; 
+  font-weight: bold;
+}
+
 .form-group input{
   font-size: 1.25rem;
 }
@@ -344,9 +378,11 @@ form {
   font-size: 1.25rem;
 }
 
+
 thead, .form-group label{
   background: #302814;
   color: #FFF5E2;
+
 }
 
 tbody, .form-group {
@@ -373,5 +409,32 @@ form .botones-formulario{
 .Editar{
   background: inherit;
   border: inherit
+}
+
+.confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmacion-contenido {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.confirmacion-contenido p {
+  margin-bottom: 20px;
+}
+
+.confirmacion-contenido button {
+  margin-right: 10px;
 }
 </style>

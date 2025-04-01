@@ -36,10 +36,11 @@
           <div class="botones-formulario">
             <div>
               <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-              <button @click="cerrarFormularioAgregar" class="btn cerrar">Cerrar</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
             </div>
           </div>
         </form>
+
         <form v-if="mostrarFormularioEditar" @submit.prevent="guardarLavado">
           <div class="inputs">
             <div class="form-group">
@@ -86,10 +87,18 @@
             <td>{{ item.metodo }}</td>
             <td>
               <button @click="editarLavado(item.id)"><img src="../assets/Simbolos/editar.png"></button>
+              <button @click="confirmarEliminacion(item.id)"><img src="../assets/Simbolos/eliminar.png"></button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div v-if="mostrarConfirmacion" class="confirmacion">
+      <div class="confirmacion-contenido">
+        <p>¿Estás seguro de querer eliminar este lavado?</p>
+        <button @click="eliminarLavado(id)">Aceptar</button>
+        <button @click="cerrarConfirmacion">Cancelar</button>
+      </div>
     </div>
   </div>
 </template>
@@ -116,7 +125,9 @@ export default {
       lote_id: '',
       fecha: '',
       metodo: '',
-      lotes: []
+      lotes: [],
+      mostrarConfirmacion: false,
+      id: null
     }
   },
   created() {
@@ -215,6 +226,26 @@ export default {
         .catch(err => {
           console.error('Error:', err)
         })
+    },
+    confirmarEliminacion(id) {
+      this.mostrarConfirmacion = true;
+      this.id = id;
+    },
+    eliminarLavado(id) {
+      axios.delete(`http://localhost:3000/api/lavado/${id}`)
+        .then((response) => {
+          console.log(response);
+          this.$toast.success('Lavado eliminado con éxito!');
+          this.getData();
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$toast.error('Error al eliminar lavado. Por favor, inténtelo de nuevo más tarde.');
+        });
+      this.cerrarConfirmacion();
+    },
+    cerrarConfirmacion() {
+      this.mostrarConfirmacion = false;
     }
   }
 }
@@ -289,6 +320,14 @@ body {
   margin-right: 5px; 
   width: 17px; 
   height: auto; 
+}
+
+#img1{
+
+  margin-right: 10px; 
+  width: 1.25rem; 
+  height: auto; 
+
 }
 
 table{
@@ -367,5 +406,32 @@ form .botones-formulario{
 .Editar{
   background: inherit;
   border: inherit
+}
+
+.confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmacion-contenido {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.confirmacion-contenido p {
+  margin-bottom: 20px;
+}
+
+.confirmacion-contenido button {
+  margin-right: 10px;
 }
 </style>
