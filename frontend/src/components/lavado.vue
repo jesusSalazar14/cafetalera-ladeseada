@@ -36,7 +36,7 @@
           <div class="botones-formulario">
             <div>
               <button type="submit" class="btn agregar"><img src="../assets/Simbolos/añadir.png">AÑADIR</button>
-              <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/eliminar.png">Cerrar</button>
+              <button @click="cerrarFormularioAgregar" class="btn cerrar"><img src="../assets/Simbolos/salir.png">CERRAR</button>
             </div>
           </div>
         </form>
@@ -64,8 +64,8 @@
           </div>
           <div class="botones-formulario">
             <div>
-              <button type="submit" class="btn guardar">Guardar</button>
-              <button @click="cerrarFormularioEditar" class="btn cerrar">Cerrar</button>
+              <button type="submit" class="btn guardar"><img src="../assets/Simbolos/Save.png">GUARDAR</button>
+              <button @click="cerrarFormularioEditar" class="btn cerrar"><img src="../assets/Simbolos/salir.png">CERRAR</button>
             </div>
           </div>
         </form>
@@ -87,7 +87,7 @@
             <td>{{ item.metodo }}</td>
             <td>
               <button @click="editarLavado(item.id)"><img src="../assets/Simbolos/editar.png"></button>
-              <button @click="confirmarEliminacion(item.id)"><img src="../assets/Simbolos/eliminar.png"></button>
+              <button @click="confirmarEliminacion(item.id)"><img src="../assets/Simbolos/borrar.png"></button>
             </td>
           </tr>
         </tbody>
@@ -421,17 +421,42 @@ form .botones-formulario{
 }
 
 .confirmacion-contenido {
-  background-color: #fff;
+  background-color: #FFF5E2;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
 }
 
 .confirmacion-contenido p {
   margin-bottom: 20px;
+  font-family: 'Maven Pro', sans-serif;
+  font-weight: bold;
+  color: #302814;
 }
 
 .confirmacion-contenido button {
   margin-right: 10px;
+  background-color: #302814;
+  color: #FFF5E2;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 15px; 
+}
+
+.confirmacion-contenido button:hover {
+  background-color: #4c3a2b;
+  border-radius: 15px; 
+}
+
+.confirmacion-contenido .aceptar {
+  background-color: #302814;
+}
+
+.confirmacion-contenido .cancelar {
+  background-color: #4c3a2b;
 }
 </style>
