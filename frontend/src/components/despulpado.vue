@@ -71,17 +71,19 @@
             <th>LOTE ID</th>
             <th>FECHA</th>
             <th>TIEMPO</th>
+            <th>ACCIONES</th>
+
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) of data" :key="index">
             <td>{{ item.id }}</td>
             <td>{{ item.lote_id }}</td>
-            <td>{{ item.fecha }}</td>
+            <td>{{ item.fecha.slice(0, 10) }}</td>
             <td>{{ item.tiempo }}</td>
             <td>
-              <button @click="editarDespulpado(item.id)"><img src="../assets/Simbolos/editar.png"></button>
-              <button @click="confirmarEliminacion(item.id)"><img src="../assets/Simbolos/borrar.png"></button>
+              <button @click="editarLote(item.id)" class="Editar"><img src="../assets/Simbolos/editar.png"></button>
+              <button @click="confirmarEliminacion(item.id)" class="borrar"><img src="../assets/Simbolos/borrar.png"></button>
             </td>
           </tr>
         </tbody>
@@ -90,7 +92,7 @@
     <div v-if="mostrarConfirmacion" class="confirmacion">
       <div class="confirmacion-contenido">
         <p>¿Estás seguro de querer eliminar este despulpado?</p>
-        <button @click="eliminarDespulpado(id)">Aceptar</button>
+        <button class="confirmacion2" @click="eliminarDespulpado(id)">Aceptar</button>
         <button @click="cerrarConfirmacion">Cancelar</button>
       </div>
     </div>
@@ -285,6 +287,9 @@ body {
 
 .Titulov3 {
   color: #000000; 
+  font-size: 50px;
+  font-style: italic;
+  margin-right: 100px;
 }
 
 .button-group {
@@ -441,6 +446,17 @@ form .botones-formulario{
   border-radius: 15px; 
 }
 
+.confirmacion2  {
+  margin-right: 10px;
+  background-color: rgb(205, 0, 0) !important;
+  color: #FFF5E2;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 15px; 
+}
+
 .confirmacion-contenido button:hover {
   background-color: #4c3a2b;
   border-radius: 15px; 
@@ -452,5 +468,11 @@ form .botones-formulario{
 
 .confirmacion-contenido .cancelar {
   background-color: #4c3a2b;
+}
+
+.borrar{
+  margin-left: 5px;
+  background: inherit;
+  border: inherit
 }
 </style>
